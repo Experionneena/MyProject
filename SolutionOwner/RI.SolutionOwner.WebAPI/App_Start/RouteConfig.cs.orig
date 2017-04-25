@@ -1,0 +1,44 @@
+﻿//---------------------------------------------------------------
+// <copyright file="RouteConfig.cs" company="RechargeIndia">
+// All rights reserved. Copyright © 2017 RechargeIndia.
+// </copyright>
+//---------------------------------------------------------------
+
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace RI.SolutionOwner.WebAPI
+{
+    /// <summary>
+<<<<<<< HEAD
+    /// RouteConfig class.
+=======
+    /// This class provides Route configuration
+>>>>>>> 7c05e8c51b1d76e065d5aa62fad913e4f066d02e
+    /// </summary>
+    public class RouteConfig
+    {
+        /// <summary>
+        /// Registers the routes.
+        /// </summary>
+        /// <param name="routes">The routes.</param>
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+<<<<<<< HEAD
+                defaults: new
+                {
+                    controller = "Home",
+                    action = "Index",
+                    id = UrlParameter.Optional
+                });
+=======
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+>>>>>>> 7c05e8c51b1d76e065d5aa62fad913e4f066d02e
+        }
+    }
+}

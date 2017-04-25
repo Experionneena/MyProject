@@ -1,0 +1,126 @@
+﻿using RI.SolutionOwner.Web.App_Resources;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using System.Web.Mvc;
+
+namespace RI.SolutionOwner.Web.Controllers
+{
+    public class BaseController : Controller
+    {
+        // GET: Base
+
+        public BaseController()
+        {
+
+        }
+
+        public ActionResult DefaultPage()
+        {
+            return View("DefaultPage");
+        }
+
+        public static HttpClient GetHttpClient(string resource)
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:51808/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            //dynamic _token = HttpContext.Current.Session["token"];
+            //if (_token == null) throw new ArgumentNullException(nameof(_token));
+            //MyHttpClient.DefaultRequestHeaders.Add("Authorization", String.Format("Bearer {0}", _token.AccessToken));
+            return client;
+        }
+
+        //public async Task<HttpResponseMessage> Post(string resource, object obj)
+        //{
+        //    var client = new HttpClient();
+        //    client.BaseAddress = new Uri("http://localhost:51808/" + resource);
+        //    client.DefaultRequestHeaders.Accept.Clear();
+        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        //   return client.PostAsJsonAsync(client.BaseAddress,obj);
+        //}
+        //         using (var twitpicResponse = (HttpWebResponse)request.GetResponse()) {
+
+        //        using (var reader = new StreamReader(twitpicResponse.GetResponseStream())) {
+        //            JavaScriptSerializer js = new JavaScriptSerializer();
+        //    var objText = reader.ReadToEnd();
+        //    MyObject myojb = (MyObject)js.Deserialize(objText, typeof(MyObject));
+        //}
+
+        //dynamic _token = HttpContext.Current.Session["token"];
+        //if (_token == null) throw new ArgumentNullException(nameof(_token));
+        //MyHttpClient.DefaultRequestHeaders.Add("Authorization", String.Format("Bearer {0}", _token.AccessToken));
+        //    return client;
+        //}
+
+        public async Task<HttpResponseMessage> Post(string resource, object obj)
+        {
+            var client = GetHttpClient(resource);
+            return await client.PostAsJsonAsync(client.BaseAddress + resource, obj);
+        }
+
+        public async Task<HttpResponseMessage> Delete(string resource)
+        {
+            var client = GetHttpClient(resource);
+            var response = await client.DeleteAsync(client.BaseAddress + resource);
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> Put(string resource, object obj)
+        {
+            var client = GetHttpClient(resource);
+            var response = await client.PutAsJsonAsync(client.BaseAddress + resource, obj);
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> Get(string resource)
+        {
+            var client = GetHttpClient(resource);
+<<<<<<< HEAD
+            var response = await client.GetAsync(client.BaseAddress + resource);
+=======
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            var response = await client.GetAsync(client.BaseAddress + resource);
+            response.EnsureSuccessStatusCode();
+>>>>>>> 3d7ac6cbeef8e4112e0b19aa1a2d0ee660ed73bd
+            return response;
+        }
+
+
+        public string RenderRazorViewToString(string viewName, object model)
+        {
+            try
+            {
+                ViewData.Model = model;
+                using (var sw = new StringWriter())
+                {
+                    var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                    var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                    viewResult.View.Render(viewContext, sw);
+                    viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                    return sw.GetStringBuilder().ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static string GetLocalisedString(string key)
+        {
+            return Resource1.ResourceManager.GetString(key);
+        }
+    }
+}

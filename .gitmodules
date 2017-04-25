@@ -1,0 +1,4 @@
+[submodule "SolutionOwner/RI.SolutionOwner.Web/assets/RechargeIndiaDesign"]
+	path = SolutionOwner/RI.SolutionOwner.Web/assets/RechargeIndiaDesign
+	url = https://github.com/gitexperion/RechargeIndiaDesign.git
+	branch = develop

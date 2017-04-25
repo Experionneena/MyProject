@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace RI.SolutionOwner.Web.Models
+{
+    public class FeatureViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+<<<<<<< HEAD
+
+        public string DisplayName { get; set; }
+
+        public string IconClass { get; set; }
+
+=======
+        public string DisplayName { get; set; }
+        public string IconClass { get; set; }
+        public int SortOrder { get; set; }
+>>>>>>> 61e95554372c66688b64a0eab1c70636fbd08188
+        public string ProgramLink { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public int SortOrder { get; set; }
+
+        public bool IsActive { get; set; }
+<<<<<<< HEAD
+=======
+        public int CategoryId { get; set; }
+        public int temp { get; set; }
+        public int ParentCatId { get; set; }
+
+        public CategoryViewModel CategoryViewModel { get; set; }
+>>>>>>> 61e95554372c66688b64a0eab1c70636fbd08188
+    }
+}

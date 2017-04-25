@@ -1,0 +1,254 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model OwnerUserModel
+
+@using (Html.BeginForm("AddUser", "User", Model, FormMethod.Post, new { id = "addUser", autocomplete = "off", @class = "form_components" }))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Name<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Name, new { id = "txtName", @class = "form-control", @maxlength = "100", PlaceHolder = "Name" })
+                    <span class="validationmessage" id="txtNameError"></span>
+                    @*<input type="text" class="form-control" id="field-1" placeholder="Name">*@
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Email<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Email, new { id = "txtEmailId", @class = "form-control", @maxlength = "100", PlaceHolder = "Email" })
+                    <span class="validationmessage" id="txtEmailError"></span>
+                    @*<input type="text" class="form-control" id="field-1" placeholder="Email">*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @*<div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    @Html.DropDownListFor(m => m.RoleId, new List<SelectListItem>(), "Select", new { id = "ddlroles", @class = "form-control" })
+                    <select class="form-control m-bot15">
+                        <option>Role 1</option>
+                            <option>Role 2</option>
+                            <option>Role 2</option>
+                    </select>
+                </div>
+            </div>*@
+        <div class="col-lg-12">
+            <div class="form-group multi_select_styles">
+                <label class="form-label">Role<span class="mandatory_clr"> *</span></label>
+                <table class="table multiselect_dropdown_block">
+                    <tbody>
+                        <tr>
+                            <td class="multi_style">
+                                <select id="roleList" multiple="multiple" style="display: none;">
+                                    @foreach (var item in Model.RoleList)
+                                    {
+                                        <option value="@item.Id">@item.RoleName</option>
+                                    }
+                                </select>
+                                <span class="validationmessage" id="dropDownErrorAdd"></span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="checkbox">
+        <div class="form-group">
+            <div class="checkbox_style">
+                <input type="checkbox" id="addUserStatus" checked="checked" disabled/><label for="addUserStatus">Is Active ?</label>
+            </div>
+        </div>
+        @*<label>
+                @Html.CheckBoxFor(m => Model.IsActive, new { @id = "addUserStatus" }) Status
+            </label>*@
+    </div>
+
+
+    <div class="modal-footer form_btn_block">
+        <button type="button" class="btn btn-default" id="btn_cancel" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn save" id="btn_usersave">Save</button>
+    </div>
+}
+<script>
+  $(document).ready(function () {
+
+        window.prettyPrint() && prettyPrint();
+        $('#roleList').multiselect({
+            includeSelectAllOption: true,
+            enableCaseInsensitiveFiltering: true
+        });
+
+
+        $('#txtName').keypress(function (e) {
+            $('#txtNameError').html('');
+        });
+
+        $("txtEmailId").keypress(function (e) {
+            $('#txtEmailError').html('');
+        });
+
+        //Role DropDown
+        //getRoles()
+        @*function getRoles() {
+                $.ajax({
+                    url: '@Url.Action("GetAllRoles", "User")',
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        for (var x = 0; x < data.length; x++) {
+                            markup = "<option value='" + data[x].Id + "'>" + data[x].RoleName + "</option>";
+                            $('#roleList').append(markup);
+                        }
+                        window.prettyPrint() && prettyPrint();
+                        $('#roleList').multiselect({
+                            includeSelectAllOption: true,
+                            enableCaseInsensitiveFiltering: true
+                        });
+                    }
+
+                });
+            }*@
+
+        // Function that validates email address through a regular expression.
+        function validateEmail(sEmail) {
+            var filter = /^[\w\-\.\+]+\@@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+            if (filter.test(sEmail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        // Function that validates name through a regular expression.
+        function validateName(name) {
+            var filter = /^[a-z\d\-_\s]+$/i;
+            if (filter.test(name)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        $("#btn_usersave").click(function () {
+            var iserror = false;
+
+            var selectedArray = [];
+            $('#roleList :selected').each(function (i, selected) {
+                selectedArray[i] = $(selected).val();
+            });
+
+            if ($("#txtName").val().trim() == '' || $("#txtName").val().trim() == null) {
+                $('#txtNameError').html('Required field');
+                iserror = true;
+            }
+            else if (!validateName($("#txtName").val().trim())) {
+                $('#txtNameError').html('Invalid entry');
+                iserror = true;
+            }
+
+            else {
+                $('txtNameError').html('');
+            }
+
+            if ($("#txtEmailId").val().trim() == '' || $("#txtEmailId").val().trim() == null) {
+                $('#txtEmailError').html('Required field');
+                iserror = true;
+            }
+            else if (!validateEmail($("#txtEmailId").val().trim())) {
+                $('#txtEmailError').html('Invalid entry.');
+                iserror = true;
+            }
+
+            else {
+                $('#txtEmailError').html('');
+            }
+
+            if (selectedArray.length == 0) {
+                $('#dropDownErrorAdd').html('Required field');
+                iserror = true;
+            }
+
+            else {
+                $('#dropDownErrorAdd').html('');
+            }
+
+            if (iserror) {
+                return false;
+            }
+
+            ShowProgress();
+
+            var postData = {
+                Name: $("#txtName").val().trim(),
+                Email: $("#txtEmailId").val().trim(),
+                IsActive: $("#addUserStatus").prop("checked"),
+                RoleIdList: selectedArray
+            }
+
+
+            $.ajax({
+                url: '@Url.Action("UserAdd", "User")',
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (data.Status == 1) {
+                        hideProgress();
+                        $('#userAddPopup').modal('hide');
+                        $('#user_Grid').empty();
+                        $('#user_Grid').html(data.Data);
+                        $('.checkbox_click').prop('checked', false);
+                        ShowAlert(data.Message, 'success');
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert(data.Message, 'error');
+                    }
+                },
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert(data.Message, 'error');
+
+                    //$("#txtName").val('');
+                    //$("#txtEmailId").val('');
+                    //$("#txtNameError").html('');
+                    //$("#txtEmailError").html('');
+                    //$("#addUserStatus").prop('checked', false);
+                }
+
+            });
+
+
+            //$('#userAddPopup').modal('hide');
+            DisableTool();
+            $(this).tooltip('hide');
+
+        });
+
+        $("#btn_cancel").click(function () {
+            $('.checkbox_click').prop('checked', false);
+            $("#txtName").val('');
+            $("#txtEmailId").val('');
+            $("#txtNameError").html('');
+            $("#txtEmailError").html('');
+            $("#addUserStatus").prop('checked', false);
+            $('#userAddPopup').modal('hide');
+            DisableTool();
+        });
+
+    });
+</script>

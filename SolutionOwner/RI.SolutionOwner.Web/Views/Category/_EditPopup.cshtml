@@ -1,0 +1,241 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model CategoryViewModel
+
+@using (Html.BeginForm("EditCategory", "Category", Model, FormMethod.Post, new { id = "editCategory", autocomplete = "off", @class = "form_components" }))
+{
+    @Html.HiddenFor(m => Model.Id, new { id = "modelId" })
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="general">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Category name<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="categoryNameEdit" value="@Model.CategoryName" max="100">
+                            <span class="validationmessage" id="categoryNameEditError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Display name<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="displayNameEdit" value="@Model.DisplayName" max="100">
+                            <span class="validationmessage" id="displayNameEditError"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="form-label" for="field-2">Category description</label>
+                        <div class="controls">
+                            @*<textarea class="form-control" cols="5" id="categoryDescription" value="@Model.CategoryDescription"></textarea>*@
+                            @Html.TextAreaFor(m => Model.CategoryDescription, new { id = "categoryDescriptionEdit", @class = "form-control", @maxlength = "150" })
+                            <span class="validationmessage" id="categoryDescriptionEditError"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Icon class<span class="mandatory_clr">*</span><a href="http://fontawesome.io/icons/" target="blank"><span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="http://fontawesome.io/icons/"></span></a></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="iconClassEdit" value="@Model.IconClass">
+                            <span class="validationmessage" id="iconClassEditError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Parent</label>
+                        <select class="form-control m-bot15" id="selectCategoryEdit">
+                            <option value="">None</option>
+                            @if (Model.CategoryNameList != null)
+                            {
+                                foreach (var item in Model.CategoryNameList)
+                                {
+                                    if (item.ParentId == null)
+                                    {
+                                        if (Model.ParentId == item.Id)
+                                        {
+                                            <option value="@item.Id" selected>@item.DisplayName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.DisplayName</option>
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Sort Order<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="sortOrderEdit" maxlength="3" value="@Model.SortOrder">
+                            <span class="validationmessage" id="sortOrderEditError"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function validateCategoryName(name) {
+        var filter = /^[a-z\d\-_\s]+$/i;
+        if (filter.test(name)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function validateCategorySortOrder(num) {
+        var filter = /^[0-9]*$/;
+        if (filter.test(num)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    window.prettyPrint() && prettyPrint();
+    $('#categoryNameEdit').keyup(function (e) {
+        $('#categoryNameEditError').html('');
+    });
+    $("#displayNameEdit").keyup(function (e) {
+        $('#displayNameEditError').html('');
+    });
+    $("#categoryDescriptionEdit").keyup(function (e) {
+        $('#categoryDescriptionEditError').html('');
+    });
+    $("#iconClassEdit").keyup(function (e) {
+        $('#iconClassEditError').html('');
+    });
+    $("#sortOrderEdit").keyup(function (e) {
+        $('#sortOrderEditError').html('');
+    });
+    $("#categoryEditSave").click(function () {
+        var iserror = false;
+        if ($("#categoryNameEdit").val().trim() == '' || $("#categoryNameEdit").val().trim() == null) {
+            $('#categoryNameEditError').html('Required field');
+            iserror = true;
+        }
+        else if (!validateCategoryName($("#categoryNameEdit").val().trim())) {
+            $('#categoryNameEditError').html('Invalid entry');
+            iserror = true;
+        }
+        else {
+            $('categoryNameEditError').html('');
+        }
+
+        if ($("#displayNameEdit").val().trim() == '' || $("#displayNameEdit").val().trim() == null) {
+            $('#displayNameEditError').html('Required field');
+            iserror = true;
+        }
+        else if (!validateCategoryName($("#displayNameEdit").val().trim())) {
+            $('#displayNameEditError').html('Invalid entry');
+            iserror = true;
+        }
+        else {
+            $('#displayNameEditError').html('');
+        }
+        ////if ($("#categoryDescriptionEdit").val().trim() == '' || $("#categoryDescriptionEdit").val().trim() == null) {
+        ////    $('#categoryDescriptionEditError').html('Required field');
+        ////    iserror = true;
+        ////}
+
+        ////else {
+        ////    $('#categoryDescriptionEditError').html('');
+        ////}
+        if ($("#iconClassEdit").val().trim() == '' || $("#iconClassEdit").val().trim() == null) {
+            $('#iconClassEditError').html('Required field');
+            iserror = true;
+        }
+
+        else {
+            $('#iconClassEditError').html('');
+        }
+        if ($("#sortOrderEdit").val().trim() == '' || $("#sortOrderEdit").val().trim() == null) {
+            $('#sortOrderEditError').html('Required field');
+            iserror = true;
+        }
+        else if (!validateCategorySortOrder($("#sortOrderEdit").val().trim())) {
+            $('#sortOrderEditError').html('Invalid entry');
+            iserror = true;
+        }
+        else {
+            $('#sortOrderEditError').html('');
+        }
+        if (iserror) {
+            return false;
+        }
+
+        ShowProgress();
+        var postData = {
+            Id: $("#modelId").val(),
+            CategoryName: $("#categoryNameEdit").val().trim(),
+            DisplayName: $("#displayNameEdit").val().trim(),
+            CategoryDescription: $("#categoryDescriptionEdit").val().trim(),
+            IconClass: $("#iconClassEdit").val().trim(),
+            SortOrder: $("#sortOrderEdit").val().trim(),
+            ParentId: $("#selectCategoryEdit").val()
+        }
+
+        $.ajax({
+            url: '@Url.Action("EditCategory", "Category")',
+            type: 'POST',
+            data: postData,
+            async: false,
+            success: function (data) {
+                if (data.Status == 1) {
+                    hideProgress();
+                    $('#categoryEditPopup').modal('hide');
+                    $('#category_Grid').empty();
+                    $('#category_Grid').html(data.Data);
+                    $("#categoryNameEdit").val('');
+                    $("#displayNameEdit").val('');
+                    $("#categoryDescriptionEdit").html('');
+                    $("#iconClassEdit").html('');
+                    $("#sortOrderEdit").html('');
+                    $('.checkbox_click').prop('checked', false);
+                    ShowAlert(data.Message, 'success');
+                }
+                else if (data.Status == 0) {
+                    hideProgress();
+                    ShowAlert(data.Message, 'error');
+                }
+                else {
+                    hideProgress();
+                    ShowAlert(data.Message, 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                ShowAlert('Something wrong!', 'error');
+            }
+
+        });
+        DisableTool();
+        $(this).tooltip('hide');
+    });
+    $("#categoryEditCancel").click(function () {
+        $('.checkbox_click').prop('checked', false);
+        $('#categoryAddPopup').modal('hide');
+        $("#categoryNameEdit").val('');
+        $("#displayNameEdit").val('');
+        $("#categoryDescriptionEdit").html('');
+        $("#iconClassEdit").html('');
+        $("#sortOrderEdit").html('')
+        DisableTool();
+    });
+</script>

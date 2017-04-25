@@ -1,0 +1,51 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@model List<SPFeatureViewModel>
+
+<ul class="nav nav-tabs nav-custom" role="tablist" id="hierarchyList">
+    @if (Model != null)
+    {
+        var hierarchies = Model[0].HierarchyViewModelList;
+        for (int i = 0; i < hierarchies.Count; i++)
+        {
+            var hierarchy = hierarchies[i];
+            if (i == 0)
+            {
+                <li id="@hierarchy.Id" role="presentation" class="active" onclick="GetFeatures(@hierarchy.Id)"><a href="#" role="tab" data-toggle="tab">@hierarchy.Name</a> </li>
+            }
+            else
+            {
+                <li id="@hierarchy.Id" role="presentation" onclick="GetFeatures(@hierarchy.Id)"><a href="#" role="tab" data-toggle="tab">@hierarchy.Name</a></li>
+            }
+
+        }
+    }
+
+</ul>
+<script>
+    var hierarchyid = $("#hierarchyList li.active").attr('id');
+    GetFeatures(hierarchyid);
+    function GetFeatures(HierarchyId) {
+        ShowProgress();
+        $.ajax({
+            url: '@Url.Action("GetFeatureList", "SPFeature")',
+            data: { 'hierarchyId': HierarchyId },
+            type: 'POST',
+            success: function (data) {
+                if (data.Status == 1) {
+                    hideProgress();
+                    $('#feature_Grid').empty();
+                    $('#feature_Grid').html(data.Data);
+                    collapseTable();
+                }
+                else {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+    }
+</script>

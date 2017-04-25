@@ -1,0 +1,451 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@{
+    var SelectedHomePage = "";
+}
+@model RoleViewModel
+
+@using (Html.BeginForm("AddRole", "Role", Model, FormMethod.Post, new { id = "addRole", autocomplete = "off", @class = "form_components" }))
+{
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="general">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Role name<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="txtRoleName" maxlength="100">
+                            <span class="validationmessage" id="txtRoleNameError"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-2">Role description</label>
+                        <div class="controls">
+                            <textarea class="form-control" cols="5" id="txtRoleDesc" maxlength="150"></textarea>
+                            <span class="validationmessage" id="txtdescerror"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <div class="checkbox_style">
+                            <input type="checkbox" id="isActive" checked="checked" disabled/><label for="isActive">Is Active ?</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="default_table">
+                        <div class="table-responsive">
+                            <table class="table" id="tblAddRole">
+                                <thead>
+                                    <tr>
+                                        <th>Feature name</th>
+                                        <th class="text-center">Read</th>
+                                        <th class="text-center">Create</th>
+                                        <th class="text-center">Update</th>
+                                        <th class="text-center">Approve</th>
+                                        <th class="text-center">Deactivate</th>
+                                        <th class="text-center">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="modal_table_body check_data addFeaturePermission">
+                                    @for (var i = 0; i < Model.CategoryList.Count(); i++)
+                                    {
+                                        var category = Model.CategoryList.ToList()[i];
+                                        <tr data-id="category_@i" data-parent="" class="mainCategory">
+                                            <td>@category.DisplayName</td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                        </tr>
+                                        if (category.FeatureList != null)
+                                        {
+                                            for (var j = 0; j < category.FeatureList.Count(); j++)
+                                            {
+                                                var feature = category.FeatureList.ToList()[j];
+                                                <tr data-id="featureCategory_@j" data-parent="category_@i" id="featureList1">
+                                                    <td id="featureName_@feature.Id">@feature.DisplayName</td>
+                                                    <td style="display:none" id="featureId_@feature.Id">@feature.Id</td>
+                                                    <td class="text-center">
+                                                        <div class="form-group">
+                                                            <div class="checkbox_style">
+                                                                <input type="checkbox" class="clearIsChecked" id="readcheckbox_@feature.Id" /><label for="readcheckbox_@feature.Id"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-group">
+                                                            <div class="checkbox_style">
+                                                                <input type="checkbox" class="clearIsChecked" id="createcheckbox_@feature.Id" /><label for="createcheckbox_@feature.Id"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-group">
+                                                            <div class="checkbox_style">
+                                                                <input type="checkbox" class="clearIsChecked" id="updatecheckbox_@feature.Id" /><label for="updatecheckbox_@feature.Id"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-group">
+                                                            <div class="checkbox_style">
+                                                                <input type="checkbox" class="clearIsChecked" id="approvecheckbox_@feature.Id" /><label for="approvecheckbox_@feature.Id"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-group">
+                                                            <div class="checkbox_style">
+                                                                <input type="checkbox" class="clearIsChecked" id="deactivatecheckbox_@feature.Id" /><label for="deactivatecheckbox_@feature.Id"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="form-group">
+                                                            <div class="checkbox_style">
+                                                                <input type="checkbox" class="clearIsChecked" id="deletecheckbox_@feature.Id" /><label for="deletecheckbox_@feature.Id"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        if (category.Children != null)
+                                        {
+                                            for (var k = 0; k < category.Children.Count(); k++)
+                                            {
+                                                var subCategoryList = category.Children.ToList()[k];
+                                                <tr data-id="subCategory_@k" data-parent="category_@i" class="subCategory">
+                                                    <td>@subCategoryList.DisplayName</td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                </tr>
+                                                for (var L = 0; L < subCategoryList.FeatureList.Count(); L++)
+                                                {
+                                                    var features = subCategoryList.FeatureList.ToList()[L];
+                                                    <tr data-id="featureSub_@L" data-parent="subCategory_@k" id="featureList2">
+                                                        <td id="featureNameSub_@features.Id">@features.DisplayName</td>
+                                                        <td style="display:none" id="featureIdSub_@features.Id">@features.Id</td>
+                                                        <td class="text-center">
+                                                            <div class="form-group">
+                                                                <div class="checkbox_style">
+                                                                    <input type="checkbox" class="clearIsChecked" id="readcheckboxSub_@features.Id" /><label for="readcheckboxSub_@features.Id"></label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="form-group">
+                                                                <div class="checkbox_style">
+                                                                    <input type="checkbox" class="clearIsChecked" id="createcheckboxSub_@features.Id" /><label for="createcheckboxSub_@features.Id"></label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="form-group">
+                                                                <div class="checkbox_style">
+                                                                    <input type="checkbox" class="clearIsChecked" id="updatecheckboxSub_@features.Id" /><label for="updatecheckboxSub_@features.Id"></label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="form-group">
+                                                                <div class="checkbox_style">
+                                                                    <input type="checkbox" class="clearIsChecked" id="approvecheckboxSub_@features.Id" /><label for="approvecheckboxSub_@features.Id"></label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="form-group">
+                                                                <div class="checkbox_style">
+                                                                    <input type="checkbox" class="clearIsChecked" id="deactivatecheckboxSub_@features.Id" /><label for="deactivatecheckboxSub_@features.Id"></label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="form-group">
+                                                                <div class="checkbox_style">
+                                                                    <input type="checkbox" class="clearIsChecked" id="deletecheckboxSub_@features.Id" /><label for="deletecheckboxSub_@features.Id"></label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label nrm">Default Home Page<span class="mandatory_clr">*</span></label>
+                        @Html.DropDownListFor(m => Model.SOMenuId, new List<SelectListItem>(), "select", new { id = "ddlMenuListAdd", @class = "form-control" })
+                        <span class="validationmessage" id="ddlError"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer form_btn_block">
+        <button type="button" class="btn btn-default" id="btn_CancelRole">Cancel</button>
+        <button type="button" class="btn save" id="btn_AddRole">Save</button>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        var dict = [];
+        var featureList = [];
+        function GetcheckboxvaluesForDropdown() {
+            dict = [];
+            $("[id*='featureId_']").each(function (e) {
+                if ($("#readcheckbox_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureName_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#createcheckbox_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureName_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#updatecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureName_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#deletecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureName_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#deactivatecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureName_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#approvecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureName_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+            });
+            $("[id*='featureIdSub_']").each(function (e) {
+                if ($("#readcheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureNameSub_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#createcheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureNameSub_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#updatecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureNameSub_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#deletecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureNameSub_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#deactivatecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureNameSub_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+                else if ($("#approvecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                    dict.push({
+                        key: $('#featureNameSub_' + $(this).attr('id').split('_')[1]).text(),
+                        value: $(this).text()
+                    });
+                }
+            });
+            return dict;
+        }
+
+        function GetcheckboxvaluesForCreateRole() {
+            featureList = [];
+            $("[id*='featureId_']").each(function (e) {
+                featureList.push({
+                    FeatureName: $('#featureName_' + $(this).attr('id').split('_')[1]).text(),
+                    FeatureId: $(this).text(),
+                    CreatePermission: $("#createcheckbox_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                    ReadPermission: $("#readcheckbox_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                    UpdatePermission: $("#updatecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                    DeletePermission: $("#deletecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                    ApprovePermission: $("#approvecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                    ActivateOrDeactivatePermission: $("#deactivatecheckbox_" + $(this).attr('id').split('_')[1]).prop("checked")
+                });
+            }),
+
+        $("[id*='featureIdSub_']").each(function (e) {
+            featureList.push({
+                FeatureName: $('#featureNameSub_' + $(this).attr('id').split('_')[1]).text(),
+                FeatureId: $(this).text(),
+                CreatePermission: $("#createcheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                ReadPermission: $("#readcheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                UpdatePermission: $("#updatecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                DeletePermission: $("#deletecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                ApprovePermission: $("#approvecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked"),
+                ActivateOrDeactivatePermission: $("#deactivatecheckboxSub_" + $(this).attr('id').split('_')[1]).prop("checked")
+            });
+        });
+            return featureList;
+        }
+
+        $('.clearIsChecked').change(function () {
+            SelectedHomePage = $("#ddlMenuListAdd").val();
+            $("#ddlMenuListAdd option").remove();
+            LoadDropDown();
+        });
+        function LoadDropDown() {
+            $('#ddlError').html('');
+            GetcheckboxvaluesForDropdown();
+            var selecttext = "<option value='" + '0' + "'>" + 'select' + "</option>";
+            $('#ddlMenuListAdd').append(selecttext);
+            for (var x = 0; x < dict.length; x++) {
+                markup = "<option value='" + dict[x].value + "'>" + dict[x].key + "</option>";
+                $('#ddlMenuListAdd').append(markup);
+            }
+            $('#ddlMenuListAdd option[value=' + SelectedHomePage + ']').attr("selected", "selected");
+        }
+
+        $('#ddlMenuListAdd').change(function () {
+            $('#ddlError').html('');
+        });
+        function validateName(name) {
+            var filter = /^[a-z\d\-_\s]+$/i;
+            if (filter.test(name)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        $("#btn_CancelRole").click(function () {
+            $("#txtRoleName").val('');
+            $("#txtRoleDesc").val('');
+            $("#txtRoleNameError").html('');
+            $("#txtdescerror").html('');
+            $(".clearIsChecked").prop('checked', false);
+            $("#isActive").prop('checked', false);
+            $("#ddlMenuListAdd option").remove();
+            $('#ddlError').html('');
+            $('#roleAddPopup').modal('hide');
+            DisableTool();
+        });
+
+        $('#txtRoleName').keyup(function (e) {
+            $('#txtRoleNameError').html('');
+        });
+        $('#txtRoleDesc').keyup(function (e) {
+            $('#txtdescerror').html('');
+        });
+        $("#btn_AddRole").click(function () {
+            var isError = false;
+            if ($("#txtRoleName").val().trim() == "" || $("#txtRoleName").val().trim() == null) {
+                $('#txtRoleNameError').html('Required field');
+                isError = true;
+            }
+            else if (!validateName($("#txtRoleName").val().trim())) {
+                $('#txtRoleNameError').html('Invalid entry');
+                isError = true;
+            }
+
+            else {
+                $('#txtRoleNameError').html('');
+            }
+            if ($("#txtRoleDesc").val() != "") {
+                if (!validateName($("#txtRoleDesc").val().trim())) {
+                    $('#txtdescerror').html('Invalid entry');
+                    isError = true;
+                }
+                else {
+                    $('#txtdescerror').html('');
+                }
+            }
+            if ($("#ddlMenuListAdd").val() == "" || $("#ddlMenuListAdd").val() == null || $("#ddlMenuListAdd").val() == 0) {
+                $('#ddlError').html('Required field');
+                isError = true;
+            }
+            else {
+                $('#ddlError').html('');
+            }
+            if (isError) {
+                return false;
+            }
+            var featureList = GetcheckboxvaluesForCreateRole()
+            var postData = {
+                RoleName: $("#txtRoleName").val().trim(),
+                Description: $("#txtRoleDesc").val().trim(),
+                IsActive: $("#isActive").prop('checked'),
+                SOMenuId: $("#ddlMenuListAdd").val(),
+                RoleFeaturePermissionViewModel: featureList
+            }
+            $.ajax({
+                url: '@Url.Action("CreateSORole", "Role")',
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#roleAddPopup').modal('hide');
+                        $('#role_Grid').empty();
+                        $('#role_Grid').html(data.Data);
+                        $('.checkbox_click').prop('checked', false);
+                        ShowAlert(data.Message, 'success');
+                    }
+                    else if (data.Status == 0) {
+                        $('#roleAddPopup').scrollTop(0);
+                        var top = ($(window).scrollTop() || $("body").scrollTop());
+                        ShowAlert(data.Message, 'error');
+                    }
+                    else {
+                        $('#roleAddPopup').scrollTop(0);
+                        var top = ($(window).scrollTop() || $("body").scrollTop());
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+
+                error: function (data) {
+                    $('#roleAddPopup').scrollTop(0);
+                    var top = ($(window).scrollTop() || $("body").scrollTop());
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        });
+    });
+</script>

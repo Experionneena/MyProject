@@ -1,0 +1,153 @@
+﻿@*@using RI.SolutionOwner.Web.Models;
+
+    @model FeatureViewModel*@
+
+@*@using (Html.BeginForm("AddFeature", "Feature", Model, FormMethod.Post, new { id = "addFeature", autocomplete = "off", @class = "form_components" }))
+    {*@
+<form class="form_components">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Feature Name<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-1">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Display Name<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-1">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Program Link <span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-1">
+                </div>
+            </div>
+        </div>
+    </div>
+<<<<<<< HEAD
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Icon Class<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-1">
+                </div>
+=======
+        <div class="checkbox">
+            <div class="checkbox_style checkbox_positioning">
+               @Html.CheckBoxFor(m => Model.IsActive, new { @id = "statuscheckbox", @class="test" })
+                <label for='statuscheckbox'>Is Active</label>
+>>>>>>> 342e5da64a8c41c487c58f0c74e21b9188d5ab7a
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label">Category</label>
+                <select class="form-control m-bot15">
+                    <option>Portal</option>
+                    <option>&nbsp; &nbsp;User</option>
+                    <option>&nbsp; &nbsp;Feature</option>
+                    <option>Reports</option>
+                    <option>&nbsp; &nbsp;Stock Report</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Sort order<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-1" maxlength="3">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <div class="checkbox_style">
+                    <input type="checkbox" id="ch2" checked="checked" /><label for="ch2">Is Active</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer form_btn_block">
+        <button type="button" class="btn btn-default" id="btn_cancelAdd">Cancel</button>
+        <button type="button" class="btn save" id="btn_featureSave">Save</button>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#txtName').keypress(function (e) {
+            $('#txtNameError').html('');
+        });
+        $('#txtPrgLink').keypress(function (e) {
+            $('#txtLinkError').html('');
+        });
+        $("#btn_featureSave").click(function () {
+            var isError = false;
+            if ($("#txtName").val().trim() == "" || $("#txtName").val().trim() == null) {
+                $('#txtNameError').html('Required field *');
+                isError = true;
+            }
+            else {
+                $('#txtNameError').html('');
+            }
+            if ($("#txtPrgLink").val().trim() == "" || $("#txtPrgLink").val().trim() == null) {
+                $('#txtLinkError').html('Required field *');
+                isError = true;
+            }
+            else {
+                $('#txtLinkError').html('');
+            }
+            if (isError) {
+                return false;
+            }
+            ShowProgress();
+            var postData = $("#addFeature").serializeArray();
+            $.ajax({
+                url: '@Url.Action("FeatureAdd", "Feature")',
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (data.Status == 1) {
+                        hideProgress();
+                        $('#featureAddPopup').modal('hide');
+                        hideProgress();
+                        ShowAlert('Feature created successfully!', 'success');
+                        $('#feature_Grid').empty();
+                        $('#feature_Grid').html(data.Data);
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        });
+
+        $("#btn_cancelAdd").click(function () {
+            $("#txtName").val('');
+            $("#txtPrgLink").val('');
+            $("#txtNameError").html('');
+            $("#txtLinkError").html('');
+            $("#statuscheckbox").prop('checked', false);
+            $('#featureAddPopup').modal('hide');
+        });
+    });
+</script>

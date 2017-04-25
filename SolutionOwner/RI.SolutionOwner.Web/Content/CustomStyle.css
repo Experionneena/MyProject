@@ -1,0 +1,85 @@
+﻿/*Image Cropper */
+#tblImgCropper {
+    /*display: table;*/
+    border-collapse: separate;
+    /*border-spacing: 10px 20px;*/
+    margin: 18px 20px 15px 10px;
+}
+
+    #tblImgCropper .tableRow {
+        display: table-row;
+    }
+
+    #tblImgCropper .tableCell {
+        display: table-cell;
+        vertical-align: top;
+    }
+
+    #tblImgCropper .box {
+        border: 10px solid #794; /*#7A9A01;*/
+        background-color: #000;
+        height: 120px;
+    }
+/*#tblImgCropper #scaleSlider{ padding: 8px 0 8px 0;}*/
+.brandingModalBody {
+    padding: 0;
+}
+
+.tblRow button {
+    float: right;
+}
+
+.tblRow {
+    width: 290px;
+    margin-left: 23%;
+   text-align: -webkit-center;
+text-align: -moz-center;
+text-align: -o-center; 
+text-align: -ms-center;
+/*text-align: center;*/
+}
+
+.tblRowThumb {
+    width: 120px !important;
+    height: 100px;
+}
+
+.tbslider {
+    padding: 12px 0 12px 0;
+}
+
+#panel {
+    cursor: move;
+}
+
+button {
+    padding: 4px 10px;
+    font-size: 1em;
+}
+/*Image Cropper*/
+.validationmessage {
+    color: red;
+}
+
+.brandingModal {
+    z-index: 10500;
+    top: 78px;
+}
+
+.brandingModalClose {
+    float: right;
+}
+
+.page-topbar .logo-area {
+    height: 60px;
+    overflow: hidden;
+}
+
+.logo-new {
+    height: auto !important;
+}
+
+.logo_upload {
+    overflow: hidden;
+    max-height: 60px;
+}

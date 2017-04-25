@@ -1,0 +1,57 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@model List<SPRoleViewModel>
+
+<ul class="nav nav-tabs nav-custom" role="tablist" id="hierarchyList">
+    @if (Model != null)
+    {
+
+        var role = Model[0].HierarchyViewModelList;
+        for (var i = 0; i < role.Count; i++)
+        {
+            if (i == 0)
+            {
+                <li id="@role[i].Id" role="presentation" class="active" onclick="GetRoles(@role[i].Id)"><a href="#" role="tab" data-toggle="tab"> @role[i].Name</a> </li>
+            }
+            else
+            {
+                <li id="@role[i].Id" role="presentation" onclick="GetRoles(@role[i].Id)"><a href="#" role="tab" data-toggle="tab">@role[i].Name</a></li>
+            }
+        }
+    }
+
+</ul>
+
+<script>
+    var hierarchyid = $("#hierarchyList li.active").attr('id');
+    console.log(hierarchyid);
+    GetRoles(hierarchyid);
+    function GetRoles(HierarchyId) {
+        ShowProgress();
+        $.ajax({
+            url: '@Url.Action("GetRoleList", "SPRole")',
+            data: { 'hierarchyId': HierarchyId },
+            type: 'POST',
+            success: function (data) {
+                if (data.Status == 1) {
+                    hideProgress();
+                    $('#role_Grid').empty();
+                    $('#role_Grid').html(data.Data);
+                    $('#tblRole').aCollapTable({
+                        startCollapsed: true,
+                        addColumn: true,
+                        plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+                        minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+                    });
+                }
+                else {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+    }
+</script>

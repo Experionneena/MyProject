@@ -1,0 +1,14 @@
+.skin1{
+	.page-topbar, 
+	.page-sidebar {
+   		background-color:none ;
+    }	
+}
+
+
+
+.page-topbar {
+    &.sidebar_shift .logo-area, &.chat_shift .logo-area {
+        background-color: $default-bg;
+    }
+}

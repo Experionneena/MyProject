@@ -1,0 +1,271 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model FeatureViewModel
+
+@using (Html.BeginForm("AddFeature", "Feature", Model, FormMethod.Post, new { id = "addFeature", autocomplete = "off", @class = "form_components" }))
+{
+    <form class="form_components">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label" for="field-1">Feature Name<span class="mandatory_clr">*</span></label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="txtName">
+                        <span class="validationmessage" id="txtNameError"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label" for="field-1">Display Name<span class="mandatory_clr">*</span></label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="txtDisplayName">
+                        <span class="validationmessage" id="txtDisplayNameError"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="form-label" for="field-1">Program Link <span class="mandatory_clr">*</span></label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="txtProgramLink">
+                        <span class="validationmessage" id="txtProgramLinkError"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label" for="field-1">Icon Class<span class="mandatory_clr">*</span><a href="http://fontawesome.io/icons/" target="blank"><span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="http://fontawesome.io/icons/"></span></a></label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="txtIconClass">
+                        <span class="validationmessage" id="txtIconClassError"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-control m-bot15" id="ddlCategoryId">
+                        @if (null != Model)
+                        {
+                            foreach (var parentCategory in Model.CategoryViewModelList)
+                            {
+                                <option value="@parentCategory.Id">@parentCategory.DisplayName</option>
+                                foreach (var item in parentCategory.Children)
+                                {
+                                    <option value="@item.Id">&nbsp; &nbsp;@item.DisplayName</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label" for="field-1">Sort order<span class="mandatory_clr">*</span></label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="txtSortOrder" maxlength="3">
+                        <span class="validationmessage" id="txtSortOrderError"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="chkIsActive" checked="checked" disabled /><label for="chkIsActive">Is Active ?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer form_btn_block">
+            <button type="button" class="btn btn-default" id="btn_cancelAdd">Cancel</button>
+            <button type="button" class="btn save" id="btn_featureSave">Save</button>
+        </div>
+    </form>
+}
+
+
+<script>
+   $('#txtName').keypress(function (e) {
+        $('#txtNameError').html('');
+    });
+    $('#txtDisplayName').keypress(function (e) {
+        $('#txtDisplayNameError').html('');
+    });
+    $('#txtProgramLink').keypress(function (e) {
+        $('#txtProgramLinkError').html('');
+    });
+    $('#txtIconClass').keypress(function (e) {
+        $('#txtIconClassError').html('');
+    });
+    $('#txtSortOrder').keypress(function (e) {
+        $('#txtSortOrderError').html('');
+    })
+    //----------------------// Save Feature //----------------------//
+    $("#btn_featureSave").click(function () {
+        var isError = false;
+        if ($("#txtName").val().trim() == "" || $("#txtName").val().trim() == null) {
+            $('#txtNameError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtNameError').html('');
+        }
+        if ($("#txtDisplayName").val().trim() == "" || $("#txtDisplayName").val().trim() == null) {
+            $('#txtDisplayNameError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtDisplayNameError').html('');
+        }
+        if ($("#txtProgramLink").val().trim() == "" || $("#txtProgramLink").val().trim() == null) {
+            $('#txtProgramLinkError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtProgramLinkError').html('');
+        }
+        if ($("#txtIconClass").val().trim() == "" || $("#txtIconClass").val().trim() == null) {
+            $('#txtIconClassError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtIconClassError').html('');
+        }
+        if ($("#txtSortOrder").val().trim() == "" || $("#txtSortOrder").val().trim() == null) {
+            $('#txtSortOrderError').html('Required field');
+            isError = true;
+        }
+        else if (!$.isNumeric($("#txtSortOrder").val().trim())) {
+            $('#txtSortOrderError').html('Invalid entry');
+            isError = true;
+        }
+        else {
+            $('#txtSortOrderError').html('');
+        }
+        if ($("#ddlCategoryId option:selected").val() == 0 || $("#ddlCategoryId option:selected").val().trim() == null) {
+            isError = true;
+        }
+        else {
+            $('#ddlCategoryIdError').html('');
+        }
+        if ($("#ddlHierarchyIdAdd option:selected").val() == 0 || $("#ddlCategoryId option:selected").val().trim() == null) {
+            isError = true;
+        }
+        if (!validateTextOnly($("#txtName").val())) {
+            $('#txtNameError').html('Invalid entry');
+            isError = true;
+        }
+        if (!validateTextOnly($("#txtDisplayName").val())) {
+            $('#txtDisplayNameError').html('Invalid entry');
+            isError = true;
+        }
+        if (!validateURL($("#txtProgramLink").val())) {
+            $('#txtProgramLinkError').html('Invalid entry');
+            isError = true;
+        }
+        //if (!validateTextOnly($("#txtIconClass").val())) {
+        //    $('#txtIconClassError').html('Text only *');
+        //    isError = true;
+        //}
+
+        if (isError) {
+            return false;
+        }
+        ShowProgress();
+        var postData = {
+            Name: $("#txtName").val().trim(),
+            DisplayName: $("#txtDisplayName").val().trim(),
+            IconClass: $("#txtIconClass").val().trim(),
+            SortOrder: $("#txtSortOrder").val().trim(),
+            ProgramLink: $("#txtProgramLink").val().trim(),
+            CategoryId: $("#ddlCategoryId option:selected").val(),
+            IsActive: $("#chkIsActive").prop("checked")
+        }
+        $.ajax({
+            url: '@Url.Action("CreateFeature", "SOFeature")',
+            type: 'POST',
+            data: postData,
+            success: function (data) {
+                if (data.Status == 1) {
+                    $('#featureAddPopup').modal('hide');
+                    hideProgress();
+                    ShowAlert(data.Message, 'success');
+                    $('#feature_Grid').empty();
+                    $('#feature_Grid').html(data.Data);
+                    $('#tblFeature').aCollapTable({
+                        addColumn: true,
+                        plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+                        minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+                    });
+                    $('.checkbox_click').prop('checked', false);
+                }
+                else {
+                    hideProgress();
+                    $('.checkbox_click').prop('checked', false);
+                    $('#featureAddPopup').modal('hide');
+                    ShowAlert(data.Message, 'error');
+                }
+
+            },
+
+            error: function (data) {
+                hideProgress();
+                $('.checkbox_click').prop('checked', false);
+                $('#featureAddPopup').modal('hide');
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+        DisableTool();
+        $(this).tooltip('hide');
+    });
+
+    $("#btn_closeAdd,#btn_cancelAdd").click(function () {
+        $('.checkbox_click').prop('checked', false);
+        $("#txtName").val('');
+        $("#txtPrgLink").val('');
+        $("#txtNameError").html('');
+        $("#txtLinkError").html('');
+        $("#statuscheckbox").prop('checked', false);
+        $('#featureAddPopup').modal('hide');
+        DisableTool();
+    });
+    function validateTextOnly(myText) {
+        var filter = /^[a-z\d\-_\s]+$/i;
+        if (filter.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function validateTextNumberSpace(myText) {
+        var filter = /^(?:[A-Za-z]+)(?:[A-Za-z0-9 _]*)$/;
+        if (filter.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function validateURL(myText) {
+        var expression = new RegExp(/https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,}/);
+        if (expression.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    </script>

@@ -1,0 +1,383 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<OwnerUserModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+}
+
+@*POPUP FOR ADD USER*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels" id="userAddPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeAdd" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add User</h4>
+            </div>
+
+            <div class="modal-body" id="userAdd">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*POPUP FOR EDIT USER*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="userEditPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit User</h4>
+            </div>
+            <div class="modal-body" id="userEdit">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="main-content">
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+
+                        <li class="active">
+                            User Management
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right pull-right">
+                <div class="tooltip__block">
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add" id="addUser"><i class="icon-add" aria-hidden="true"></i></button>
+
+                    <button type="button" class="btn btn-default disabletool" data-toggle="tooltip" data-placement="bottom" title="Edit" id="btn_EditUser"><i class="icon-edit" aria-hidden="true"></i></button>
+
+                    <button type="button" id="btnActivate" class="btn btn-default disabletool" data-toggle="tooltip" data-placement="bottom" title="Activate"> <i class="icon-done" aria-hidden="true"></i></button>
+
+                    <button type="button" id="btnDeactivate" class="btn btn-default disabletool" data-toggle="tooltip" data-placement="bottom" title="Deactivate"><i class="icon-block" aria-hidden="true"></i></button>
+
+                    <button type="button" class="btn btn-default disabletool" data-toggle="tooltip" data-placement="bottom" title="Delete" id="btn_Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                    @*<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="File"><i class="icon-folder" aria-hidden="true"></i></button>
+
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Profile"> <i class="icon-profile" aria-hidden="true"></i></button>
+
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Site map"><i class="icon-Site_map" aria-hidden="true"></i></button>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Top search and button block -->
+    @*<div class="search_block">
+            <div class="col-lg-12">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="search--block">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-addon">
+                                <button type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>*@
+
+    <section class="wrapper main-wrapper row mt0">
+
+        <div class="row">
+            <div class="col-lg-12" id="user_Grid">
+
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="~/Js/Common.js"></script>
+<script type="text/javascript">
+
+    $('#addUser').click(function () {
+        GetAddPopUp();
+    });
+    //GetAddPopUp();
+   function GetAddPopUp() {
+            $.ajax({
+                url: '@Url.Action("AddUserPopUp", "User")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $("#userAdd").empty();
+                        $("#userAdd").html(data.Data);
+                        $('.checkbox_click').prop('checked', false);
+                        $('#userAddPopup').modal({ backdrop: 'static', keyboard: false });
+                    }
+                    else {
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+                error: function (data) {
+                    ShowAlert('Something wrong!', 'error');
+                }
+
+            });
+        }
+
+    $(document).ready(function () {
+        //-----------------------------------// Disable management tools on page load //-----------------------------------//
+        $('[rel=tooltip]').tooltip({ trigger: "hover" });
+        if (!$('input.checkbox_click').is(':checked')) {
+
+            $('.disabletool').attr("disabled", "disabled");
+
+        } else {
+            $('.disabletool').removeAttr("disabled", "disabled");
+
+        }
+        GetUserGridDetails();
+        function GetUserGridDetails() {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetUserList", "User")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#user_Grid').empty();
+                        $('#user_Grid').html(data.Data);
+                        hideProgress();
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        }
+
+        function CheckCheckboxCheckedOrUnchecked() {
+            var id;
+            $(".checkbox_click").each(function () {
+                if ($(this).prop('checked') == true) {
+                    id = $(this).attr('id');
+                }
+            });
+            return id;
+        }
+
+        $("#btn_EditUser").click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                ShowProgress();
+                $.ajax({
+                    url: '@Url.Action("GetUserDetailsForEditById","User")',
+                    type: 'Post',
+                    data: { userId: id },
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            hideProgress();
+                            $('.checkbox_click').prop('checked', false);
+                            $('#userEditPopup').modal({ backdrop: 'static', keyboard: false });
+                            $("#userEdit").empty();
+                            $("#userEdit").html(data.Data);
+                            if (data.RoleList != null) {
+                                $('#roleListEdit').multiselect({
+                                    includeSelectAllOption: true,
+                                    enableCaseInsensitiveFiltering: true
+                                });
+                                window.prettyPrint() && prettyPrint();
+                                var hidValue = data.RoleList;
+                                var selectedOptions = hidValue.split(",");
+                                for (var i in selectedOptions) {
+                                    var optionVal = selectedOptions[i];
+                                    $("#roleListEdit").find("option[value=" + optionVal + "]").prop("selected", "selected");
+                                }
+                                $("#roleListEdit").multiselect('refresh');
+                            }
+
+                            if (data.IsActive) {
+                                $("#editUserStatus").prop("checked", "true");
+                            }
+                            if (data.IsBlocked) {
+                                $("#blockUserStatus").prop("checked", "true");
+                            }
+                        }
+                        else {
+                            hideProgress();
+                            ShowAlert('Something wrong!', 'error');
+                        }
+                    },
+                    error: function (data) {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+
+                });
+            }
+            DisableTool();
+            $(this).tooltip('hide');
+        });
+
+        $("#btn_Delete").click(function () {
+            var idForDelete = CheckCheckboxCheckedOrUnchecked();
+            if (idForDelete != null) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        ShowProgress();
+                        $.ajax({
+                            url: '@Url.Action("DeleteUserById", "User")',
+                            type: 'POST',
+                            data: { userId: idForDelete },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    $('#user_Grid').empty();
+                                    $('#user_Grid').html(data.Data);
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else {
+                                    hideProgress();
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert('Something wrong!', 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                $('.checkbox_click').prop('checked', false);
+                                ShowAlert('Something wrong!', 'error');
+                            }
+                        });
+                    }
+
+                    else {
+                        $('.checkbox_click').prop('checked', false);
+                    }
+                });
+            }
+            DisableTool();
+            $(this).tooltip('hide');
+        });
+
+        $("#btn_closeAdd").click(function () {
+            $("#txtName").val('');
+            $('.checkbox_click').prop('checked', false);
+            $("#txtEmailId").val('');
+            $("#txtNameError").html('');
+            $("#txtEmailError").html('');
+            $("#addUserStatus").prop('checked', false);
+            $('#userAddPopup').modal('hide');
+            DisableTool();
+        });
+
+        $("#btn_closeEdit").click(function () {
+            $("#txtName").val('');
+            $("#txtEmailId").val('');
+            $('.checkbox_click').prop('checked', false);
+            $("#txtNameError").html('');
+            $("#txtEmailError").html('');
+            $("#editUserStatus").prop('checked', false);
+            $('#userEditPopup').modal('hide');
+            DisableTool();
+        });
+
+        $('#btnActivate').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                bootbox.confirm("Are you sure you want to activate?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("ActivateDeactivateUser", "User")',
+                            type: 'POST',
+                            data: { userId: id, flag: 1 },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    $('#user_Grid').empty();
+                                    $('#user_Grid').html(data.Data);
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else if (data.Status == 0) {
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'warning');
+                                }
+                                else {
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'error');
+                                }
+                            },
+                            error: function (data) {
+                            }
+                        });
+                    }
+
+                    else {
+                        $('.checkbox_click').prop('checked', false);
+                    }
+                });
+            }
+            DisableTool();
+            $(this).tooltip('hide');
+        });
+
+
+        $('#btnDeactivate').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                bootbox.confirm("Are you sure you want to deactivate?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("ActivateDeactivateUser", "User")',
+                            type: 'POST',
+                            data: { userId: id, flag: 0 },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    $('#user_Grid').empty();
+                                    $('#user_Grid').html(data.Data);
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else if (data.Status == 0) {
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'warning');
+                                }
+                                else
+                                {
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'error');
+                                }
+                            },
+                            error: function (data) {
+                            }
+                        });
+                    }
+
+                    else {
+                        $('.checkbox_click').prop('checked', false);
+                    }
+                });
+            }
+            DisableTool();
+            $(this).tooltip('hide');
+        });
+
+    });
+</script>

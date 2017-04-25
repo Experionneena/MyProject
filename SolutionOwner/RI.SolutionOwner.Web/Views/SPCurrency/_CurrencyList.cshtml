@@ -1,0 +1,85 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<CurrencyRateModel>
+
+<div class="row">
+    <div class="col-lg-12 ">
+        <div class="col-lg-6 col-md-6 col-sm-6 pull-right pad_col_12_zero">
+            <div class="form-inline pull-right">
+                <div class="form-group">
+                    <label class="form-label reg" for="field-1">Base Currency</label>
+                    <span class="badge cur_bg" id="baseCurrency"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="default_table">
+    <div class="table-responsive">
+        <table class="table dataTableBinding" id="currencyListTable">
+            <thead>
+                <tr class="tbl_head">
+                    <th class="text-center" style="display:none">hiddenelement</th>
+                    <th class="text-center">
+                        <div class="checkbox_style checkbox_positionings">
+                            <input type="checkbox" id="currencyCheckBox" />
+                            <label for="currencyCheckBox"></label>
+                        </div>
+                    </th>
+                    <th class="text-left">Currency</th>
+                    <th class="text-left">Description</th>
+                    <th class="text-left">Rate</th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center" style="display:none">hiddenelement</td>
+                            <td class="text-center">
+                                <div class="checkbox_style  checkbox_positionings">
+                                    <input type="checkbox" class="checkbox_click" id="@item.Id" onclick="CheckBoxChange('@item.Id')" />
+                                    <label for="@item.Id"></label>
+                                </div>
+
+                            </td>
+                            <td class="text-left">@item.CurrencyNameList.Select(x => x).FirstOrDefault()</td>
+                            <td class="text-left">@item.CurrencyDescription</td>
+                            <td class="text-left">@item.Rate</td>
+                            @if (item.IsActive == true)
+                            {
+                                <td class="text-center">
+                                    <a href=""><i class="icon-done" aria-hidden="true"></i></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    <a href=""><i class="icon-block" aria-hidden="true"></i></a>
+                                </td>
+                            }
+
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+<script>
+    $(document).ready(function () {
+        var mSortingString = [];
+        mSortingString.push({ "bSortable": false, "aTargets": [1, 5] });
+        InitialiseDataTable(mSortingString);
+
+    });
+</script>

@@ -1,0 +1,99 @@
+﻿/*for datatable*/
+.default_table .table-responsive {
+    background: none !important;
+    /*margin-top: -62px;*/
+}
+
+    .default_table .table-responsive .table tbody {
+        background: #fff !important;
+    }
+
+    .default_table .table-responsive .table {
+        border-radius: 7px;
+        overflow: hidden;
+    }
+
+.dataTables_wrapper .dataTable {
+    margin-top: 5px !important;
+}
+
+.dataTables_wrapper .row div {
+    float: right;
+}
+
+.dataTables_filter {
+    float: left !important;
+}
+
+    .dataTables_filter .form-control {
+        float: left;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+.dataTables_info {
+    float: left !important;
+}
+
+.dataTables_wrapper .row {
+    margin: 0;
+}
+
+.pagination .active a {
+    background: #7A9A01 !important;
+    border-color: #7A9A01 !important;
+}
+
+.dataTables_info {
+    font-size: 13px;
+}
+
+.checkbox_positionings {
+    float: left !important;
+}
+
+
+.checkbox_positioning {
+    float: none !important;
+}
+
+.checkbox_positioning_th {
+    float: none !important;
+}
+/*#Endregion*/
+
+.tooltip__block {
+    position: relative;
+    z-index: 1;
+}
+
+@media screen and (max-width: 991px) {
+    .table-responsive {
+        border: 1px solid rgba(221, 221, 221, 0);
+    }
+}
+<<<<<<< HEAD
+=======
+
+/*Bootbox confirmation box custom style*/
+/*.bootbox {
+    top: 15% !important;
+}
+
+    .bootbox .btn-primary {
+        background-color: #7A9A01 !important;
+        color: #fff;
+        min-width: 80px;
+        border: none;
+    }
+
+    .bootbox .btn-secondary {
+        background-color: #fff !important;
+        color: #333;
+        min-width: 80px;
+        border-color: #ccc;
+    }*/
+/*.alert{
+    display:block!important;
+}*/
+>>>>>>> 342e5da64a8c41c487c58f0c74e21b9188d5ab7a

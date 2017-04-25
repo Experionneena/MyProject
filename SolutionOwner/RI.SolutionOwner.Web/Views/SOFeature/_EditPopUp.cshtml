@@ -1,0 +1,279 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model FeatureViewModel
+@using (Html.BeginForm("AddFeature", "Feature", Model, FormMethod.Post, new { id = "addFeature", autocomplete = "off", @class = "form_components" }))
+{    
+    if (null != Model)
+    {
+        @Html.HiddenFor(m =>Model.IsActive, new { id = "hiddenActive"})
+        <form class="form_components">
+            <input type="hidden" name="country" id="hiddenId" value="@Model.Id">
+            <input type="hidden" name="country" id="hiddenCreatedDate" value="@Model.CreatedDate">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Feature Name<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="txtNameEdit" value="@Model.Name">
+                            <span class="validationmessage" id="txtNameEditError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Display Name<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="txtDisplayNameEdit" value="@Model.DisplayName">
+                            <span class="validationmessage" id="txtDisplayNameEditError"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Program Link<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="txtProgramLinkEdit" value="@Model.ProgramLink">
+                            <span class="validationmessage" id="txtProgramLinkEditError"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Icon Class<span class="mandatory_clr">*</span><a href="http://fontawesome.io/icons/" target="blank"><span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="http://fontawesome.io/icons/"></span></a></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="txtIconClassEdit" value="@Model.IconClass">
+                            <span class="validationmessage" id="txtIconClassEditError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-control m-bot15" id="ddlCategoryIdEdit">
+                            @if (null != Model)
+                            {
+                                foreach (var parentCategory in Model.CategoryViewModelList)
+                                {
+                                    <option value="@parentCategory.Id" @((@parentCategory.Id == Model.CategoryId) ? "selected='selected'" : "")>@parentCategory.DisplayName</option>
+                                    foreach (var item in parentCategory.Children)
+                                    {
+                                        <option value="@item.Id" @((@item.Id == Model.CategoryId) ? "selected='selected'" : "")>&nbsp; &nbsp;@item.DisplayName</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Sort order<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="txtSortOrderEdit" maxlength="3" value="@Model.SortOrder">
+                            <span class="validationmessage" id="txtSortOrderEditError"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @*<div class="col-lg-6">
+                    <div class="form-group">
+                        <div class="checkbox_style">
+                            <input type="checkbox" id="chkIsActiveEdit" @((Model.IsActive) ? "checked=checked" : "") /><label for="chkIsActiveEdit">Is Active ?</label>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+        </form>
+    }
+}
+
+<div class="modal-footer form_btn_block">
+    <button type="button" class="btn btn-default" id="btn_cancelEdit">Cancel</button>
+    <button type="button" class="btn save" id="btn_featureEdit">Update</button>
+</div>
+<script>
+  //----------------------// Validate Edit popup //----------------------//
+    $('#txtNameEdit').keypress(function (e) {
+        $('#txtNameEditError').html('');
+    });
+    $('#txtDisplayNameEdit').keypress(function (e) {
+        $('#txtDisplayNameEditError').html('');
+    });
+    $('#txtProgramLinkEdit').keypress(function (e) {
+        $('#txtProgramLinkEditError').html('');
+    });
+    $('#txtIconClassEdit').keypress(function (e) {
+        $('#txtIconClassEditError').html('');
+    });
+    $('#txtSortOrderEdit').keypress(function (e) {
+        $('#txtSortOrderEditError').html('');
+    })
+
+    //----------------------// Update Feature //----------------------//
+    $("#btn_featureEdit").click(function () {
+        var isError = false;
+        if ($("#txtNameEdit").val().trim() == "" || $("#txtNameEdit").val().trim() == null) {
+            $('#txtNameEditError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtNameEditError').html('');
+        }
+        if ($("#txtDisplayNameEdit").val().trim() == "" || $("#txtDisplayNameEdit").val().trim() == null) {
+            $('#txtDisplayNameEditError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtDisplayNameEditError').html('');
+        }
+        if ($("#txtProgramLinkEdit").val().trim() == "" || $("#txtProgramLinkEdit").val().trim() == null) {
+            $('#txtProgramLinkEditError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtProgramLinkEditError').html('');
+        }
+        if ($("#txtIconClassEdit").val().trim() == "" || $("#txtIconClassEdit").val().trim() == null) {
+            $('#txtIconClassEditError').html('Required field');
+            isError = true;
+        }
+        else {
+            $('#txtIconClassEditError').html('');
+        }
+        if ($("#txtSortOrderEdit").val().trim() == "" || $("#txtSortOrderEdit").val().trim() == null) {
+            $('#txtSortOrderEditError').html('Required field');
+            isError = true;
+        }
+        else if (!$.isNumeric($("#txtSortOrderEdit").val().trim())) {
+            $('#txtSortOrderEditError').html('Required number');
+            isError = true;
+        }
+        else {
+            $('#txtSortOrderEditError').html('');
+        }
+        if ($("#ddlCategoryIdEdit option:selected").val() == 0 || $("#ddlCategoryIdEdit option:selected").val().trim() == null) {
+            isError = true;
+        }
+        else {
+            $('#ddlCategoryIdEditError').html('');
+        }
+        if (!validateTextOnly($("#txtNameEdit").val())) {
+            $('#txtNameEditError').html('Invalid entry');
+            isError = true;
+        }
+        if (!validateTextOnly($("#txtDisplayNameEdit").val())) {
+            $('#txtDisplayNameEditError').html('Invalid entry');
+            isError = true;
+        }
+        if (!validateURL($("#txtProgramLinkEdit").val())) {
+            $('#txtProgramLinkEditError').html('Invalid entry');
+            isError = true;
+        }
+        //if (!validateTextOnly($("#txtIconClassEdit").val())) {
+        //    $('#txtIconClassEditError').html('Text only *');
+        //    isError = true;
+        //}
+
+
+        if (isError) {
+            return false;
+        }
+        ShowProgress();
+        var postData = {
+            Id: $("#hiddenId").val(),
+            CreatedDate: $("#hiddenCreatedDate").val(),
+            Name: $("#txtNameEdit").val().trim(),
+            DisplayName: $("#txtDisplayNameEdit").val().trim(),
+            IconClass: $("#txtIconClassEdit").val().trim(),
+            SortOrder: $("#txtSortOrderEdit").val().trim(),
+            ProgramLink: $("#txtProgramLinkEdit").val().trim(),
+            CategoryId: $("#ddlCategoryIdEdit option:selected").val(),
+            IsActive: $("#hiddenActive").val()
+        }
+        $.ajax({
+            url: '@Url.Action("EditFeature", "SOFeature")',
+            type: 'POST',
+            data: postData,
+            success: function (data) {
+                debugger;
+                if (data.Status == 1) {
+                    hideProgress();
+                    $('#featureEditPopup').modal('hide');
+                    hideProgress();
+                    ShowAlert(data.Message, 'success');
+                    $('#feature_Grid').empty();
+                    $('#feature_Grid').html(data.Data);
+                    $('#tblFeature').aCollapTable({
+                        addColumn: true,
+                        plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+                        minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+                    });
+                    $('.checkbox_click').prop('checked', false);
+                }
+                else {
+                    hideProgress();
+                    $('.checkbox_click').prop('checked', false);
+                    $('#featureEditPopup').modal('hide');
+                    ShowAlert(data.Message, 'error');
+                }
+
+            },
+
+            error: function (data) {
+                hideProgress();
+                $('.checkbox_click').prop('checked', false);
+                $('#featureEditPopup').modal('hide');
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+        DisableTool();
+        $(this).tooltip('hide');
+    });
+
+    $("#btn_closeEdit,#btn_cancelEdit").click(function () {
+        $('.checkbox_click').prop('checked', false);
+        $("#txtName").val('');
+        $("#txtPrgLink").val('');
+        $("#txtNameError").html('');
+        $("#txtLinkError").html('');
+        $("#statuscheckboxEdit").prop('checked', false);
+        $('#featureEditPopup').modal('hide');
+        DisableTool();
+    });
+
+    function validateTextOnly(myText) {
+        var filter = /^[a-z\d\-_\s]+$/i;
+        if (filter.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function validateTextNumberSpace(myText) {
+        var filter = /^(?:[A-Za-z]+)(?:[A-Za-z0-9 _]*)$/;
+        if (filter.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function validateURL(myText) {
+        var expression = new RegExp(/https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,}/);
+        if (expression.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>

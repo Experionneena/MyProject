@@ -1,0 +1,78 @@
+﻿/*for datatable*/
+.default_table .table-responsive {
+    background: none !important;
+    /*margin-top: -62px;*/
+}
+
+    .default_table .table-responsive .table tbody {
+        background: #fff !important;
+    }
+
+    .default_table .table-responsive .table {
+        border-radius: 7px;
+        overflow: hidden;
+    }
+
+.dataTables_wrapper .dataTable {
+    margin-top: 5px !important;
+}
+
+.dataTables_wrapper .row div {
+    float: right;
+}
+
+.dataTables_filter {
+    float: left !important;
+}
+
+    .dataTables_filter .form-control {
+        float: left;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+.dataTables_info {
+    float: left !important;
+}
+
+.dataTables_wrapper .row {
+    margin: 0;
+}
+
+.pagination .active a {
+    background: #7A9A01 !important;
+    border-color: #7A9A01 !important;
+}
+
+.dataTables_info {
+    font-size: 13px;
+}
+
+.checkbox_positionings {
+    float: left !important;
+}
+
+
+.checkbox_positioning {
+    float: none !important;
+}
+
+.checkbox_positioning_th {
+    float: none !important;
+}
+/*#Endregion*/
+
+.tooltip__block {
+    position: relative;
+    z-index: 1;
+}
+
+@media screen and (max-width: 991px) {
+    .table-responsive {
+        border: 1px solid rgba(221, 221, 221, 0);
+    }
+}
+.validationmessage{
+    color: rgba(255, 0, 0, 0.73);
+    font-size: 13px;
+}

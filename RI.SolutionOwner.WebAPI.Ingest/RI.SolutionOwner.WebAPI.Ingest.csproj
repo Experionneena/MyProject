@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{9EF42C04-EAFC-4A22-A77E-48AF5B7CBA11}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RI.SolutionOwner.WebAPI.Ingest</RootNamespace>
+    <AssemblyName>RI.SolutionOwner.WebAPI.Ingest</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AdditionalFileItemNames>$(AdditionalFileItemNames);None</AdditionalFileItemNames>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IsServiceFabricServiceProject>true</IsServiceFabricServiceProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Framework.DependencyInjection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Framework.DependencyInjection.1.0.0-beta8\lib\net45\Microsoft.Framework.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Framework.DependencyInjection.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Framework.DependencyInjection.Abstractions.1.0.0-beta8\lib\net45\Microsoft.Framework.DependencyInjection.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.2.0.2\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Data, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.2.5.216\lib\net45\Microsoft.ServiceFabric.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Data.Interfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Data.2.5.216\lib\net45\Microsoft.ServiceFabric.Data.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Internal, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.5.216\lib\net45\Microsoft.ServiceFabric.Internal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Internal.Strings, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.5.216\lib\net45\Microsoft.ServiceFabric.Internal.Strings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ServiceFabric.Services, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.Services.2.5.216\lib\net45\Microsoft.ServiceFabric.Services.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Fabric, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.5.216\lib\net45\System.Fabric.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Fabric.Management.ServiceModel, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.5.216\lib\net45\System.Fabric.Management.ServiceModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Fabric.Management.ServiceModel.XmlSerializers, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.5.216\lib\net45\System.Fabric.Management.ServiceModel.XmlSerializers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Fabric.Strings, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
+      <HintPath>..\packages\Microsoft.ServiceFabric.5.5.216\lib\net45\System.Fabric.Strings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BrandingController.cs" />
+    <Compile Include="Controllers\HierarchyController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\POSController.cs" />
+    <Compile Include="Controllers\POSParameterCategoryController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\PrintTemplateController.cs" />
+    <Compile Include="Controllers\SOFeatureController.cs" />
+    <Compile Include="Controllers\SORoleController.cs" />
+    <Compile Include="Controllers\SOSolutionPartnerContactController.cs" />
+    <Compile Include="Controllers\SOSolutionPartnerController.cs" />
+    <Compile Include="Controllers\SOUserController.cs" />
+    <Compile Include="Controllers\POSRegistrationController.cs" />
+    <Compile Include="Controllers\SPCategoryController.cs" />
+    <Compile Include="Controllers\SPAddressController.cs" />
+    <Compile Include="Controllers\SPCurrencyController.cs" />
+    <Compile Include="Controllers\SPCurrencyRateController.cs" />
+    <Compile Include="Controllers\SPFeatureController.cs" />
+    <Compile Include="Controllers\SPHierarchyController.cs" />
+    <Compile Include="Controllers\SPProductGroupController.cs" />
+    <Compile Include="Controllers\SPRoleController.cs" />
+    <Compile Include="Controllers\SPRoleHierarchyController.cs" />
+    <Compile Include="Controllers\SPServiceProviderController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Dependency\CustomDependencyResolver.cs" />
+    <Compile Include="Dependency\CustomDependencyScope.cs" />
+    <Compile Include="Extensions\GetServiceLocator.cs" />
+    <Compile Include="Extensions\IocCustomCreationConverter.cs" />
+    <Compile Include="Extensions\ServiceCollectionExtensions.cs" />
+    <Compile Include="FabricServiceHelpers\OwinCommunicationListener.cs" />
+    <Compile Include="FabricServiceHelpers\IOwinAppBuilder.cs" />
+    <Compile Include="Models\AccountBindingModels.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\FeatureModel.cs" />
+    <Compile Include="Models\HttpCustomStatusModel.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\messageModel.cs" />
+    <Compile Include="Models\OwnerUserModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
+    <Compile Include="Models\SOMenuModel.cs" />
+    <Compile Include="Models\SORoleModel.cs" />
+    <Compile Include="Models\SORolePermissionModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ingest.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="References\ReferencedAssemblies.cs" />
+    <Compile Include="Resources\MessageResource.Designer.cs" />
+    <Compile Include="ServiceEventSource.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PackageRoot\Config\Settings.xml" />
+    <None Include="PackageRoot\ServiceManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\RI.Framework.Audit.Abstraction\RI.Framework.Audit.Abstraction.csproj">
+      <Project>{3a8345e1-602a-48ec-95dd-e57a80b5e166}</Project>
+      <Name>RI.Framework.Audit.Abstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\RI.Framework.Audit.EntityFramework\RI.Framework.Audit.EntityFramework.csproj">
+      <Project>{9a2e0883-35c1-4a9f-9b33-833c75686225}</Project>
+      <Name>RI.Framework.Audit.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\RI.Framework.Core.Data.EntityFramework\RI.Framework.Core.Data.EntityFramework.csproj">
+      <Project>{b7d4f8a9-609e-4370-99d1-1dad8d255b18}</Project>
+      <Name>RI.Framework.Core.Data.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\RI.Framework.Core.Logging\RI.Framework.Core.Logging.csproj">
+      <Project>{568cba1e-957e-45cc-850f-3f9010867e86}</Project>
+      <Name>RI.Framework.Core.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\RI.Framework.Core.Mapper\RI.Framework.Core.Mapper.csproj">
+      <Project>{58c0be84-94c1-4ae5-9ae8-98dba75363c6}</Project>
+      <Name>RI.Framework.Core.Mapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\RI.Framework.Core\RI.Framework.Core.csproj">
+      <Project>{eeec6ccd-9580-453e-85a8-175fbdb5ae44}</Project>
+      <Name>RI.Framework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolutionOwner\RI.SolutionOwner.Business.Contracts\RI.SolutionOwner.Business.Contracts.csproj">
+      <Project>{a43f022e-f8cd-4e02-982a-1d6c06fc6b22}</Project>
+      <Name>RI.SolutionOwner.Business.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolutionOwner\RI.SolutionOwner.Business\RI.SolutionOwner.Business.csproj">
+      <Project>{cf2c7052-3bd8-4b5e-8492-86f5d0b2c64b}</Project>
+      <Name>RI.SolutionOwner.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolutionOwner\RI.SolutionOwner.Data.Contracts\RI.SolutionOwner.Data.Contracts.csproj">
+      <Project>{3ab0d7ce-2b0c-44bf-aeae-69f5418ddc48}</Project>
+      <Name>RI.SolutionOwner.Data.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolutionOwner\RI.SolutionOwner.Data.Services.Contracts\RI.SolutionOwner.Data.Services.Contracts.csproj">
+      <Project>{4aa9b5c2-f266-4995-a799-d2db54171b86}</Project>
+      <Name>RI.SolutionOwner.Data.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolutionOwner\RI.SolutionOwner.Data.Services\RI.SolutionOwner.Data.Services.csproj">
+      <Project>{06d90c13-9887-415d-8c2a-7f9363766339}</Project>
+      <Name>RI.SolutionOwner.Data.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolutionOwner\RI.SolutionOwner.Data\RI.SolutionOwner.Data.csproj">
+      <Project>{e1fec95d-9f8f-4c6b-baef-81d1e460860c}</Project>
+      <Name>RI.SolutionOwner.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SolutionOwner\RI.SolutionOwner.Web\RI.SolutionOwner.Web.csproj">
+      <Project>{146F373D-1B02-4361-8880-1BA34C1B65E0}</Project>
+      <Name>RI.SolutionOwner.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MessageResource.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

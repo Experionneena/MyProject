@@ -1,0 +1,225 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model OwnerUserModel
+
+
+@using (Html.BeginForm("UserEdit", "User", Model, FormMethod.Post, new { id = "editUser", autocomplete = "off", @class = "form_components" }))
+{
+    @Html.HiddenFor(m => Model.Id, new { id = "modelId" })
+    @Html.HiddenFor(m => Model.IsActive, new { id = "isActive" })
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label required" for="field-1">Name<span class="mandatory_clr">*</span></label>
+                <span class="desc"></span>
+                <div class="controls">
+                    @Html.TextBoxFor(m => Model.Name, new { id = "txtNameEdit", @class = "form-control", @maxlength = "100", PlaceHolder = "Name" })
+                    <span class="validationmessage" id="txtNameErrorEdit"></span>
+                    @*<input type="text" class="form-control" id="field-1">*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Email<span class="mandatory_clr">*</span></label>
+                <span class="desc"></span>
+                <div class="controls">
+                    @Html.TextBoxFor(m => Model.Email, new { id = "txtEmailIDEdit", @class = "form-control", @maxlength = "100", PlaceHolder = "EmailId" })
+                    <span class="validationmessage" id="txtEmailErrorEdit"></span>
+                    @* <input type="text" class="form-control" id="field-3">*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group multi_select_styles">
+                <label class="form-label">Role<span class="mandatory_clr"> *</span></label>
+                <table class="table multiselect_dropdown_block">
+                    <tbody>
+                        <tr>
+                            <td class="multi_style">
+                                <select id="roleListEdit" multiple="multiple">
+                                    @foreach (var item in Model.RoleList)
+                                    {
+                                        <option value="@item.Id">@item.RoleName</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <span class="validationmessage" id="dropDownErrorEdit"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="checkbox">
+                <div class="form-group">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="blockUserStatus" /><label for="blockUserStatus">Suspended</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="modal-footer form_btn_block">
+        <button type="button" class="btn btn-default" id="btn_edit_cancel" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn save" id="btn_userEdit">Update</button>
+    </div>
+}
+
+<script>
+$(document).ready(function () {
+
+        window.prettyPrint() && prettyPrint();
+        $('#roleListEdit').multiselect({
+            includeSelectAllOption: true,
+            enableCaseInsensitiveFiltering: true
+        });
+
+        $('#txtNameEdit').keypress(function (e) {
+            $('#txtNameErrorEdit').html('');
+        });
+        $('#txtEmailIDEdit').keypress(function (e) {
+            $('#txtEmailErrorEdit').html('');
+        });
+
+        // Function that validates email address through a regular expression.
+        function validateEmail(sEmail) {
+            var filter = /^[\w\-\.\+]+\@@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+            if (filter.test(sEmail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        // Function that validates name through a regular expression.
+        function validateName(name) {
+            var filter = /^[a-z\d\-_\s]+$/i;
+            if (filter.test(name)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        $("#btn_userEdit").click(function () {
+            var isError = false;
+
+            var selectedArray = [];
+            $('#roleListEdit :selected').each(function (i, selected) {
+                selectedArray[i] = $(selected).val();
+            });
+
+            if ($("#txtNameEdit").val().trim() == "" || $("#txtNameEdit").val().trim() == null) {
+                $('#txtNameErrorEdit').html('Required field');
+                isError = true;
+            }
+
+            else if (!validateName($("#txtNameEdit").val().trim())) {
+                $('#txtNameErrorEdit').html('Invalid entry');
+                isError = true;
+            }
+
+            else {
+                $('#txtNameErrorEdit').html('');
+            }
+
+            if ($("#txtEmailIDEdit").val().trim() == "" || $("#txtEmailIDEdit").val().trim() == null) {
+                $('#txtEmailErrorEdit').html('Required field');
+                isError = true;
+            }
+
+            else if (!validateEmail($('#txtEmailIDEdit').val().trim())) {
+                $('#txtEmailErrorEdit').html('Invalid entry.');
+                isError = true;
+            }
+
+            else {
+                $('#txtEmailErrorEdit').html('');
+            }
+
+            if (selectedArray.length == 0) {
+                $('#dropDownErrorEdit').html('Required field');
+                isError = true;
+            }
+
+            else {
+                $('#dropDownErrorEdit').html('');
+            }
+
+            if (isError) {
+                return false;
+            }
+            ShowProgress();
+
+            var postData = {
+                Id: $("#modelId").val(),
+                Name: $("#txtNameEdit").val().trim(),
+                Email: $("#txtEmailIDEdit").val().trim(),
+                IsActive: $("#isActive").val(),
+                IsBlocked: $("#blockUserStatus").prop("checked"),
+                RoleIdList: selectedArray
+            }
+
+            $.ajax({
+                url: '@Url.Action("UserEdit", "User")',
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (data.Status == 1) {
+                        hideProgress();
+                        $('#userEditPopup').modal('hide');
+                        $('#user_Grid').empty();
+                        $('#user_Grid').html(data.Data);
+                        $('.checkbox_click').prop('checked', false);
+                        ShowAlert(data.Message, 'success');
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert(data.Message, 'error');
+                    }
+
+                },
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert(data.Message, 'error');
+                }
+            });
+
+            //$("#txtNameEdit").val('');
+            //$("#txtEmailIDEdit").val('');
+            //$("#txtNameErrorEdit").html('');
+            //$("#txtEmailErrorEdit").html('');
+            //$("#editUserStatus").prop('checked', false);
+            //$("#blockUserStatus").prop('checked', false);
+            //$('#userEditPopup').modal('hide');
+            DisableTool();
+            $(this).tooltip('hide');
+        });
+
+        $("#btn_edit_cancel").click(function () {
+            $('.checkbox_click').prop('checked', false);
+            $("#txtNameEdit").val('');
+            $("#txtEmailIDEdit").val('');
+            $("#txtNameErrorEdit").html('');
+            $("#txtEmailErrorEdit").html('');
+            $("#editUserStatus").prop('checked', false);
+            $("#blockUserStatus").prop('checked', false);
+            $('#userEditPopup').modal('hide');
+            DisableTool();
+        });
+    });
+</script>

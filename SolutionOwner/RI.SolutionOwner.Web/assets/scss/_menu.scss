@@ -1,0 +1,456 @@
+.page-sidebar {
+    height: auto;
+    width: 230px;
+    position: fixed;
+    padding: 0px;
+    background-color: $nav_bg;
+    padding-top: 70px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -webkit-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -moz-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -o-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -ms-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    min-height: 100%;
+    height: auto;
+    &.fixedscroll {
+        position: fixed;
+    }
+    &.pagescroll {
+        position: absolute;
+    }
+    &.chat_shift #main-menu-wrapper li .label, 
+    &.collapseit #main-menu-wrapper li .label {
+        display: none;
+    }
+    &.chat_shift #main-menu-wrapper li:hover .label, 
+    &.collapseit #main-menu-wrapper li:hover .label {
+        display: inline-block;
+        margin-top: 13px;
+        right: 0px;
+    }
+}
+.fixedscroll #main-menu-wrapper {
+    padding-top: 0px;
+    overflow: hidden;
+    position: relative;
+}
+#main-menu-wrapper {
+    ul {
+        padding: 0px;
+        margin: 0px;
+        padding-left: 0px;
+        list-style-type: none;
+        font-weight: 400;
+        font-size: 14px;
+        &.wraplist {
+            padding-bottom: 0px;
+            margin-top: -10px;
+        }
+        li {
+            border-bottom: 1px solid #000;
+            ul.sub-menu {
+                padding-left: 0px;                
+                display: none;
+                list-style-type: none;
+                font-size: 14px;
+                width: 100%;
+                ul.sub-menu {
+                    padding-left: 20px;
+                }
+            }
+            a {
+                display: block;
+                line-height: 52px;
+                min-height: 52px;
+                height: auto;
+                color: rgba(255, 255, 255, 0.7);
+                text-decoration: none;
+                padding-left: 5px;
+                clear: both;
+                border-left: 4px solid transparent;
+                white-space: nowrap;
+                font-size: 13px;
+                font-family:$light-font;
+            }
+            .sub-menu a {
+              line-height: 36px;
+              min-height: 36px;
+              color: rgba(174, 178, 183, 1);
+              margin-bottom: 1px;
+              padding-left: 55px;
+              border-left: 4px solid transparent;
+            }
+            &.open .sub-menu a {
+                &.active, &:hover {
+                   background-color: $selectnav-bg;
+                    border-left: 4px solid $default-bg;
+                    color: #fff;
+                }
+            }
+            .sub-menu a:hover {
+                background-color: rgba(33, 33, 33, 0.1);
+                border-left: 4px solid #3F51B5;
+                color: #fff;
+            }
+            &.open .sub-menu a {
+                border-left: 4px solid transparent;
+            }
+            a:hover {
+                background-color: $selectnav-bg;
+                border-left: 4px solid $default-bg;
+                color: #fff;
+            }
+            &.open a {
+               background-color: $selectnav-bg;
+                    border-left: 4px solid $default-bg;
+                    color: #fff;
+            }
+            a:hover .arrow:before, &.open a .arrow:before {
+                color: #757575;
+            }
+            .sub-menu a:hover .arrow:before {
+                color: rgba(194, 198, 203, 0.65);
+            }
+            &.open .sub-menu a {
+                .arrow:before {
+                    color: rgba(194, 198, 203, 0.65);
+                }
+                background-color: transparent;
+                color: #616161;
+            }
+            a {
+                i {
+              
+                    display: inline-block;
+                    width: 45px;
+                      text-align: center;
+                    top:4px;
+                    font-size: 18px;
+                    position: relative;
+                    }
+                .arrow:before {
+                    float: right;
+                    margin-top: 1px;
+                    margin-right: 20px;
+                    display: inline;
+                    font-size: 16px;
+                    font-family: FontAwesome;
+                    height: auto;
+                    content: "\f104";
+                    font-weight: 300;
+                    text-shadow: none;
+                    color: #757575;
+                }
+            }
+            &.open a .arrow.open:before {
+              content: "\f107";
+            }
+            a .arrow {
+              float: right;
+              position: absolute;
+              right: 0px;
+            }
+        }
+    }
+   
+    li .label {
+        font-size: 10px;
+        padding: 3px 7px;
+        float: right;
+        margin: 15px 15px 0 0;
+        position: absolute;
+        right: 30px;
+        &.nosubmenu {
+            right: 25px;
+            margin-top: 13px;
+        }
+    }
+}
+
+/*-----------------------------------------------------------
+Page Layout - Sidebar, Chat API toggle interactions
+-----------------------------------------------------------*/
+
+#main-content, .page-right-block, .page-topbar, .page-sidebar {
+    -webkit-transition: 600ms;
+    -moz-transition: 600ms;
+    -o-transition: 600ms;
+    transition: 600ms;
+}
+
+.page-topbar {
+    .logo-area, .quick-area .pull-right {
+        -webkit-transition: 600ms;
+        -moz-transition: 600ms;
+        -o-transition: 600ms;
+        transition: 600ms;
+    }
+}
+
+.collapse-wraplist, .profile-info, .wraplist, .chatapi-windows {
+    -webkit-transition: 600ms;
+    -moz-transition: 600ms;
+    -o-transition: 600ms;
+    transition: 600ms;
+}
+
+.page-sidebar {
+    &.collapseit, &.chat_shift {
+        width: 60px;
+        margin-left: 0px !important;
+        z-index: 99;
+    }
+}
+.page-right-block {
+    height: auto;
+    position: fixed;
+    padding: 0px;
+    background-color: #ffffff;
+    margin-top: 0px;
+    top: 60px;
+    right: 0px;
+    z-index: 9999;
+    box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -webkit-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -moz-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -o-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    -ms-box-shadow: 0 0 10px 0 rgba(33, 33, 33, 0.2);
+    &.hideit {
+        width: 0px;
+        height: 658px;
+    }
+    &.showit {
+        width: 260px;
+        height: 100%;
+    }
+    &.hideit .contact-list .user-status {
+    display: none;
+    }
+
+}
+
+/*collapsed menu and chat open states*/
+.page-topbar {
+    &.sidebar_shift .logo-area, &.chat_shift .logo-area {
+        background-color: $default-bg;
+    }
+}
+.chatapi-windows {
+    &.hideit {
+        bottom: -300px;
+    }
+    &.showit {
+        height: 300px;
+        bottom: 0px !important;
+    }
+}
+
+.page-sidebar {
+    &.chat_shift .wraplist, &.collapseit .wraplist {
+        background-color: $nav_bg;
+        width: 60px;
+    }
+    &.chat_shift .wraplist .sub-menu, &.collapseit .wraplist .sub-menu {
+        display: none;
+    }
+    &.chat_shift .wraplist li, &.collapseit .wraplist li {
+        position: relative !important;
+    }
+    &.chat_shift .wraplist li .title, &.collapseit .wraplist li .title, &.chat_shift .wraplist li .arrow, &.collapseit .wraplist li .arrow {
+        display: none;
+    }
+    &.chat_shift .wraplist li:hover, &.collapseit .wraplist li:hover {
+        background: rgba(33, 33, 33, 0.1);
+    }
+    &.chat_shift .wraplist .sub-menu li:hover, &.collapseit .wraplist .sub-menu li:hover {
+        background: transparent;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist .sub-menu li a:hover, &.collapseit #main-menu-wrapper .wraplist .sub-menu li a:hover {
+        background-color: #212026;
+        border-left: 3px solid #3f51b5;
+        color: rgba(174, 178, 183, 1);
+    }
+    &.chat_shift #main-menu-wrapper .wraplist .sub-menu li.open a, &.collapseit #main-menu-wrapper .wraplist .sub-menu li.open a, &.chat_shift #main-menu-wrapper .wraplist .sub-menu li.open .sub-menu a, &.collapseit #main-menu-wrapper .wraplist .sub-menu li.open .sub-menu a {
+        background-color: transparent;
+        border-left: 3px solid transparent;
+        color: rgba(174, 178, 183, 1);
+    }
+    &.chat_shift .profile-info, &.collapseit .profile-info {
+        width: 60px;
+        margin: 0;
+        padding: 10px 12px 25px 0px;
+    }
+    &.chat_shift .profile-info .profile-image, &.collapseit .profile-info .profile-image {
+        width: 100%;
+        padding: 0;
+    }
+    &.chat_shift .profile-info .profile-image img, &.collapseit .profile-info .profile-image img {
+        height: 40px;
+        width: 40px;
+        top: 10px;
+    }
+    &.chat_shift .profile-details, &.collapseit .profile-details, &.chat_shift .project-info, &.collapseit .project-info {
+        display: none;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li:hover .sub-menu, &.collapseit #main-menu-wrapper .wraplist li:hover .sub-menu {
+        display: block;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li:hover .sub-menu .sub-menu, &.collapseit #main-menu-wrapper .wraplist li:hover .sub-menu .sub-menu {
+        display: none;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu, &.collapseit .wraplist li:hover .sub-menu {
+        position: absolute;
+        left: 60px;
+        top: 0px;
+        width: 200px !important;
+        background: #eeeeee;
+        box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -webkit-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -moz-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -o-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -ms-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+    }
+    &.chat_shift .wraplist li:hover .sub-menu .sub-menu, &.collapseit .wraplist li:hover .sub-menu .sub-menu {
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -o-box-shadow: none;
+        -ms-box-shadow: none;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu .sub-menu, &.collapseit .wraplist li:hover .sub-menu .sub-menu {
+        position: relative;
+        left: 0px;
+        top: 0px;
+        width: auto !important;
+        background: #ffffff;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu .sub-menu, &.collapseit .wraplist li:hover .sub-menu .sub-menu {
+        position: relative;
+        margin-top: 0px;
+    }
+    &.chat_shift, &.collapseit, &.chat_shift #main-menu-wrapper, &.collapseit #main-menu-wrapper {
+        overflow: visible !important;
+    }
+    &.chat_shift .ps-scrollbar-y-rail, &.collapseit .ps-scrollbar-y-rail {
+        display: none;
+    }
+    &.chat_shift, &.collapseit {
+        position: absolute !important;
+    }
+    &.chat_shift .wraplist li:hover .title, &.collapseit .wraplist li:hover .title {
+        float: left;
+        padding-left: 15px;
+        width: 196px;
+        background: transparent;
+        display: inline-block !important;
+        position: relative;
+        z-index: 2;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu .title, &.collapseit .wraplist li:hover .sub-menu .title {
+        padding-left: 0px;
+        background: transparent;
+        display: inline-block;
+        width: auto;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu .arrow, &.collapseit .wraplist li:hover .sub-menu .arrow {
+        display: inline-block;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li .fa, &.collapseit #main-menu-wrapper .wraplist li .fa {
+        float: left;
+        font-size: 17px;
+        height: 52px;
+        line-height: 52px;
+        width: 53px;
+        top: 0px;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li:hover a, &.collapseit #main-menu-wrapper .wraplist li:hover a {
+        width: 260px;
+        background:$selectnav-bg;
+        box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -webkit-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -moz-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -o-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        -ms-box-shadow: 0 0 20px 0 rgba(33, 33, 33, 0.2);
+        position: relative;
+        z-index: 2;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li a, &.collapseit #main-menu-wrapper .wraplist li a {
+        padding-left: 0px;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li .sub-menu a, &.collapseit #main-menu-wrapper .wraplist li .sub-menu a {
+        padding-left: 20px;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu, &.collapseit .wraplist li:hover .sub-menu {
+        padding-top: 42px !important;
+        padding-left: 0px !important;
+        background: #ffffff;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu .sub-menu, &.collapseit .wraplist li:hover .sub-menu .sub-menu {
+        margin-top: 0px !important;
+        padding-left: 0px !important;
+        padding-top: 0px !important;
+        display: none;
+        left: 0px;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li:hover .sub-menu a, &.collapseit #main-menu-wrapper .wraplist li:hover .sub-menu a {
+        width: 200px;
+        color: #616161;
+        background: #ffffff;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -o-box-shadow: none;
+        -ms-box-shadow: none;
+    }
+    &.chat_shift #main-menu-wrapper .wraplist li {
+        &.open .sub-menu a:hover, .sub-menu a:hover {
+            background-color: #e5e5e5;
+            border-left: 3px solid #3f51b5;
+            color: #616161;
+            padding-left: 21px;
+        }
+    }
+    &.collapseit #main-menu-wrapper .wraplist li {
+        &.open .sub-menu a:hover, .sub-menu a:hover {
+            background-color: #e5e5e5;
+            border-left: 3px solid #3f51b5;
+            color: #616161;
+            padding-left: 21px;
+        }
+    }
+    &.chat_shift .wraplist li:hover .sub-menu li, &.collapseit .wraplist li:hover .sub-menu li, &.chat_shift .wraplist li:hover .sub-menu li .title, &.collapseit .wraplist li:hover .sub-menu li .title {
+        padding-left: 0px !important;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu li li .title, &.collapseit .wraplist li:hover .sub-menu li li .title {
+        padding-left: 15px !important;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu li li li .title, &.collapseit .wraplist li:hover .sub-menu li li li .title {
+        padding-left: 30px !important;
+    }
+    &.chat_shift .wraplist li:hover .sub-menu li li li li .title, &.collapseit .wraplist li:hover .sub-menu li li li li .title {
+        padding-left: 45px !important;
+    }
+}
+
+
+
+@media (max-width: 767px) {
+    .main-wrapper {
+        padding: 15px 0 0 0px;
+    }
+   
+    .page-sidebar {
+        z-index: 5;
+    }
+    #main-content {
+        margin-left: 60px;
+        z-index: 2;
+        &.chat_shift {
+            margin-left: 60px !important;
+            margin-right: 0px !important;
+        }
+    }
+   
+
+}

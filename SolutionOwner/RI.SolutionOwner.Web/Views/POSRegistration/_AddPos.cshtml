@@ -1,0 +1,372 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model POSViewModel
+
+@using (Html.BeginForm("CreatePOS", "POSRegistration", Model, FormMethod.Post, new { id = "addPos", autocomplete = "off", @class = "form_components" }))
+{
+    <div class="modal-body">
+        <form class="form_components">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">POS Number<span class="mandatory_clr">*</span></label>
+
+                        <div class="controls">
+                            <input type="text" class="form-control" id="posNumber">
+                            <span class="validationmessage" id="posNumberError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Serial Number<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="serialNumber">
+                            <span class="validationmessage" id="serialNumberError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Model Number<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="modelNumber">
+                            <span class="validationmessage" id="modelNumberError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Purchase LPO<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="purchaseLPO">
+                            <span class="validationmessage" id="purchaseLPOError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Warranty Expiry<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            @*<input type="date" class="form-control" id="warrantyExpiry">*@
+                            <input type="text" class="form-control" id="warrantyExpiry">
+                            <span class="validationmessage" id="warrantyExpiryError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Supplier<span class="mandatory_clr">*</span></label>
+                        <select class="form-control m-bot15" id="supplier">
+                            <option value="">Select</option>
+                            @if (null != Model)
+                            {
+                                foreach (var parentSupplier in Model.SupplierViewModelList)
+                                {
+                                    <option value="@parentSupplier.Id">@parentSupplier.SupplierName</option>
+
+                                }
+                            }
+                        </select>
+                        <span class="validationmessage" id="ddlCategoryIdError" style="color:red"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Manufacturer<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="manufacturer">
+                            <span class="validationmessage" id="manufacturerError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Manufacturing Year<span class="mandatory_clr">*</span></label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="manufacturingYear">
+                            <span class="validationmessage" id="manufacturingYearError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">OS Version</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="osVersion">
+                            <span class="validationmessage" id="osVersionError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Managed By</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="managedBy">
+                            <span class="validationmessage" id="managedByError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Remarks</label>
+                        <div class="controls">
+                            <textarea class="form-control" id="remarks"></textarea>
+                            <span class="validationmessage" id="remarksError" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <div class="checkbox_style">
+                            <input type="checkbox" id="chkIsActive" checked="checked" /><label for="chkIsActive">Is Active ?</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+<script>
+
+    //function validateCategoryName(name) {
+    //    var filter = /^[a-zA-Z\s]+$/;
+    //    if (filter.test(name)) {
+    //        return true;
+    //    }
+    //    else {
+    //        return false;
+    //    }
+    //} new RegExp("[0-9]")
+
+    function validatealphanumeric(value) {
+        var filter = /^([a-zA-Z0-9 _-]+)$/;
+        if (filter.test(value)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function validateNumber(num) {
+        var filter = /^[0-9]+$/;
+        if (filter.test(num)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function validateDate(date) {
+        var filter = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+        if (filter.test(date)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    window.prettyPrint() && prettyPrint();
+    $('#posNumber').keyup(function (e) {
+        $('#posNumberError').html('');
+    });
+
+    $("#serialNumber").keyup(function (e) {
+        $('#serialNumberError').html('');
+    });
+    $("#modelNumber").keyup(function (e) {
+        $('#modelNumberError').html('');
+    });
+    $("#purchaseLPO").keyup(function (e) {
+        $('#purchaseLPOError').html('');
+    });
+    $("#warrantyExpiry").keyup(function (e) {
+        $('#warrantyExpiryError').html('');
+    });
+    $("#supplier").keyup(function (e) {
+        $('#supplierError').html('');
+    });
+    $("#manufacturer").keyup(function (e) {
+        $('#manufacturerError').html('');
+    });
+    $("#manufacturingYear").keyup(function (e) {
+        $('#manufacturingYearError').html('');
+    });
+    $("#remarks").keyup(function (e) {
+        $('#remarksError').html('');
+    });
+    $("#posSave").click(function () {
+        var iserror = false;
+        if ($("#posNumber").val().trim() == '' || $("#posNumber").val().trim() == null) {
+            $('#posNumberError').html('POS Number required.');
+            iserror = true;
+        }
+        else if (!validatealphanumeric($("#posNumber").val().trim())) {
+            $('#posNumberError').html('Enter a valid POS Number.');
+            iserror = true;
+        }
+        else {
+            $('posNumberError').html('');
+        }
+
+        if ($("#serialNumber").val().trim() == '' || $("#serialNumber").val().trim() == null) {
+            $('#serialNumberError').html('Serial Number is required.');
+            iserror = true;
+        }
+        else if (!validatealphanumeric($("#serialNumber").val().trim())) {
+            $('#serialNumberError').html('Enter a valid Serial Number.');
+            iserror = true;
+        }
+        else {
+            $('#serialNumberError').html('');
+        }
+        if ($("#modelNumber").val().trim() == '' || $("#modelNumber").val().trim() == null) {
+            $('#modelNumberError').html('Model Number required.');
+            iserror = true;
+        }
+        else if (!validatealphanumeric($("#modelNumber").val().trim())) {
+            $('#modelNumberError').html('Enter a valid Model Number');
+            iserror = true;
+        }
+        else {
+            $('#modelNumberError').html('');
+        }
+        if ($("#purchaseLPO").val().trim() == '' || $("#purchaseLPO").val().trim() == null) {
+            $('#purchaseLPOError').html('Purchase LPO required.');
+            iserror = true;
+        }
+        else if (!validateNumber($("#purchaseLPO").val().trim())) {
+            $('#purchaseLPOError').html('Enter number only.');
+            iserror = true;
+        }
+        else {
+            $('#purchaseLPOError').html('');
+        }
+        if ($("#warrantyExpiry").val().trim() == '' || $("#warrantyExpiry").val().trim() == null) {
+            $('#warrantyExpiryError').html('Warranty Expiry required.');
+            iserror = true;
+        }
+            //else if (!validateDate($("#warrantyExpiry").val().trim())) {
+            //    $('#warrantyExpiryError').html('Enter number only.');
+            //    iserror = true;
+            //}
+        else {
+            $('#warrantyExpiryError').html('');
+        }
+        //if ($("#supplier").val().trim() == '' || $("#supplier").val().trim() == null) {
+        //    $('#supplierError').html('Supplier required.');
+        //    iserror = true;
+        //}
+        //else if (!validatealphanumeric($("#supplier").val().trim())) {
+        //    $('#supplierError').html('Enter valid supplier.');
+        //    iserror = true;
+        //}
+        //else {
+        //    $('#supplierError').html('');
+        //}
+        if ($("#manufacturer").val().trim() == '' || $("#manufacturer").val().trim() == null) {
+            $('#manufacturerError').html('Manufacturer required.');
+            iserror = true;
+        }
+        else if (!validatealphanumeric($("#manufacturer").val().trim())) {
+            $('#manufacturerError').html('Enter valid Manufacturer.');
+            iserror = true;
+        }
+        else {
+            $('#manufacturerError').html('');
+        }
+        if ($("#manufacturingYear").val().trim() == '' || $("#manufacturingYear").val().trim() == null) {
+            $('#manufacturingYearError').html('Manufacturing Year required.');
+            iserror = true;
+        }
+        else if (!validateNumber($("#manufacturingYear").val().trim())) {
+            $('#manufacturingYearError').html('Enter number only.');
+            iserror = true;
+        }
+        else {
+            $('#manufacturingYearError').html('');
+        }
+        if (iserror) {
+            return false;
+        }
+
+        ShowProgress();
+        console.log($("#manufacturingYear").val());
+        var postData = {
+            POSNumber: $("#posNumber").val(),
+            SerialNumber: $("#serialNumber").val(),
+            ModelNumber: $("#modelNumber").val(),
+            PurchaseLPO: $("#purchaseLPO").val(),
+            WarrantyExpiry: $("#warrantyExpiry").val(),
+            SupplierId: $("#supplier option:selected").val(),
+            Manufacturer: $("#manufacturer").val(),
+            ManufacturingYear: $("#manufacturingYear").val(),
+            OsVersion: $("#osVersion").val(),
+            ManagedBy: $("#managedBy").val(),
+            Remarks: $("#remarks").val(),
+            IsActive: $("#chkIsActive").prop("checked")
+        }
+        console.log($("#warrantyExpiry").val());
+        $.ajax({
+            url: '@Url.Action("CreatePOS", "POSRegistration")',
+            type: 'POST',
+            data: postData,
+            async: false,
+            success: function (data) {
+                if (data.Status == 1) {
+                    hideProgress();
+                    $('#posAddPopup').modal('hide');
+                    $('#pos_Grid').empty();
+                    $('#pos_Grid').html(data.Data);
+                    $("#posNumber").val('');
+                    $("#serialNumber").val('');
+                    $("#modelNumber").val('');
+                    $("#purchaseLPO").val('');
+                    $("#warrantyExpiry").val('');
+                    $("#manufacturer").val('');
+                    $("#manufacturingYear").val('');
+                    $("#remarks").val('');
+                    ShowAlert(data.Message, 'success');
+                }
+                else if (data.Status == 0) {
+                    hideProgress();
+                    ShowAlert(data.Message, 'error');
+                }
+                else {
+                    hideProgress();
+                    ShowAlert(data.Message, 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+    });
+    $("#posCancel").click(function () {
+        $('#posAddPopup').modal('hide');
+        $("#posNumber").val('');
+        $("#serialNumber").val('');
+        $("#modelNumber").html('');
+        $("#purchaseLPO").html('');
+        $("#warrantyExpiry").html('');
+        $("#manufacturer").html('');
+        $("#manufacturingYear").html('');
+        $("#remarks").html('');
+        hideProgress();
+    });
+</script>

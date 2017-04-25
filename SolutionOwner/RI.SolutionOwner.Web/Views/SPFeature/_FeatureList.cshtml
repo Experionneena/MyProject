@@ -1,0 +1,155 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@model SPFeatureViewModel
+
+    <div role="tabpanel" class="tab-pane active" id="feature">
+        <div class="default_table">
+            <div class="table-responsive">
+                <table class="table tbl-colapse" id="tblFeature">
+                    <thead>
+                        <tr class="tbl_head">
+                            <th class="text-center">
+                                <div class="checkbox_style">
+                                    <input type="checkbox" id="test33" />
+                                    <label for="test33"></label>
+                                </div>
+                            </th>
+                            <th>Feature Name</th>
+                            <th class="text-center">Feature Icon</th>
+                            <th>Program Link</th>
+                            <th class="text-left">Sort Order</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CategoryViewModelList.Count != 0)
+            {
+                for (var i = 0; i < Model.CategoryViewModelList.Count(); i++)
+                {
+                    var category = Model.CategoryViewModelList.ToList()[i];
+                                <tr data-id="category_@i" data-parent="">
+                                    <td class="text-center">
+                                        <div class="checkbox_style">
+                                            <input type="checkbox" id="test2" disabled="disabled"/>
+                                            <label for="test2"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @category.DisplayName
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
+                                if (category.FeatureList != null)
+                                {
+                                    for (var j = 0; j < category.FeatureList.Count(); j++)
+                                    {
+                                        var feature = category.FeatureList.ToList()[j];
+                                        <tr data-id="feature_@j" data-parent="category_@i">
+                                            <td class="text-center">
+                                                <div class="checkbox_style">
+                                                    <input type="checkbox" id='spfc_@feature.Id' onclick="CheckBoxChange('spfc_@feature.Id')" class="checkbox_click" /><label for='spfc_@feature.Id'></label>
+                                                </div>
+                                            </td>
+                                            <td class="level-one">
+                                                <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#_ViewPop">@feature.DisplayName</div>
+                                            </td>
+                                            <td class="text-center"><i class="@feature.IconClass"></i></td>
+                                            <td><a href="#">@feature.ProgramLink</a></td>
+                                            <td class="text-center">@feature.SortOrder</td>
+                                            @if (feature.IsActive)
+                                            {
+                                                <td class="text-center">
+                                                   <i class="icon-done" aria-hidden="true"></i>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center">
+                                                    <i class="icon-block" aria-hidden="true"></i>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                    if (category.Children != null)
+                                    {
+                                        for (var k = 0; k < category.Children.Count(); k++)
+                                        {
+                                            var subCategoryList = category.Children.ToList()[k];
+                                            <tr data-id="subcategory_@k" data-parent="category_@i">
+                                                <td class="text-center">
+                                                    <div class="checkbox_style">
+                                                        <input type="checkbox" id="test4" disabled="disabled" />
+                                                        <label for="test4"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @subCategoryList.DisplayName
+                                                </td>
+                                                <td class="text-center"></td>
+                                                <td></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                            </tr>
+                                            for (var L = 0; L < subCategoryList.FeatureList.Count(); L++)
+                                            {
+                                                var features = subCategoryList.FeatureList.ToList()[L];
+                                                <tr data-id="features_@L" data-parent="subcategory_@k">
+                                                    <td class="text-center">
+                                                        <div class="checkbox_style">
+                                                            <input type="checkbox" id='spff_@features.Id' onclick="CheckBoxChange('spff_@features.Id')" class="checkbox_click"/><label for='spff_@features.Id'></label>
+                                                        </div>
+                                                    </td>
+                                                    <td class="level-one">
+                                                        <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_feature"> @features.DisplayName</div>
+                                                    </td>
+                                                    <td class="text-center"><i class="@features.IconClass"></i></td>
+                                                    <td><a href="#">@features.ProgramLink</a></td>
+                                                    <td class="text-center">@features.SortOrder</td>
+                                                    @if (features.IsActive)
+                                                    {
+                                                        <td class="text-center">
+                                                            <i class="icon-done" aria-hidden="true" id="activestatusi_@features.Id"></i>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="text-center">
+                                                           <i class="icon-block" aria-hidden="true" id="activestatusi_@features.Id"></i>
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td></td>
+                                <td>
+                                    No data available in table
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<script src="~/assets/js/jquery.aCollapTable.min.js"></script>
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var mSortingString = [];
+        mSortingString.push({ "bSortable": false, "aTargets": [1, 4] });
+        InitialiseDataTableForCollpase(mSortingString);
+    });
+</script>

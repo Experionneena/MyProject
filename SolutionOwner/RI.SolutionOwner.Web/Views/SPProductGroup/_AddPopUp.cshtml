@@ -1,0 +1,141 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model SPProductGroupViewModel
+
+@using (Html.BeginForm("AddProductGroup", "SPProductGroup", Model, FormMethod.Post, new { id = "addProductGroup", autocomplete = "off", @class = "form_components" }))
+{
+    <form class="form_components">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label" for="field-1">Product Group Name<span class="mandatory_clr">*</span></label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="txtName">
+                        <span class="validationmessage" id="txtNameError" style="color:red"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label" for="field-1">Service Provider<span class="mandatory_clr">*</span></label>
+                    <div class="controls">
+                        <select class="form-control m-bot15" id="ddlServiceProviderId">
+                            @foreach (var item in Model.ServiceProvidetList)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                        <span class="validationmessage" id="ddlServiceProviderError" style="color:red"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="form-label" for="field-2">Product Group description</label>
+                    <div class="controls">
+                        <textarea class="form-control" cols="5" id="txtDescription"></textarea>
+                        <span class="validationmessage" id="txtDescriptionError" style="color:red"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="chkIsActive" checked="checked" disabled /><label for="chkIsActive">Is Active ?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer form_btn_block">
+            <button type="button" class="btn btn-default" id="btn_cancelAdd">Cancel</button>
+            <button type="button" class="btn save" id="btn_productGroupSave">Save</button>
+        </div>
+    </form>
+}
+
+<script>
+    $('#txtName').keypress(function (e) {
+        $('#txtNameError').html('');
+    });
+
+    //----------------------// Validate Save Data //----------------------//
+    $('#btn_productGroupSave').click(function () {
+        var isValid = true;
+        if ($("#txtName").val().trim() == "" || $("#txtName").val().trim() == null) {
+            $('#txtNameError').html('Required field *');
+            isValid = false;
+        }
+        else if (!validateTextOnly($("#txtName").val())) {
+            $('#txtNameError').html('Text only *');
+            isValid = false;
+        }
+        else {
+            $('#txtNameError').html('');
+        }
+        
+        if (!isValid) {
+            return false;
+        }
+
+        ShowProgress();
+        var postData = {
+            Name: $("#txtName").val(),
+            Description: $("#txtDescription").val(),
+            ServiceProviderId: $("#ddlServiceProviderId option:selected").val(),
+            ActiveStatus: $("#chkIsActive").prop("checked")
+        }
+        $.ajax({
+            url: '@Url.Action("CreateProductGroup", "SPProductGroup")',
+            type: 'POST',
+            data: postData,
+            success: function (data) {
+                if (data.Status == 1) {
+                    hideProgress();
+                    $('#productGroupAddPopup').modal('hide');
+                    hideProgress();
+                    ShowAlert(data.Message, 'success');
+                    $('#productGroup_Grid').empty();
+                    $('#productGroup_Grid').html(data.Data);
+                    $('#tblProductGroup').aCollapTable({
+                        startCollapsed: true,
+                        addColumn: true,
+                        plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+                        minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+                    });
+                }
+                else {
+                    hideProgress();
+                    $('#productGroupAddPopup').modal('hide');
+                    ShowAlert(data.Message, 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                $('#productGroupAddPopup').modal('hide');
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+    })
+
+
+
+    function validateTextOnly(myText) {
+        var filter = /^[a-zA-Z ]+$/;
+        if (filter.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $("#btn_cancelAdd").click(function () {
+        $("#txtName").val('');
+        $("#chkIsActive").prop('checked', false);
+        $('#productGroupAddPopup').modal('hide');
+    });
+</script>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{06D90C13-9887-415D-8C2A-7F9363766339}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RI.SolutionOwner.Data.Services</RootNamespace>
+    <AssemblyName>RI.SolutionOwner.Data.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RI.SolutionOwner.Data">
+      <HintPath>..\RI.SolutionOwner.Data\bin\Debug\RI.SolutionOwner.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BrandingDataService.cs" />
+    <Compile Include="SupplierDataService.cs" />
+    <Compile Include="POSRegistrationDataService.cs" />
+    <Compile Include="SPCategoryDataService.cs" />
+    <Compile Include="SPUserDataService.cs" />
+    <Compile Include="SPRoleFeatureDataService.cs" />
+    <Compile Include="SPRoleDataService.cs" />
+    <Compile Include="SPFeatureDataService.cs" />
+    <Compile Include="CategoryDataService.cs" />
+    <Compile Include="FeatureDataService.cs" />
+    <Compile Include="POSDataService.cs" />
+    <Compile Include="PrintTemplateDataService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SOSolutionPartnerContactDataService.cs" />
+    <Compile Include="SOSolutionPartnerDataService.cs" />
+    <Compile Include="SOUserDataService.cs" />
+    <Compile Include="RoleDataService.cs" />
+    <Compile Include="RoleFeatureDataService.cs" />
+    <Compile Include="SPAddressDataService.cs" />
+    <Compile Include="SPHierarchyDataService.cs" />
+    <Compile Include="SPProductGroupDataService.cs" />
+    <Compile Include="SPCurrencyDataService.cs" />
+    <Compile Include="SPCurrencyRateDataService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\RI.Framework.Core.Data.EntityFramework\RI.Framework.Core.Data.EntityFramework.csproj">
+      <Project>{B7D4F8A9-609E-4370-99D1-1DAD8D255B18}</Project>
+      <Name>RI.Framework.Core.Data.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\RI.Framework.Core.Logging\RI.Framework.Core.Logging.csproj">
+      <Project>{568CBA1E-957E-45CC-850F-3F9010867E86}</Project>
+      <Name>RI.Framework.Core.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\RI.Framework.Core\RI.Framework.Core.csproj">
+      <Project>{EEEC6CCD-9580-453E-85A8-175FBDB5AE44}</Project>
+      <Name>RI.Framework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RI.SolutionOwner.Data.Contracts\RI.SolutionOwner.Data.Contracts.csproj">
+      <Project>{3ab0d7ce-2b0c-44bf-aeae-69f5418ddc48}</Project>
+      <Name>RI.SolutionOwner.Data.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RI.SolutionOwner.Data.Services.Contracts\RI.SolutionOwner.Data.Services.Contracts.csproj">
+      <Project>{4AA9B5C2-F266-4995-A799-D2DB54171B86}</Project>
+      <Name>RI.SolutionOwner.Data.Services.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\Build\targets\StyleCopStaticAnalysis.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

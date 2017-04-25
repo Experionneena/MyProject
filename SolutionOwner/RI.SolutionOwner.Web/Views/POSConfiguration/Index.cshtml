@@ -1,0 +1,351 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+}
+
+@*POPUP FOR ADD ROLE*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels" id="posAddPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeAddPos" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Parameter</h4>
+            </div>
+
+            <div class="modal-body" id="posAdd">
+
+            </div>
+        </div>
+    </div>
+</div>
+@*POPUP FOR EDIT ROLE*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="posEditPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeEditPos" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Parameter</h4>
+            </div>
+            <div class="modal-body" id="posEdit">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="main-content">
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+
+                        <li class="active">
+                            POS Parameter Management
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right pull-right">
+                <div class="tooltip__block">
+                    <div class="modal_btn_click" data-toggle="modal">
+                        <button type="button" id="btnAddPos" class="btn btn-default" data-toggle="tooltip" data-placement="Top" title="Add"> <i class="icon-add" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="modal_btn_click" data-toggle="modal">
+
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="Top" title="Edit" id="btn_EditPos"><i class="icon-edit" aria-hidden="true"></i></button>
+                    </div>
+
+
+                    <button type="button" id="btn_ActivatePos" class="btn btn-default" data-toggle="tooltip" data-placement="Top" title="Activate"> <i class="icon-done" aria-hidden="true"></i></button>
+
+
+                    <button type="button" id="btn_DeactivatePos" class="btn btn-default" data-toggle="tooltip" data-placement="Top" title="Deactivate"><i class="icon-block" aria-hidden="true"></i></button>
+
+
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="Top" title="Delete" id="btn_DeletePos"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="wrapper main-wrapper row mt0">
+
+        <div class="row">
+            <div class="col-lg-12" id="pos_Grid">
+              
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="~/Js/Common.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnAddPos').click(function () {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("LoadAddPosPopUp", "POSConfiguration")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#posAdd').empty();
+                        $('#posAdd').html(data.Data);
+                        $('#posAddPopup').modal({ backdrop: 'static', keyboard: false });
+                        $('.checkbox_click').prop('checked', false);
+
+                        hideProgress();
+                    }
+                    else if (data.Status == 0) {
+                        hideProgress();
+                        ShowAlert(data.Message, 'error');
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert(data.Message, 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        });
+
+
+        GetPOSParameterGridDetails();
+        function GetPOSParameterGridDetails() {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetPosParameters", "POSConfiguration")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#pos_Grid').empty();
+                        $('#pos_Grid').html(data.Data);
+                        hideProgress();
+                    }
+                    else if (data.Status == 0) {
+                        hideProgress();
+                        ShowAlert(data.Message, 'error');
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert(data.Message, 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        }
+        function CheckCheckboxCheckedOrUnchecked() {
+            var id;
+            $(".checkbox_click").each(function () {
+                if ($(this).prop('checked') == true) {
+                    id = $(this).attr('id');
+                }
+            });
+            return id;
+        }
+
+        $("#btn_EditPos").click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                ShowProgress();
+                $.ajax({
+                    url: '@Url.Action("LoadEditPosPopUp", "POSConfiguration")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            hideProgress();
+                            $('#posEditPopup').modal({ backdrop: 'static', keyboard: false });
+                            $('#posEdit').empty();
+                            $('#posEdit').html(data.Data);
+                            $('.checkbox_click').prop('checked', false);
+                            if (data.IsActive == true) {
+                                $("#isActiveEdit").prop('checked', true);
+                            }
+                            else {
+                                $("#isActiveEdit").prop('checked', false);
+                            }
+                        }
+                        else if (data.Status == 0) {
+                            hideProgress();
+                            ShowAlert(data.Message, 'error');
+                        }
+                        else {
+                            hideProgress();
+                            ShowAlert(data.Message, 'error');
+                        }
+
+                    },
+
+                    error: function (data) {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                });
+            }
+        });
+        $("#btn_DeletePos").click(function () {
+            var idForDelete = CheckCheckboxCheckedOrUnchecked();
+            if (idForDelete != null) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        ShowProgress();
+                        $.ajax({
+                            url: '@Url.Action("DeletePos", "POSConfiguration")',
+                            type: 'POST',
+                            data: { id: idForDelete },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    $('#pos_Grid').empty();
+                                    $('#pos_Grid').html(data.Data);
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else if (data.Status == 0) {
+                                    hideProgress();
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'error');
+                                }
+                                else {
+                                    hideProgress();
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                ShowAlert('Something wrong!', 'error');
+                            }
+                        });
+                    }
+                    else {
+                        $('.checkbox_click').prop('checked', false);
+                    }
+                });
+            }
+        });
+
+        $("#btn_closeAddPos").click(function () {
+            $("#txtParamName").val('');
+            $("#txtParamDisplayorder").val('');
+            $("#txtParamDisplayorderError").html('');
+            $("#txtParamCatError").html('');
+            $("#txtParamNameError").html('');
+            $(".clearIsChecked").prop('checked', false);
+            $("#isActive").prop('checked', false);
+            $("#ddlPosCategoryList").val('');
+            $('#posAddPopup').modal('hide');
+        });
+        $("#btn_closeEditPos").click(function () {
+            $("#txtParamNameEdit").val('');
+            $("#txtParamDisplayorderEdit").val('');
+            $("#txtParamDisplayorderErrorEdit").html('');
+            $("#txtParamCatErrorEdit").html('');
+            $("#txtParamNameErrorEdit").html('');
+            $(".clearIsChecked").prop('checked', false);
+            $("#isActiveEdit").prop('checked', false);
+            $("#ddlPosCategoryListEdit").val('');
+            $('#posEditPopup').modal('hide');
+        });
+
+        $('#btn_ActivatePos').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                bootbox.confirm("Are you sure you want to Activate this Parameter?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("ActivatePos", "POSConfiguration")',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    $('#pos_Grid').empty();
+                                    $('#pos_Grid').html(data.Data);
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else if (data.Status == 0) {
+                                    hideProgress();
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'warning');
+                                }
+                                else {
+                                    hideProgress();
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert('Something wrong!', 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                $('.checkbox_click').prop('checked', false);
+                                ShowAlert(data.Message, 'error');
+                            }
+                        });
+                    }
+                    else {
+                        $('.checkbox_click').prop('checked', false);
+                    }
+                });
+            }
+        });
+
+
+        $('#btn_DeactivatePos').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                bootbox.confirm("Are you sure you want to Deactivate this Parameter?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("DeActivatePos", "POSConfiguration")',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    $('#pos_Grid').empty();
+                                    $('#pos_Grid').html(data.Data);
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else if (data.Status == 0) {
+                                    hideProgress();
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'warning');
+                                }
+                                else {
+                                    hideProgress();
+                                    $('.checkbox_click').prop('checked', false);
+                                    ShowAlert(data.Message, 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                $('.checkbox_click').prop('checked', false);
+                                ShowAlert('Something wrong!', 'error');
+                            }
+                        });
+                    }
+                    else {
+                        $('.checkbox_click').prop('checked', false);
+                    }
+                });
+            }
+        });
+    });
+</script>

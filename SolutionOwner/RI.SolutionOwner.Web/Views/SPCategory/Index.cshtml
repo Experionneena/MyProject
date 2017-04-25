@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+}
+
+@* Popup for AddCategory *@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels" id="patnerCategoryAddPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeAdd" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Category</h4>
+            </div>
+            <div class="modal-body" id="categoryAdd">
+
+            </div>
+            <div class="modal-footer form_btn_block">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="categoryCancel">Cancel</button>
+                <button type="button" class="btn save" id="categorySave">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Popup for Edit Category*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="partnerCategoryEditPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Category</h4>
+            </div>
+            <div class="modal-body" id="categoryEdit">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="main-content">
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="active">
+                            Partner Feature Category
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right pull-right">
+                <div class="tooltip__block">
+                    <div class="modal_btn_click" data-toggle="modal" data-target="#add_category">
+                        <button type="button" id="btnAddCategory" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="icon-add" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="modal_btn_click" data-toggle="modal" data-target="#edit_category">
+                        <button type="button" id="btnEditCategory" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="icon-edit" aria-hidden="true"></i></button>
+                    </div>
+                    <button type="button" id="deleteCategory" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash-o delete" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="wrapper main-wrapper row mt0">      
+            <div class="col-lg-12" id="category_Grid">
+               
+            </div>
+    </section>
+</section>
+<script src="~/assets/js/jquery.aCollapTable.min.js"></script>
+<script src="~/Js/Common.js"></script>
+<script>
+    $('#btnAddCategory').click(function () {
+        $('#patnerCategoryAddPopup').modal('show');
+        LoadAddPopup();
+        function LoadAddPopup() {
+            $.ajax({
+                url: '@Url.Action("LoadCategoryAddPopup", "SPCategory")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $("#categoryAdd").empty();
+                        $("#categoryAdd").html(data.Data);
+                    }
+                    else {
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+                error: function (data) {
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        }
+    });
+    $("#btnEditCategory").click(function () {
+        var id = CheckCheckboxCheckedOrUnchecked();
+        if (id != null) {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetCategoryEditById","SPCategory")',
+                type: 'Post',
+                data: { categoryId: id },
+                success: function (data) {
+                    if (data.Status == 1) {
+                        hideProgress();
+                        $("#partnerCategoryEditPopup").modal('show');
+                        $("#categoryEdit").empty();
+                        $("#categoryEdit").html(data.Data);
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+
+            });
+        }
+    });
+    function CheckCheckboxCheckedOrUnchecked() {
+        var id;
+        $(".checkbox_click").each(function () {
+            if ($(this).prop('checked') == true) {
+                id = $(this).attr('id');
+            }
+        });
+        return id;
+    }
+    $("#deleteCategory").click(function () {
+        var idForDelete = CheckCheckboxCheckedOrUnchecked();
+        console.log(idForDelete);
+        if (idForDelete != null) {
+            bootbox.confirm("Are you sure you want to delete?", function (result) {
+                if (result) {
+                    ShowProgress();
+                    $.ajax({
+                        url: '@Url.Action("DeleteCategoryId", "SPCategory")',
+                        type: 'POST',
+                        data: { categoryId: idForDelete },
+                        success: function (data) {
+                            if (data.Status == 1) {
+                                hideProgress();
+                                $('#category_Grid').empty();
+                                $('#category_Grid').html(data.Data);
+                                ShowAlert(data.Message, 'success');
+                            }
+                            else {
+                                hideProgress();
+                                ShowAlert(data.Message, 'error');
+                            }
+                        },
+                        error: function (data) {
+                            hideProgress();
+                            ShowAlert('Something wrong!', 'error');
+                        }
+                    });
+                }
+            });
+        }
+    });
+    $("#btn_closeAdd").click(function () {
+        $("#categoryName").val('');
+        $("#displayName").val('');
+        $("#categoryDescription").html('');
+        $("#iconClass").html('');
+        $("#sortOrder").html('');
+        $('#categoryAddPopup').modal('hide');
+    });
+
+    $("#btn_closeEdit").click(function () {
+        $("#categoryName").val('');
+        $("#displayName").val('');
+        $("#categoryDescription").html('');
+        $("#iconClass").html('');
+        $("#sortOrder").html('');
+        $('#categoryEditPopup').modal('hide');
+    });
+
+    $(document).ready(function () {
+
+        GetCategoryDetails();
+        function GetCategoryDetails() {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetAllCategories", "SPCategory")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#category_Grid').empty();
+                        $('#category_Grid').html(data.Data);
+                        hideProgress();
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        }
+    })
+    $('.wraplist li a').each(function (index, value) {
+        if ($(this).attr('href') == '/SPCategory/Index') {
+            $(this).parent().addClass('open');
+            return;
+        }
+    })
+</script>

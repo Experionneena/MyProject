@@ -1,0 +1,166 @@
+﻿
+<div role="tabpanel" class="tab-pane active" id="general">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-lg-12 m-t-sm">
+                    <label for="inputEmail3" class="control-label">Logo<span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Image Dimension: 230x60 <br> Minimum-Size: 100 kb <br> Maximum-Size: 200 kb <br> Image Type: JPG, JPEG, PNG"></span></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    @*<img src="../images\logo.png" class="img-responsive logo-new">*@
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group m-r-sm">
+                        <button type="button" class="btn save m-t-sm">Change</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-lg-12 m-t-sm">
+                    <label for="inputEmail3" class="control-label">Logo-Thumbnail<span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Image Dimension: 230x60 <br> Minimum-Size: 100 kb <br> Maximum-Size: 200 kb <br> Image Type: JPG, JPEG, PNG"></span></label>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-3 col-sm-3">
+                    @*<img src="../images\logo-folded.png" class="img-responsive thumb-logo-new">*@
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-2 col-sm-2">
+
+                    <div class="form-group m-r-sm">
+                        <button type="button" class="btn save m-t-sm">Change</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Name<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-1">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label">Admin Email<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-2">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="div_section">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="form-label">Preferred Currency<span class="mandatory_clr">*</span></label>
+                    <select class="form-control m-bot15">
+                        <option>USD</option>
+                        <option>QAR</option>
+                        <option>$</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="form-label" for="field-16">Scheduler Time</label>
+                    <div class="input-group bootstrap-timepicker timepicker controls">
+                        <input id="timepicker5" type="text" class="form-control input-small">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="form-label" for="field-17">POS Max Bulk Printing Qty<span class="mandatory_clr">*</span></label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="field-17">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="div_section">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="form-label" for="field-18">CR#</label>
+                    <div class="controls">
+                        <input type="text" class="form-control" id="field-18">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="form-label" for="field-19">CR Expiry Date</label>
+                    <div class="controls">
+                        <input type="date" class="form-control" id="field-19">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="form-label" for="field-19">CR Proof</label>
+                    <div class="controls">
+                        <a href="#"><i class="fa fa-upload"></i></a>
+                        <label class="form-label m-l-sm" id="field-19">//Path</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <input type="radio" id="rd1" name="passwordType" />
+                <label class="form-label" for="field-20">Auto Generate Password</label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-20" disabled="disabled">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox_style">
+                    <input type="checkbox" id="ch1" /><label for="ch1">Email Password</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox_style">
+                    <input type="checkbox" id="ch3" checked="checked" disabled="disabled" /><label for="ch3">Reset password during next login</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox_style">
+                    <input type="checkbox" id="ch2" checked="checked" disabled="disabled" /><label for="ch2">Is Active ?</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <input type="radio" id="rd1" name="passwordType" />
+                <label class="form-label" for="field-21">Manually Create Password<span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="<ul class='po'><li>Min of 6 characters </li><li>Max of 10 characters </li><li>Atleast 1 numerical digit required</li></ul>"></span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-21">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer form_btn_block">
+        <button type="button" class="btn btn-default" id="btn_CancelRole">Cancel</button>
+        <button type="button" class="btn save" id="btn_AddRole">Save</button>
+    </div>
+</div>

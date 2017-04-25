@@ -1,0 +1,95 @@
+﻿
+<form class="form_components">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label class="form-label">Configuration Name<span class="mandatory_clr">*</span></label>
+                <div class="controls">
+                    <input type="text" class="form-control" id="field-1">
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs nav-custom" role="tablist">
+        <li role="presentation" class="active"><a href="#gprs" aria-controls="gprs" role="tab" data-toggle="tab">GPRS</a></li>
+        <li role="presentation"><a href="#pstn" aria-controls="pstn" role="tab" data-toggle="tab">PSTN</a></li>
+        <li role="presentation"><a href="#tcp" aria-controls="tcp" role="tab" data-toggle="tab">TCP/IP</a></li>
+    </ul>
+    <div class="tab-content tab-custom tab-bottom-border">
+        <div role="tabpanel" class="tab-pane active" id="gprs">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">APN</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="field-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Sim Pin</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="field-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="pstn">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">User Name</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="field-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Primary Server IP</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="field-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="tcp">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Primary Port</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="field-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Secondary Port</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" id="field-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 m-t-sm">
+            <div class="form-group">
+                <div class="checkbox_style">
+                    <input type="checkbox" id="ch2" checked="checked" disabled="disabled" /><label for="ch2">Is Active ?</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="modal-footer form_btn_block">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button type="button" class="btn save">Save</button>
+</div>

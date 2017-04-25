@@ -1,0 +1,72 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<SPProductGroupViewModel>
+
+@{var pgGroupedList = @Model.GroupBy(x => x.ServiceProviderId).ToList();}
+
+<div class="default_table">
+    <div class="table-responsive">
+
+        <table id="tblProductGroup" class="table tbl-colapse">
+            <thead>
+                <tr class="tbl_head">
+                    <th class="text-center">
+                        <div class="checkbox_style">
+                            <input type="checkbox" id="productGroupCheckBox" />
+                            <label for="categoryLabel"></label>
+                        </div>
+                    </th>
+                    <th>Name</th>
+                    <th>Active Status</th>
+                </tr>
+            </thead>
+            <tbody class="view_data_collapse">
+                @foreach (var items in pgGroupedList)
+                {
+                    <tr data-id="parent_@items.FirstOrDefault().Id" data-parent="">
+                        <td class="text-center">
+                            <div class="checkbox_style">
+                                <input type="checkbox" id="parentChk_@items.FirstOrDefault().Id" onclick="CheckBoxChange('parentChk_@items.FirstOrDefault().Id')" class="checkbox_click" disabled="disabled" />
+                                <label for="parentChk_@items.FirstOrDefault().Id"></label>
+                            </div>
+                        </td>
+                        <td class="text-left" data-toggle="modal">@items.FirstOrDefault().ServiceProviderName</td>
+                        <td></td>
+                    </tr>
+                    foreach (var item in items)
+                    {
+                        <tr data-id="@item.Id" data-parent="parent_@items.FirstOrDefault().Id">
+                            <td class="text-center">
+                                <div class="checkbox_style checkbox_positioning">
+                                    <input type="checkbox" id="@item.Id" class="checkbox_click" onclick="CheckBoxChange('@item.Id')" />
+                                    <label for="@item.Id"></label>
+                                </div>
+                            </td>
+                            <td class="level-one">@item.Name</td>
+                            <td class="text-center">
+                                <a href=""><i class="@((item.ActiveStatus)?"icon-done":"icon-block")" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td class="text-center" colspan="3">No data available in table.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<script src="~/assets/js/jquery.aCollapTable.min.js"></script>
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var mSortingString = [];
+        mSortingString.push({ "bSortable": false, "aTargets": [1] });
+        InitialiseDataTableForCollpase(mSortingString);
+    });
+</script>

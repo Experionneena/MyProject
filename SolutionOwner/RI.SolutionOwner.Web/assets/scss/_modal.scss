@@ -1,0 +1,33 @@
+.modal_c {
+    z-index: 9999;
+    .form-group{
+        .form-control {
+            border-radius: 0;
+            box-shadow: none;
+            border: 1px solid #e1e1e1;
+        }    
+    }
+    .modal-body {
+        padding: 10px 15px 0 15px;
+    }
+    tbody{
+        background: rgba(0, 0, 0, 0.02);
+        margin-bottom: 15px;
+    }
+   .table-responsive {
+        margin-bottom: 15px;
+    }
+    .tab-custom{
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    .modal-footer{
+        margin-top: 0;
+    }
+    
+    
+}
+.modal_btn_click{
+	width: auto;
+	display: inline-block;
+}

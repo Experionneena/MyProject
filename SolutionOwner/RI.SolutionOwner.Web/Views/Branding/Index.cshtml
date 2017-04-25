@@ -1,0 +1,390 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+}
+
+<!-- Main container -->
+<section id="main-content" class="">
+
+    <!--  Breadcrumb block -->
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+
+                        <li class="active">
+                            Platform Setup
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <section class="wrapper main-wrapper row mt0">
+        <div class="col-xs-12">
+            <form class="form_components">
+                <section class="box">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3 col-sm-5">
+                            <div class="form-group m-r-sm">
+                                <label for="inputEmail3" class="control-label">Logo :</label>
+                                <img src="images\logo-RI.png" class="logo">
+                                <span class="btn btn-block save m-t-sm fileinput-button">
+                                    <span>Change Logo</span>
+                                    <input type="file" id="fileuploadcontrol" name="files[]" multiple="">
+                                </span>
+                               @*<button type="button" class="btn btn-block save m-t-sm">Change Logo</button>*@
+                            </div>
+                        </div>
+
+                        <div class="col-lg-10 col-md-9 col-sm-7">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-3">Owner Name </label>
+                                        <div class="controls">
+                                            <input type="text" class="form-control" id="field-3">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-3">Company Name </label>
+                                        <div class="controls">
+                                            <input type="text" class="form-control" id="field-3">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-3">Product Name </label>
+                                        <div class="controls">
+                                            <input type="text" class="form-control" id="field-3">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Basic Currency</label>
+                                        <select class="form-control m-bot15">
+                                            <option>Option 1</option>
+                                            <option>Option 2</option>
+                                            <option>Option 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="box">
+                    <div class="row">
+                        <div class="col-lg-12 heading m-t-sm m-b-sm">
+                            <p>COMMUNICATION ADDRESS</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group ">
+                                <label class="form-label" for="field-3">Address </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Street Name </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Area </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Zone </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">City </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Country </label>
+                                <div class="controls">
+                                    <select class="form-control m-bot15">
+                                        <option>Option 1</option>
+                                        <option>Option 2</option>
+                                        <option>Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">State </label>
+                                <div class="controls">
+                                    <select class="form-control m-bot15">
+                                        <option>Option 1</option>
+                                        <option>Option 2</option>
+                                        <option>Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="box">
+                    <div class="row">
+                        <div class="col-lg-12 heading m-t-sm m-b-sm">
+                            <p>BILLING CONTACT DETAILS</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Person Name </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Designation </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Work Phone </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Mobile Number </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Email </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="box">
+                    <div class="row">
+                        <div class="col-lg-12 heading m-t-sm m-b-sm">
+                            <p>SALES CONTACT DETAILS</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Person</label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Designation </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group ">
+                                <label class="form-label" for="field-3">Work Phone </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Mobile Number </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Email </label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="field-3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="submit-btn m-t-md m-b-xl pull-right">
+                    <div class="form_btn_block pull-right">
+                        <button type="button" class="btn save">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <!-- Large modal -->
+    <script type="text/javascript">
+        var uploadFileSize = "73400320";
+        $('#fileuploadcontrol').fileupload({
+            type: "POST",
+            dataType: 'json',
+            url: '@Url.Action("UploadFileData", "Branding")',
+            autoUpload: true,
+            add: function (e, data) {
+                $('.progress').css("display", "block");
+                $('.progress .progress-bar').css('width', '0' + '%');
+                $('.file_name').html('');
+                $('.file_size').html('');
+                $('.file_type').html('');
+                $('.progress-bar').text("0" + '% Complete');
+                $('.file_conversion_alert').html('');
+                var goUpload = true;
+                var uploadFile = data.files[0];
+                if (!(/\.(xls|xlsx|doc|docx|docm|txt|rtf|ppt|pptx|pdf|jpg|png)$/i).test(uploadFile.name)) {
+                    $('.file_type').html('File Type not supported.');
+                    goUpload = false;
+                }
+                if (uploadFile.size > uploadFileSize) { // 2mb
+                    $('.file_type').html('Please upload a smaller file, max size is' + " " + uploadFileSize / (1024 * 1024) + " " + 'MB.');
+                    goUpload = false;
+                }
+                if ((uploadFile.size > 50000000) || (/\.(pdf)$/i).test(uploadFile.name)) {
+                    if ((uploadFile.size > 50000000) && (uploadFile.size < 70000000)) {
+                        bootbox.alert("This file is too large for the PDF conversion (maximum size 50MB). Alternatively you can convert the document to PDF prior to uploading.", function () { });
+                    }
+
+                    $("#to-pdf").removeAttr('checked', 'checked');
+                    $("#to-pdf").attr('disabled', 'disabled');
+                    $("#to-pdf").attr('readonly', 'readonly');
+                    $("#header-footer").removeAttr('checked', 'checked');
+                    $("#header-footer").attr('disabled', 'disabled');
+                    $("#header-footer").attr('readonly', 'readonly');
+
+                    $("#convertToPdf").removeAttr('checked', 'checked');
+                    $("#convertToPdf").attr('disabled', 'disabled');
+                    $("#convertToPdf").attr('readonly', 'readonly');
+                    $("#applyForFooter").removeAttr('checked', 'checked');
+                    $("#applyForFooter").attr('disabled', 'disabled');
+                    $("#applyForFooter").attr('readonly', 'readonly');
+                }
+                else {
+                    $("#to-pdf").removeAttr('disabled', 'disabled');
+                    $("#to-pdf").removeAttr('readonly', 'readonly');
+                    $("#to-pdf").prop('checked', true);
+                    $("#header-footer").removeAttr('disabled', 'disabled');
+                    $("#header-footer").removeAttr('readonly', 'readonly');
+                    $("#header-footer").prop('checked', true);
+
+                    $("#convertToPdf").removeAttr('disabled', 'disabled');
+                    $("#convertToPdf").removeAttr('readonly', 'readonly');
+                    $("#convertToPdf").prop('checked', true);
+                    $("#applyForFooter").removeAttr('disabled', 'disabled');
+                    $("#applyForFooter").removeAttr('readonly', 'readonly');
+                    $("#applyForFooter").prop('checked', true);
+                }
+
+                if (goUpload == true) {
+                    data.submit();
+                }
+                else {
+                    $('.progress .progress-bar').css('width', '0' + '%');
+                }
+            },
+            done: function (e, data) {
+                 console.log(JSON.stringify(data));
+                $('.progress-bar').text("100" + '% Complete');
+               // $('.file_size').html(data.result.size);
+                $('img.logo').attr("src","\\Uploads\\"+data.Name);
+                //$('.file_name').html('');
+                //$('.progress .progress-bar').css('width', '0' + '%');
+                //$('.progress-bar').text("0" + '% Complete');
+            },
+            fail: function (e, data) {
+                alert("in error file upload " + data.errorThrown);
+            }
+        }).on('fileuploadprogressall', function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('.progress .progress-bar').css('width', progress + '%');
+            if (progress == 100) {
+                $('.progress-bar').text(99 + '% Complete');
+            } else {
+                $('.progress-bar').text(progress + '% Complete');
+            }
+
+        });
+    </script>
+</section>

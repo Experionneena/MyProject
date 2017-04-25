@@ -1,0 +1,60 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@model List<PrintTemplateViewModel>
+@{
+    ViewBag.Title = "_Grid";
+    Layout = null;
+}
+<div class="default_table">
+    <div class="table-responsive">
+        <table class="table dataTableBinding" id="tblTemplateList">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width:8%">
+                        <div class="checkbox_style checkbox_positionings">
+                            <input type="checkbox" id="chkAll" />
+                            <label for="chkAll"></label>
+                        </div>
+                    </th>
+                    <th class="text-left">Name</th>
+                    @*<th></th>*@
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <div class="checkbox_style checkbox_positionings">
+                                <input type="checkbox" class="checkbox_click" id="@item.Id" onclick="checkSingleCheckBox(this)" />
+                                <label for="@item.Id"></label>
+                            </div>
+                        </td>
+                        <td class="text-left">@item.Name</td>
+                        @*<td class="text-left">
+                            @if (item.IsActive)
+                            {
+                                <text><input type="text" value="Active"/></text>
+                            }
+                            else
+                            {
+                                <text><input type="text" value="Suspend" /></text>
+                            }
+                        </td>*@
+                        <td class="text-center">
+                            @if (item.IsActive)
+                            {
+                                <text><a href=""><i class="icon-done" aria-hidden="true"></i></a></text>
+                            }
+                            else
+                            {
+                                <text><a href=""><i class="icon-block" aria-hidden="true"></i></a></text>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

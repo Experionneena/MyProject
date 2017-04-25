@@ -1,0 +1,120 @@
+.default_table{
+    .table-responsive{
+        background: #fff;
+        border-radius: 7px;
+        .table{
+            margin-bottom: 0;
+        }
+
+        thead{
+            background: $table_head_bg;
+            color: #fff;
+            font-size: 13px;
+            tr{
+                th{
+                    font-weight: normal!important;
+                    border: none;
+                    .checkbox_style{
+                        min-width: 50px;
+                    }
+                }   
+            }
+            
+        }
+        tbody{
+            tr{
+                td{
+                    border: none;
+                    color: $table_con-color;
+                    font-family: $light-font;
+                    font-size: 13px;
+                    vertical-align: middle;
+                } 
+                &.active td{
+                    background: $table-row-active;
+                    color: #fff;
+                }
+                a{
+                    text-decoration: none;
+                }
+                i{
+                    font-size: 15px;
+                    text-decoration: none !important;
+                    color: $info-alert-bg;
+                }
+                .fa{
+                    color: $default-bg;
+                }
+
+            }
+            tr:nth-child(even) {
+                background-color: rgba(244, 247, 248, 0.5);
+                border: 1px solid rgba(159, 180, 191, 0.2);
+                border-left: 0;
+                border-right: 0; 
+            }
+            .icon-block{
+                color: red;
+            }
+        }
+    }
+    .table-page-info{
+        color: #263548;
+        font-family: $light-font;
+        font-size: 13px;
+        margin-top: 20px;
+        span{
+            font-family: $medium-font;
+        }
+    }
+    .pagination--c{
+        li{
+            &.active{
+                a{
+                    background: $default-bg;
+                    border-color: $default-bg;
+                    color: #fff;
+                }
+            }
+            a{
+                color: #a2a6a8;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 991px){
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        border: 1px solid #ddd;
+        table{
+            thead{
+                tr{
+                    th{
+                            white-space: nowrap;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                            white-space: nowrap;
+                    }
+                }
+            }
+        }
+    }
+}
+tbody{
+    tr{
+        td{
+            a{
+                color: $table_con-color;
+            }
+        }
+    }
+}
+

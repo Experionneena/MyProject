@@ -1,0 +1,318 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta charset="UTF-8">
+    <title>:. Recharge India .:</title>
+    <link rel="stylesheet" href="~/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/css/custome_font.css">
+    <link rel="stylesheet" href="~/assets/css/animate.css">
+    <link rel="stylesheet" href="~/assets/css/main.css">
+    <link href="~/custom_designs/datatable.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <link href="~/Content/CustomStyle.css" rel="stylesheet" />
+
+    <script src="~/assets/vendor/multiselect/bootstrap-multiselect.js"></script>
+    <script src="~/assets/vendor/multiselect/prettify.js"></script>
+    @RenderSection("scripts", required: false)
+    <link href="~/custom_designs/devStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/Datatable/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/Datatable/dataTables.bootstrap.min.js"></script>
+    <link href="~/assets/vendor/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+    @*<script src="~/assets/js/bootbox.min.js"></script>*@
+    <script src="~/assets/js/bootbox.min.js"></script>
+    <script src="~/Js/bootbox.min.js"></script>
+    <script src="~/Scripts/treeview.js"></script>
+</head>
+<body class="">
+    <div class="alert alert_info">
+        Heads up! This alert needs your attention, but it's not super important.
+        <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+    <div class="alert alert_warning">
+        Warning! Better check yourself, you're not looking too good.
+        <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+    <div class="alert alert_error">
+        Oh snap! Change a few things up and try submitting again.
+        <a href=""><i class="fa fa-times" aria-hidden="true"></i></a>
+    </div>
+    <div class="loader">
+        <div class="vmiddle-wrap">
+            <div class="vmiddle">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='page-topbar'>
+        <div class='logo-area logo-custom'>
+        @*<img src="~/assets/images/logo.png" class="img-responsive" />
+            <img src="~/assets/images/logo-folded.png" class="img-responsive"/>*/*@
+
+            <img src="~/assets/images/logo.png" id="imgBrandLogo" class='img-responsive' />
+            <img src="~/assets/images/logo-folded.png" id="imgThumbLogo" class='img-responsive' />
+        </div>
+        <div class='quick-area'>
+            <div class='pull-left'>
+                <ul class="info-menu left-links list-inline list-unstyled">
+                    <li class="sidebar-toggle-wrap">
+                        <a href="#" data-toggle="sidebar" class="sidebar_toggle">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group toggle__btn" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Portal
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option2" autocomplete="off">Reports
+                </label>
+            </div>
+            <div class='pull-right'>
+                <ul class="info-menu right-links list-inline list-unstyled">
+                    <li class="notify-toggle-wrapper">
+                        @*<a href="#" data-toggle="dropdown" class="toggle">
+                                <i class="fa fa-bell"></i>
+                                <span class="badge badge-accent red_badge">3</span>
+                            </a>*@
+                        <ul class="dropdown-menu notifications animated fadeIn">
+                            <li class="total">
+                                dfdf
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="profile">
+                        <a href="#" data-toggle="dropdown" class="toggle">
+                            <img src="~/assets/images/profile.jpg" alt="user-image" class="img-circle img-inline">
+                            <div class="name__block">
+                                <span>Devinder Kumar</span>
+                                <p>Chief Officer</p>
+                                <p class="work_place">LuLu Hypermarket</p>
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+
+                        </a>
+                        <ul class="dropdown-menu profile animated fadeIn">
+                            <li class="last">
+                                <a href="ui-login.html">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="chat-toggle-wrapper">
+                        <a href="#" data-toggle="chatbar" class="toggle_chat">
+                            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+        <div class="page-sidebar pagescroll">
+            <div class="page-sidebar-wrapper" id="main-menu-wrapper">
+                <ul class='wraplist'>
+                    <li class="">
+                        <a href="@Url.Action("DefaultPage", "Base")">
+                            <i class="fa icon-Dashboard"></i>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","Category")">
+                            <i class="fa icon-Site_map"></i>
+                            <span class="title">Feature Category</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","SOFeature")">
+                            <i class="fa icon-Owner_features"></i>
+                            <span class="title">Owner Features</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","Role")">
+                            <i class="fa icon-User"></i>
+                            <span class="title">Role Management</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index","User")">
+                            <i class="fa icon-User"></i>
+                            <span class="title">User Management</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "SPCategory")">
+                            <i class="fa icon-Partner_features"></i>
+                            <span class="title">Partner Feature Category</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "SPFeature")">
+                            <i class="fa icon-Partner_features"></i>
+                            <span class="title">Partner Features</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "SPRole")">
+                            <i class="fa icon-Default_partner_roles"></i>
+                            <span class="title">Default Partner Roles</span>
+                        </a>
+                    </li>
+                    <li class="@Url.Action("DefaultPage", "Base")">
+                        <a href="">
+                            <i class="fa icon-Solution_partners"></i>
+                            <span class="title">Solution Partners</span>
+                        </a>
+                    </li>
+                    <li class="@Url.Action("DefaultPage", "Base")">
+                        <a href="">
+                            <i class="fa icon-Invoices"></i>
+                            <span class="title">Invoices</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a  href="@Url.Action("Edit", "Branding")">
+                            <i class="fa icon-Platform_setup"></i>
+                            <span class="title">Platform Setup</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "SPCurrency")">
+                            <i class="fa icon-Currency_rates"></i>
+                            <span class="title">Manage Currency</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "SPProductGroup")">
+                            <i class="fa icon-Currency_rates"></i>
+                            <span class="title">Manage Product Groups</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "POSConfiguration")">
+                            <i class="fa icon-POS_parameters"></i>
+                            <span class="title">POS Parameters</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("DefaultPage", "Base")">
+                            <i class="fa icon-Job"></i>
+                            <span class="title">Job</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="@Url.Action("Index", "PrintTemplate")">
+                            <i class="fa fa-window-maximize"></i>
+                            <span class="title">Print Template</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+    <div class="page-right-block hideit">
+        xcxzcx
+    </div>
+</body>
+</html>
+<!-- Bootstrap core JavaScript -->
+@*<script src="~/assets/vendor/jquery/dist/jquery.min.js"></script>*@
+<script src="~/assets/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+<script src="~/assets/js/pace.min.js" type="text/javascript"></script>
+<script src="~/assets/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+@*<script src="~/assets/js/scripts.js" type="text/javascript"></script>*@
+<script src="~/assets/js/app.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        getLogo();
+    });
+    function getLogo() {
+        $.ajax({
+            url: '@Url.Action("GetLogo", "Branding")',
+            type: 'GET',
+            data: {},
+            dataType: 'json',
+            success: function (result) {
+                if (result.ImgData != "") {
+                    $('#imgBrandLogo').attr('src', result.ImgData);
+                }
+                if(result.ImgThumbData!=""){
+                    $('#imgThumbLogo').attr('src', result.ImgThumbData);
+                }
+            }
+        });
+    }
+
+    function ShowAlert(message, type) {
+        switch (type.toLowerCase()) {
+            case "error":
+                $('.alert_error').html(message);
+                $(".alert_error").show();
+                $(".alert_error").fadeOut(5000);
+                break;
+            case "success":
+                $(".alert_info").html(message);
+                $(".alert_info").show();
+                $(".alert_info").fadeOut(5000);
+                break;
+            case "warning":
+                $(".alert_warning").html(message);
+                $(".alert_warning").show();
+                $(".alert_warning").fadeOut(5000);
+                break;
+        }
+    }
+    function ShowProgress() {
+        $('.loader').show();
+    }
+
+    function hideProgress() {
+        $('.loader').hide();
+    }
+    $("body").on("show", ".modal", function () {
+        $(this).css({
+            'top': '50%',
+            'margin-top': function () {
+                return -($(this).height() / 2);
+            }
+        });
+    });
+</script>
+<style type="text/css">
+    .bootbox {
+        top: 15% !important;
+    }
+
+        .bootbox .btn-primary {
+            background-color: #7A9A01 !important;
+            color: #fff;
+            min-width: 80px;
+            border: none;
+        }
+
+        .bootbox .btn-secondary {
+            background-color: #fff !important;
+            color: #333;
+            min-width: 80px;
+            border-color: #ccc;
+        }
+</style>

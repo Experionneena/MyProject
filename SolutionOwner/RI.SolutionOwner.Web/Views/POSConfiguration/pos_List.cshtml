@@ -1,0 +1,91 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<POSParmeterCategoryModel>
+<div class="default_table">
+    <div class="table-responsive">
+        <table class="table" id="posTable">
+            <thead>
+                <tr>
+                    <th class="text-center">
+
+                    </th>
+                    <th>POS Parameters</th>
+                    <th></th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count > 0)
+                {
+                    foreach (var posParamCategory in Model)
+                    {
+                        <tr>
+                            <td class="text-center"></td>
+                            <td class="category_style">
+                                @posParamCategory.ParameterCategory
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        if (posParamCategory.POSParameters != null)
+                        {
+                            foreach (var posParam in posParamCategory.POSParameters)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="checkbox_style checkbox_positioning">
+                                            <input type="checkbox" id='@posParam.Id' onclick="CheckBoxChange('@posParam.Id')" class="checkbox_click" /><label for='@posParam.Id'></label>
+                                        </div>
+                                    </td>
+                                    <td class="text-left padd_left">
+                                        <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_parameter">@posParam.ParameterName</div>
+                                    </td>
+                                    <td></td>
+                                    @if (posParam.IsActive == true)
+                            {
+                                        <td class="text-center">
+                                            <a href=""><i class="icon-done" aria-hidden="true"></i></a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center">
+                                            <a href=""><i class="icon-block" aria-hidden="true"></i></a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td>
+                            No data available in table
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        //$('#posTable').DataTable({
+        //    "paging": false,
+        //    "ordering": false,
+        //    "info": false,
+        //    "searching": false
+        //});
+        //var $item = $(".dataTables_info").parent();
+        //$item.css('float', 'left');
+    });
+</script>

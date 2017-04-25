@@ -1,0 +1,69 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<RoleViewModel>
+
+<div class="default_table">
+    <div class="table-responsive">
+        <table class="table dataTableBinding" id="roleListTable">
+            <thead>
+                <tr>
+                    <th class="text-center" style="display:none">hiddenelement</th>
+                    <th class="">
+                        <div class="checkbox_style  checkbox_positioning_th">
+                            <input type="checkbox" id="test1" disabled />
+                            <label for="test1" style="cursor:not-allowed"></label>
+                        </div>
+                    </th>
+                    <th class="">Role Name</th>
+                    <th class="">Role Description</th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center" style="display:none">hiddenelement</td>
+                            <td class="">
+                                <div class="checkbox_style checkbox_positioning">
+                                    <input type="checkbox" id='@item.Id' onclick="CheckBoxChange('@item.Id')"  class="checkbox_click"/><label for='@item.Id'></label>
+                                </div>
+                                @*<div class="checkbox_positioning">
+                                    <input type="checkbox" class="checkbox_click" id="@item.Id" onclick="CheckBoxChange('@item.Id')" />
+                                    <label for="test2"></label>
+                                </div>*@
+                            </td>
+                            <td class="">@item.RoleName</td>
+                            <td class="">@item.Description</td>
+                            @if (item.IsActive == true)
+                            {
+                                <td class="text-center">
+                                    <a href=""><i class="icon-done" aria-hidden="true"></i></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    <a href=""><i class="icon-block" aria-hidden="true"></i></a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+<script>
+    $(document).ready(function () {
+        var mSortingString = [];
+        mSortingString.push({ "bSortable": false, "aTargets": [1, 4] });
+        InitialiseDataTable(mSortingString);
+    });
+</script>
