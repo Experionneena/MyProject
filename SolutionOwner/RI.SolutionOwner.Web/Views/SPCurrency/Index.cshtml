@@ -1,0 +1,308 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<CurrencyRateModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+}
+
+@*POPUP FOR ADD CURRENCY*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels" id="currencyAddPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeAdd" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Currency</h4>
+            </div>
+
+            <div class="modal-body" id="currencyAdd">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*POPUP FOR EDIT CURRENCY*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="currencyEditPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Currency</h4>
+            </div>
+            <div class="modal-body" id="currencyEdit">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="main-content">
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+
+                        <li class="active">
+                          Manage Currency
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right pull-right">
+                <div class="tooltip__block">
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add" id="addCurrency"><i class="icon-add" aria-hidden="true"></i></button>
+
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Edit" id="editCurrency"><i class="icon-edit" aria-hidden="true"></i></button>
+
+                    <button type="button" id="btnActivate" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Activate"> <i class="icon-done" aria-hidden="true"></i></button>
+
+                    <button type="button" id="btnDeactivate" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Deactivate"><i class="icon-block" aria-hidden="true"></i></button>
+
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Delete" id="deleteCurrency"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                      </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="wrapper main-wrapper row mt0">
+
+        <div class="row">
+            <div class="col-lg-12" id="currency_Grid">               
+            </div>
+
+        </div>
+    </section>
+</section>
+
+<script src="~/Js/Common.js"></script>
+<script type="text/javascript">
+
+
+    $('#addCurrency').click(function () {
+        GetAddPopUp();
+    });
+    //GetAddPopUp();
+    function GetAddPopUp() {
+        $.ajax({
+            url: '@Url.Action("AddCurrencyRatePopUp", "SPCurrency")',
+            type: 'POST',
+            success: function (data) {
+                if (data.Status == 1) {
+                    $("#currencyAdd").empty();
+                    $("#currencyAdd").html(data.Data);
+                    $('#currencyAddPopup').modal('show');
+                }
+                else {
+                    ShowAlert('Something wrong!', 'error');
+                }
+            },
+            error: function (data) {
+                ShowAlert('Something wrong!', 'error');
+            }
+
+        });
+    }
+
+    $(document).ready(function () {
+        GetCurrencyGridDetails();
+        function GetCurrencyGridDetails() {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetCurrencyList", "SPCurrency")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#currency_Grid').empty();
+                        $('#currency_Grid').html(data.Data);
+                        $('#baseCurrency').text(data.BaseCurrency);
+                        hideProgress();
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        }
+
+         function CheckCheckboxCheckedOrUnchecked() {
+            var id;
+            $(".checkbox_click").each(function () {
+                if ($(this).prop('checked') == true) {
+                    id = $(this).attr('id');
+                }
+            });
+            return id;
+        }
+
+         $("#editCurrency").click(function () {
+             var id = CheckCheckboxCheckedOrUnchecked();
+             if (id != null) {
+                 ShowProgress();
+                 $.ajax({
+                     url: '@Url.Action("GetCurrencyDetailsForEditById", "SPCurrency")',
+                     type: 'Post',
+                     data: { userId: id },
+                     success: function (data) {
+                         if (data.Status == 1) {
+                             hideProgress();
+                             $("#currencyEditPopup").modal('show');
+                             $("#currencyEdit").empty();
+                             $("#currencyEdit").html(data.Data);
+                             if (data.IsActive) {
+                                 $("#editCurrencyStatus").prop("checked", "true");
+                             }
+                             if (data.IsBlocked) {
+                                 $("#blockCurrencyStatus").prop("checked", "true");
+                             }
+                         }
+                         else {
+                             hideProgress();
+                             ShowAlert('Something wrong!', 'error');
+                         }
+                     },
+                     error: function (data) {
+                         hideProgress();
+                         ShowAlert('Something wrong!', 'error');
+                     }
+
+                 });
+             }
+         });
+
+        $("#deleteCurrency").click(function () {
+            var idForDelete = CheckCheckboxCheckedOrUnchecked();
+            if (idForDelete != null) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        ShowProgress();
+                        $.ajax({
+                            url: '@Url.Action("DeleteCurrencyById", "SPCurrency")',
+                            type: 'POST',
+                            data: { userId: idForDelete },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    $('#currency_Grid').empty();
+                                    $('#currency_Grid').html(data.Data);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else {
+                                    hideProgress();
+                                    ShowAlert('Something wrong!', 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                ShowAlert('Something wrong!', 'error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+          $("#btn_closeAdd").click(function () {
+            $("#txtRate").val('');
+            $("#txtDescription").val('');
+            $("#txtNameError").html('');
+            $("#txtEmailError").html('');
+            $("#addUserStatus").prop('checked', false);
+            $('#currencyAddPopup').modal('hide');
+        });
+
+        $("#btn_closeEdit").click(function () {
+            $("#txtName").val('');
+            $("#txtEmailId").val('');
+            $("#txtNameError").html('');
+            $("#txtEmailError").html('');
+            $("#editUserStatus").prop('checked', false);
+            $('#currencyEditPopup').modal('hide');
+        });
+
+        $('#btnActivate').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                bootbox.confirm("Are you sure you want to activate this currency?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("ActivateDeactivateCurrency", "SPCurrency")',
+                            type: 'POST',
+                            data: { id: id, flag: 1 },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    $('#currency_Grid').empty();
+                                    $('#currency_Grid').html(data.Data);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else {
+                                }
+                            },
+                            error: function (data) {
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#btnDeactivate').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                bootbox.confirm("Are you sure you want to Deactivate this currency?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '@Url.Action("ActivateDeactivateCurrency", "SPCurrency")',
+                            type: 'POST',
+                            data: { id: id, flag: 0 },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    $('#currency_Grid').empty();
+                                    $('#currency_Grid').html(data.Data);
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else {
+                                }
+                            },
+                            error: function (data) {
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

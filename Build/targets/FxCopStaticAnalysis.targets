@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+	DefaultTargets="FxCopStaticAnalysis">
+
+	<Import Project="..\Imports\GlobalImports.proj" Condition="'$(GlobalImportsImported)'!='true'" />  
+  
+	<PropertyGroup>
+
+		<!-- LibsPath: path to additional directories to search for assembly dependencies -->
+		<LibsPath>$(RootDirPath)\lib</LibsPath>
+		
+		<!-- ToolFxCopPath: path to FxCop command-line executable (FxCopCmd.exe) directory -->
+		<ToolFxCopPath>$(LocalToolsDirPath)\FxCop\10.0</ToolFxCopPath>
+
+		<FxCopOutputDirPath>$(ProjectOutputDirPath)\FxCop</FxCopOutputDirPath>
+		
+		<FxCopResultFile>$(FxCopOutputDirPath)\FxCop-Report.xml</FxCopResultFile>
+		
+		<FxCopExceptionFile>$(FxCopOutputDirPath)\FxCop_Exception.txt</FxCopExceptionFile>
+		
+		<FxCopRulesPath>$(GlobalConfDirPath)\StaticAnalysis.FxCop</FxCopRulesPath>
+		
+		<FxCopStyleSheetPath>$(ToolFxCopPath)\Xml\FxCopReport.xsl</FxCopStyleSheetPath>
+		
+		<FxCopReportFilePath>$(FxCopOutputDirPath)\FxCopReport.html</FxCopReportFilePath>
+		
+		<!-- FxCopDependenciesPath: path to directory containing assemblies' dependencies -->
+		<FxCopDependenciesPath>$(FxCopOutputDirPath)\Dependencies</FxCopDependenciesPath>
+		
+		<!-- FxCopAssembliesToAnalysePath: path to directory containing assemblies to be analysed -->
+		<FxCopAssembliesToAnalysePath>$(FxCopOutputDirPath)\AssembliesToAnalyse</FxCopAssembliesToAnalysePath>
+		
+		<!-- AssembliesBeforePostSharpPaths: paths to directories containing "BeforePostSharp" version of assemblies to be analysed -->
+		<AssembliesBeforePostSharpPaths>$(ProjectBasePath)\src\**\obj\$(Configuration)\Before-PostSharp</AssembliesBeforePostSharpPaths>
+		
+		<!-- This boolean property indicates whether the FxCop process has detected a violation.
+		     It is initialized to true by default before treatment
+		-->
+		<FxCopViolation>true</FxCopViolation>
+		
+	</PropertyGroup>
+   
+	<!-- 
+		FxCopStaticAnalysis
+	--> 
+	<Target Name="FxCopStaticAnalysis">
+		  
+		<Message Text = "*** FxCop => Begin tasks" />
+
+		<!-- Start Reporting Build Progress on CI -->
+		<Message
+			Text = "##teamcity[progressStart 'FxCop static analysis']"
+			Condition = "'$(RunOnCI)'" />
+		
+		<!-- Prepare outputs -->
+		<MakeDir Directories = "$(FxCopOutputDirPath)"/>
+		<MakeDir Directories = "$(FxCopAssembliesToAnalysePath)"/>
+		<MakeDir Directories = "$(ProjectWorkDirPath)"/>
+
+		<!-- Collect assemblies to process 
+		     -> We have to collect assemblies produced by the treated project with the following constraint :
+                If an assembly is "PostSharped", the version analysed by FxCop should be the "BeforePostSharp" version.
+                So, the used method is :
+				Step 1) we collect "AfterPostSharp" versions from assemblies produced by the treated project,
+				Step 2) we replace "PostSharped" versions with "BeforePostSharp" versions.
+		-->
+		
+		<!-- Step 1) -->
+		<ItemGroup>
+			<RegularBinariesToAnalyseWithFxCop Include = "$(WorkProductsBinPath)\**\*.dll"/>
+			<RegularBinariesToAnalyseWithFxCop Include = "$(WorkProductsBinPath)\**\*.exe"/>
+			<TestBinariesToAnalyseWithFxCop Include = "$(WorkProductsTestPath)\**\*.dll"/>
+		</ItemGroup>
+
+		<CreateItem 
+			Include = "@(RegularBinariesToAnalyseWithFxCop)" 
+			Condition = " @(InputProject) != '' and '%(Filename)' != '' " >
+			<Output
+				TaskParameter = "Include"	
+				ItemName = "AssembliesAfterPostSharp" 
+			/>
+		</CreateItem>
+		
+		<CreateItem 
+			Include = "@(TestBinariesToAnalyseWithFxCop)" 
+			Condition = " @(InputNUnitTestProject) != '' and '%(Filename)'!='' " >
+			<Output 
+				TaskParameter = "Include" 
+				ItemName = "AssembliesAfterPostSharp" 
+			/>
+		</CreateItem>
+
+		<Message Text="===== Assemblies After PostSharp Candidates To Analyse With FxCop =====" />
+		<Message Text="Assemblies :%0d%0a@(AssembliesAfterPostSharp,'%0d%0a')"/>
+		
+		<Copy 
+			SourceFiles = "@(AssembliesAfterPostSharp)" 
+			DestinationFolder = "$(FxCopAssembliesToAnalysePath)"
+		/>
+		
+		<!-- Step 2) -->
+		<ItemGroup>
+			<AssembliesBeforePostSharp Include = "$(AssembliesBeforePostSharpPaths)\*.dll"/>
+			<AssembliesBeforePostSharp Include = "$(AssembliesBeforePostSharpPaths)\*.exe"/>
+		</ItemGroup>
+
+		<Message Text="===== Assemblies Before PostSharp To Analyse With FxCop =====" />
+		<Message Text="Assemblies :%0d%0a@(AssembliesBeforePostSharp,'%0d%0a')"/>
+		
+		<Copy 
+			SourceFiles = "@(AssembliesBeforePostSharp)" 
+			DestinationFolder = "$(FxCopAssembliesToAnalysePath)"
+		/>
+		
+		<ItemGroup>
+			<FxCopAssembliesToAnalyse Include = "$(FxCopAssembliesToAnalysePath)\*.*"/>
+		</ItemGroup>
+		
+		<Message Text="===== Assemblies To Analyse With FxCop =====" />
+		<Message Text="Assemblies :%0d%0a@(FxCopAssembliesToAnalyse,'%0d%0a')"/>
+			
+		<!-- Start Find DependencyDirectories                              -->
+		<!--                                                               -->
+		<!-- first step : get all dependencies not produced by the project -->
+		<ItemGroup>
+			<FxCopDependenciesFromLibs 
+				Include = "$(LibsPath)\**\*.dll"
+				Exclude = "$(LibsPath)\**\.svn\**"/>
+			<FxCopDependenciesFromLibs 
+				Include = "$(LibsPath)\**\*.exe"
+				Exclude = "$(LibsPath)\**\.svn\**"/>	
+		</ItemGroup>
+		
+		<Copy 
+			SourceFiles = "@(FxCopDependenciesFromLibs)" 
+			DestinationFolder = "$(FxCopDependenciesPath)\FromLibs\%(RecursiveDir)"
+		/>
+
+		<!-- second step : get all dependencies (regular work products) produced by the project -->
+		<ItemGroup>
+			<FxCopDependenciesFromWorkProductsBin 
+				Include = "$(WorkProductsBinPath)\**\*.dll"
+				Exclude = "$(WorkProductsBinPath)\**\.svn\**"/>
+			<FxCopDependenciesFromWorkProductsBin 
+				Include = "$(WorkProductsBinPath)\**\*.exe"
+				Exclude = "$(WorkProductsBinPath)\**\.svn\**"/>	
+		</ItemGroup>
+		
+		<Copy 
+			SourceFiles = "@(FxCopDependenciesFromWorkProductsBin)" 
+			DestinationFolder = "$(FxCopDependenciesPath)\FromWorkProductsBin\%(RecursiveDir)"
+		/>
+		
+		<!-- third step : get all dependencies (test work products) produced by the project -->
+		<ItemGroup>
+			<FxCopDependenciesFromWorkProductsTest 
+				Include = "$(WorkProductsTestPath)\**\*.dll"
+				Exclude = "$(WorkProductsTestPath)\**\.svn\**"/>
+			<FxCopDependenciesFromWorkProductsTest 
+				Include = "$(WorkProductsTestPath)\**\*.exe"
+				Exclude = "$(WorkProductsTestPath)\**\.svn\**"/>	
+		</ItemGroup>
+		
+		<Copy 
+			SourceFiles = "@(FxCopDependenciesFromWorkProductsTest)" 
+			DestinationFolder = "$(FxCopDependenciesPath)\FromWorkProductsTest\%(RecursiveDir)"
+		/>
+		
+		<MSBuild.ExtensionPack.FileSystem.FindUnder 
+			TaskAction = "FindDirectories" 
+			Path = "$(FxCopDependenciesPath)" >
+			<Output 
+				TaskParameter = "FoundItems"  
+				ItemName = "FxCopDependencyDir" 
+			/>
+		</MSBuild.ExtensionPack.FileSystem.FindUnder>
+		
+		<Message Text="===== Dependency Dir. To Analyse With FxCop =====" />
+		<Message Text="Dependency Directories :%0d%0a@(FxCopDependencyDir,'%0d%0a')"/>
+
+		<!--                                                               -->
+		<!-- End Find DependencyDirectories                                -->
+		
+		<!-- FxCop itself  -->
+		<FxCop
+			ToolPath = "$(ToolFxCopPath)"
+			WorkingDirectory = "$(ProjectWorkDirPath)"
+			TargetAssemblies = "@(FxCopAssembliesToAnalyse)"
+			AnalysisReportFileName = "$(FxCopResultFile)"
+			ProjectFile = "$(FxCopRulesPath)"
+			DirectOutputToConsole = "false"
+			IncludeSummaryReport = "true"
+			DependencyDirectories = "@(FxCopDependencyDir)"
+			FailOnError = "false"
+			OutputXslFileName = "$(FxCopStyleSheetPath)">
+			<Output 
+				TaskParameter = "ExitCode" 
+				PropertyName = "FxCopExitCode"
+			/>
+		</FxCop>
+
+		<Message Text="FxCop exited with code: 0x'$(FxCopExitCode)'" />
+		
+		<!-- If FxCop exitCode is not = '0',                                        -->
+		<!-- we log exception message                                               -->
+		<!-- and, if on CI, we copy 'AnalysisReportFileName' (FxCop-Report.xml)     -->
+		<!-- to file 'FxCop_Exception.txt'                                          -->    
+		
+		<MSBuild.ExtensionPack.Xml.XmlFile 
+			Condition = "'$(FxCopExitCode)' != '0'"
+			TaskAction="ReadElementText" 
+			File="$(FxCopResultFile)" 
+			XPath="FxCopReport/Exceptions/Exception/ExceptionMessage">
+			<Output TaskParameter="Value" ItemName="FxCopExceptionMessage" />
+		</MSBuild.ExtensionPack.Xml.XmlFile>
+		
+		<Message 
+			Condition = "'$(FxCopExitCode)' != '0'"
+			Importance = "high"
+			Text="%0D%0A %0D%0AFxCop ERROR - Exception Message : %0d%0a@(FxCopExceptionMessage,'%0d%0a')%0D%0A " />
+		
+		<Copy 
+			Condition = "'$(RunOnCI)' And '$(FxCopExitCode)' != '0'"
+			SourceFiles="$(FxCopResultFile)" 
+			DestinationFiles="$(FxCopExceptionFile)" />
+		
+		<!-- Check if violation(s) detected by FxCop -->
+		<PropertyGroup>
+			<FxCopViolation Condition = "  Exists('$(FxCopResultFile)') " >true</FxCopViolation>
+			<FxCopViolation Condition = " !Exists('$(FxCopResultFile)') " >false</FxCopViolation>
+			<!-- FxCop exitCode not = '0' is treated as a violation state                         -->
+			<FxCopViolation Condition = "'$(FxCopExitCode)' != '0'" >true</FxCopViolation>
+		</PropertyGroup>
+		
+		<Message Text="Property 'FxCopResultFile' : '$(FxCopResultFile)'" />
+		<Message Text="Property 'FxCopViolation' : '$(FxCopViolation)'" />
+		
+		<!-- Stop Reporting Build Progress on CI -->
+		<Message
+		   Text="##teamcity[progressFinish 'FxCop static analysis']"
+		   Condition="'$(RunOnCI)'" />
+		
+		<!-- Import generated xml reports into TeamCity -->
+		<Message Text="##teamcity[importData type='FxCop' path='$(FxCopResultFile)']"
+		   Condition="'$(RunOnCI)' And '$(FxCopViolation)'" />
+
+		<Message Text="No violation found by FxCop" Condition="!'$(FxCopViolation)'" Importance="normal" />
+
+		<!-- Stop the Build in case of FxCop violation(s) -->
+		<CallTarget Targets="FxCopViolationProcess" Condition="'$(FxCopViolation)'" />
+		
+		<Message Text="*** FxCop => End tasks" />
+
+	</Target>
+
+  	<!-- 
+		FxCopViolationProcess
+	--> 
+	<Target Name="FxCopViolationProcess">
+
+		<Message Text="***" />
+		<Message Text="*** 'FxCopViolationProcess' TASK" />
+		<Message Text="***" />
+
+		<Message Text="Process FxCop XML file to provide a report (XSLt)" />
+
+		<Xslt
+		   Inputs="$(FxCopResultFile)"
+		   Output="$(FxCopReportFilePath)"
+		   Xsl="$(FxCopStyleSheetPath)"
+		/>
+
+		<!-- Change the TeamCity build status -->
+		<Message 	Text="##teamcity[buildStatus status='FAILURE' text='{build.status.text}. FxCop rule(s) violation(s)']"
+					Condition="'$(RunOnCI)'" />
+				
+		<!-- Stop the Build -->
+		<Error	 Text="Follow FxCop violation(s), the Build is stopped." />
+		
+	</Target>
+
+</Project>

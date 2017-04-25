@@ -1,0 +1,57 @@
+.btn{
+	line-height: 20px;
+}
+.tooltip__block{
+    .btn{
+        background: none;
+        border: 1px solid #fff;
+        font-size: 20px;
+        width: 50px;
+        height: 40px;
+        line-height: 44px;
+        padding: 0;
+        &:hover{
+            color:$default-bg;
+            border:1px solid $default-bg;
+        }
+        i{
+          color: #6e7d85;
+        }
+        &:hover i{
+            color:$default-bg;
+        }
+    }
+}
+
+.toggle__btn{
+	margin-top: 12px;
+	.btn-primary {
+		background-color: #525252;
+		min-width: 70px;
+		color: rgba(255, 255, 255, 0.39);
+		border: 1px solid #232323;
+		box-shadow: none;
+	    &.active{
+			background-color: #fff;
+			border-color:$selectnav-bg;
+			color: $default-bg;	
+	    }
+	    &:active{
+			background-color:#fff;
+			border-color: $selectnav-bg;
+			color: $default-bg;	
+	    }
+	}
+	@media (max-width: 600px) {
+		display: none;
+	}
+}
+.save{
+    background: $default-bg;
+    color: #fff;
+    &:hover{
+    	background: $default-bg-a;
+    	color:#fff;
+    }
+
+}

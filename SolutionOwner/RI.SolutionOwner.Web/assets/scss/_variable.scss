@@ -1,0 +1,62 @@
+/*Font Style*/
+$light-font:   		'montserratlight';
+$bold-font:    		'montserratbold';
+$medium-font:  		'montserratmedium';
+$regular-font: 		'montserratregular';
+$semibold-font: 	'montserratsemibold';
+
+/*Font style*/
+$text-bold:		bold;
+.txt-bold{
+    font-weight: $text-bold;
+}
+
+
+/*Font-icon*/
+.icon-Job{
+	span{
+		color: #fff;
+	}
+}
+
+
+/*Background*/
+$body-bg:			#f1f1f1;
+$default-bg:   		#7A9A01;
+$default-bg-a:   	#678202;
+$nav_bg:			#000000;
+$selectnav-bg:		#232323;
+$info-alert-bg:     #273ad6;
+$warning-alert-bg:  #ff7a2f;
+$error-alert-bg:    #cc0000;
+
+/*badge*/
+$red_badge:			#ea5a5a;
+
+/*Table*/
+/*$table_head_bg:      #9fb797;*/
+$table_head_bg:      #7A9A01;
+$table-row-active:   #717b47;
+/*$table_con-color:    #7a8c96;*/
+$table_con-color:    #000;
+
+/*Btn outline*/
+.btn,a, input, button{
+    outline: none!important;
+}
+.badge {
+	font-weight: normal;
+}
+
+
+/*Margin*/
+.mt0 	{	margin-top: 0!important;}
+.mt5 	{	margin-top: 5px!important;}
+.mt10	{	margin-top: 10px!important;}
+.mt15	{	margin-top: 15!important;}
+.mt20	{	margin-top: 20px!important;}
+.mt25	{	margin-top: 25px!important;}
+
+
+
+

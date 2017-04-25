@@ -1,0 +1,104 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<OwnerUserModel>
+
+<div class="default_table">
+    <div class="table-responsive">
+        <table class="table dataTableBinding" id="userListTable">
+            <thead>
+                <tr class="tbl_head">
+                    <th class="text-center" style="display:none">hiddenelement</th>
+                    <th class="text-center">
+                        <div class="checkbox_style checkbox_positionings">
+                            <input type="checkbox" id="userCheckBox" disabled="disabled"/>
+                            <label for="userCheckBox" style="cursor:not-allowed"></label>
+                        </div>
+                    </th>
+                    <th class="text-left">Name</th>
+                    <th class="text-left">Email</th>
+                    <th class="text-left">Role</th>                  
+                    <th class="text-left">Date Created</th>
+                    <th class="text-left">Last Updated</th>
+                    <th class="text-left">Last Login</th>
+                    <th class="text-center">Active Status</th>
+                    <th class="text-center">Block Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center" style="display:none">hiddenelement</td>
+                            <td class="text-center">
+                                <div class="checkbox_style  checkbox_positionings">
+                                    <input type="checkbox" class="checkbox_click" id="@item.Id" onclick="CheckBoxChange('@item.Id')" />
+                                    <label for="@item.Id"></label>
+                                </div>
+
+                                @*<div class="checkbox_style">
+                                        <input type="checkbox" class="checkbox_click" id="@item.Id" onclick="CheckBoxChange('@item.Id')" />
+                                        <label for="test2"></label>
+                                    </div>*@
+
+                            </td>
+                            <td class="text-left">@item.Name</td>
+                            <td class="text-left">@item.Email</td>
+                            <td class="text-left">@item.RoleNames</td>                          
+                            <td class="text-left">@item.CreatedDate</td>
+                            <td class="text-left">@item.EditedDate</td>
+
+                            @if (item.LastLoginDate != null)
+                            {
+                                <td class="text-left">@item.LastLoginDate</td>
+                            }
+                            else
+                            {
+                                <td class="text-left">Never logged in</td>
+                            }
+
+                            @if (item.IsActive == true)
+                            {
+                                <td class="text-center">
+                                    <a href=""><i class="icon-done" aria-hidden="true"></i></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    <a href=""><i class="icon-block" aria-hidden="true"></i></a>
+                                </td>
+                            }
+
+                            @if (item.IsBlocked == true)
+                            {
+                                <td class="text-center"><span class="badge badge_clr_block">Suspended</span></td>
+                            }
+                            else
+                            {
+                                <td class="text-center"></td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+<script>
+    $(document).ready(function () {
+        var mSortingString = [];
+        mSortingString.push({ "bSortable": false, "aTargets": [1, 8, 9] });
+        InitialiseDataTable(mSortingString);
+        //var table = $('.dataTableBinding').DataTable();
+
+        //table.on('search.dt', function () {
+        //    $(".dataTables_paginate, .pagination, .previous").find('a:first').text("<<");
+        //    $(".dataTables_paginate, .pagination, .next").find('a:last').text(">>");
+        //});
+    });
+</script>

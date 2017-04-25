@@ -1,0 +1,153 @@
+.tab-custom{
+	padding: 15px;
+	border: 1px solid #e1e1e1;
+	border-top: 0px;
+}
+
+.nav-tabs > li.active > a, 
+.nav-tabs > li.active > a:hover, 
+.nav-tabs > li.active > a:focus{
+	color: $default-bg;
+	font-family: $bold-font;
+}
+
+.nav-custom{
+	li{
+		a{
+			color: gray;
+			&:hover{
+				background-color: $default-bg;
+				color: white;
+			}
+		}
+	}
+}
+
+.view_data{
+	tr{
+		td:nth-of-type(2){
+			cursor: pointer;
+		}
+	}
+}
+
+.view_data_collapse{
+	tr{
+		td:nth-of-type(3){
+			cursor: pointer;
+		}
+	}
+}
+
+.menu_icon{
+	width: 75px;
+	height: 75px;
+	border:1px dashed #c4c4c4;
+}
+
+.subheading{
+	border-bottom: 1px solid $body-bg;
+	margin: 20px 0;
+	color: black;
+}
+
+.div_section{
+	margin-top: 20px;
+}
+
+.contact{
+	.subheading{
+		margin-top: 0;
+		
+	}
+	margin-bottom: 15px;
+	display: none;
+}
+
+#contact{
+	.tooltip__block{
+		margin-bottom: 10px;
+	}
+}
+
+.under_construction{
+	margin-top: 200px;
+	width: 100%;
+	img{
+		display: inline-block;
+	}
+}
+
+.default_table .table-responsive tbody tr i{
+	color: #7a9a01;
+}
+
+.alert_info{
+    background-color: #7A9A01;
+    border-bottom: 6px solid #7A9A01;
+}
+
+.delete{
+	font-size: 23px;
+	font-weight: normal;
+}
+
+
+.tbl-colapse{
+    tr:nth-child(odd) {
+        background-color: rgba(244, 247, 248, 0.5);
+        border: 1px solid rgba(159, 180, 191, 0.2);
+        border-left: 0;
+        border-right: 0; 
+    }
+}
+
+.tbl_head{
+   	background-color: $table_head_bg !important;
+}
+
+.level-one{
+	padding-left: 50px !important;
+}
+
+.level-two{
+	padding-left: 100px !important;
+}
+
+.level-three{
+	padding-left: 150px !important;
+}
+
+.level-four{
+	padding-left: 200px !important;
+}
+
+.forgot-pswd{
+	a{
+		text-decoration: none;
+		color: #0090d2;
+		cursor: pointer;
+		&:hover{
+			color: #0063a6;
+		}
+	}
+}
+
+.reg{
+	font-weight: normal !important;
+}
+
+.cur_bg{
+	background-color: $default-bg;
+}
+
+.tbl-contact{
+	.checkbox_style label {
+    	margin: 0 0 17px 0;
+	}
+}
+
+.change-pswd{
+	font-family: $bold-font;
+	font-size: 15px;
+}

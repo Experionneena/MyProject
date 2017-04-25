@@ -1,0 +1,161 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model POSParameterModel
+
+@using (Html.BeginForm("AddPos", "Role", Model, FormMethod.Post, new { id = "addPOS", autocomplete = "off", @class = "form_components" }))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label">Category Name<span class="mandatory_clr">*</span></label>
+                @Html.DropDownListFor(m => Model.POSParameterCategoryId, Model.PosCategoryList, new { id = "ddlPosCategoryList", @class = "form-control m-bot15" })
+                <span class="validationmessage" id="txtParamCatError" style="color: red"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Parameter Name<span class="mandatory_clr"> *</span></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => Model.ParameterName, new { id = "txtParamName", @class = "form-control", @maxlength = "100", PlaceHolder = "ParameterName" })
+                    <span class="validationmessage" id="txtParamNameError" style="color: red"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="field-1">Order Number</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => Model.DisplayOrder, new { id = "txtParamDisplayorder", @class = "form-control", @maxlength = "3", PlaceHolder = "Order number" })
+                    <span class="validationmessage" id="txtParamDisplayorderError" style="color: red"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <div class="checkbox_style">
+                    <input type="checkbox" id="isActive" checked="checked" disabled /><label for="isActive">Is Active ?</label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal-footer form_btn_block">
+    <button type="button" class="btn btn-default" id="btn_PosCancel">Cancel</button>
+    <button type="button" class="btn save" id="btn_PosSave">Save</button>
+</div>
+<script>
+    $(document).ready(function () {
+        function validateName(name) {
+            var filter = /^[a-zA-Z\s]+$/;
+            if (filter.test(name)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        function validateNum(num) {
+            var filter = /^[0-9]*$/;
+            if (filter.test(num)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        $("#btn_PosCancel").click(function () {
+            $("#txtParamName").val('');
+            $("#txtParamDisplayorder").val('');
+            $("#txtParamDisplayorderError").html('');
+            $("#txtParamCatError").html('');
+            $("#txtParamNameError").html('');
+            $(".clearIsChecked").prop('checked', false);
+            $("#isActive").prop('checked', false);
+            $("#ddlPosCategoryList").val('');
+            $('#posAddPopup').modal('hide');
+        });
+
+        $('#txtParamName').keyup(function (e) {
+            $('#txtParamNameError').html('');
+        });
+        $('#txtParamDisplayorder').keyup(function (e) {
+            $('#txtParamDisplayorderError').html('');
+        });
+        $('#ddlPosCategoryList').change(function (e) {
+            $('#txtParamCatError').html('');
+        });
+        $("#btn_PosSave").click(function () {
+            var isError = false;
+            if ($("#txtParamName").val().trim() == "" || $("#txtParamName").val().trim() == null) {
+                $('#txtParamNameError').html('Parameter name is required.');
+                isError = true;
+            }
+            else if (!validateName($("#txtParamName").val().trim())) {
+                $('#txtParamNameError').html('Enter a valid name.');
+                isError = true;
+            }
+
+            else {
+                $('#txtParamNameError').html('');
+            }
+            if ($("#ddlPosCategoryList").val() == "" || $("#ddlPosCategoryList").val() == null || $("#ddlPosCategoryList").val() == 0) {
+                $('#txtParamCatError').html('Category is required.');
+                isError = true;
+            }
+            else {
+                $('#txtParamCatError').html('');
+            }
+           if (!validateNum($("#txtParamDisplayorder").val().trim())) {
+                $('#txtParamDisplayorderError').html('Enter number only.');
+                isError = true;
+            }
+            else {
+                $('#txtParamDisplayorderError').html('');
+            }
+            if (isError) {
+                return false;
+            }
+
+            var postData = {
+                ParameterName: $("#txtParamName").val().trim(),
+                POSParameterCategoryId: $("#ddlPosCategoryList").val(),
+                IsActive: $("#isActive").prop('checked'),
+                DisplayOrder: $("#txtParamDisplayorder").val().trim()
+            }
+            $.ajax({
+                url: '@Url.Action("CreatePosParameter", "POSConfiguration")',
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#posAddPopup').modal('hide');
+                        $('#pos_Grid').empty();
+                        $('#pos_Grid').html(data.Data);
+                        $('.checkbox_click').prop('checked', false);
+                        ShowAlert(data.Message, 'success');
+                    }
+                    else if (data.Status == 0) {
+                        $('#posAddPopup').scrollTop(0);
+                        var top = ($(window).scrollTop() || $("body").scrollTop());
+                        ShowAlert(data.Message, 'error');
+                    }
+                    else {
+                        $('#posAddPopup').scrollTop(0);
+                        var top = ($(window).scrollTop() || $("body").scrollTop());
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+
+                error: function (data) {
+                    $('#posAddPopup').scrollTop(0);
+                    var top = ($(window).scrollTop() || $("body").scrollTop());
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        });
+    });
+</script>

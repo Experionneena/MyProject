@@ -1,0 +1,351 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@model List<SPFeatureViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+
+}
+@*POPUP FOR ADD FEATURE*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels" id="featureAddPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeAdd" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="btn_feature">Add Feature</h4>
+            </div>
+
+            <div class="modal-body" id="featureAdd">
+
+            </div>
+        </div>
+    </div>
+</div>
+@*POPUP FOR EDIT FEATURE*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="featureEditPopup">
+    <div class="modal-dialog modal-md m-t-xxxl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Feature</h4>
+            </div>
+            <div class="modal-body" id="featureEdit">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="main-content">
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+
+                        <li class="active">
+                            Partner Feature
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right pull-right">
+                <div class="tooltip__block">
+                    <div class="modal_btn_click" data-toggle="modal" data-target="#add_feature">
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add" id="btn_AddPopUp"><i class="icon-add" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="modal_btn_click" data-toggle="modal" data-target="#edit_feature">
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Edit" id="btn_EditPopup"><i class="icon-edit" aria-hidden="true"></i></button>
+                    </div>
+
+
+                    <button type="button" id="btnActivate" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Activate"> <i class="icon-done" aria-hidden="true"></i></button>
+
+
+                    <button type="button" id="btnDeactivate" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Deactivate"><i class="icon-block" aria-hidden="true"></i></button>
+
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Delete" id="btn_Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <section class="wrapper main-wrapper row mt0">
+        <div class="col-xs-12">
+          
+            <div id="hi-ul" class="pad_col_12_zero">
+                    @*Load Hierarchy Nav Tabs*@
+            </div>
+
+            <div class="tab-content tab-custom tab_body_clr" id="feature_Grid">
+                @*@Html.Partial("_FeatureList")*@
+            </div>
+
+        </div>
+
+    </section>
+</section>
+
+
+<script src="~/Js/Common.js"></script>
+
+<script type="text/javascript">
+    function collapseTable() {
+        $('#tblFeature').aCollapTable({
+            // startCollapsed: true,
+            addColumn: true,
+            plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+            minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+        });
+    }
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("LoadHierarchies", "SPFeature")',
+            type: 'POST',
+            success: function (data) {
+                if (data.Status == 1) {
+                    ShowProgress();
+                    $('#hi-ul').html(data.Data);
+                }
+                else if (data.Status == 0) {
+                    hideProgress();
+                    ShowAlert(data.Message, 'warning');
+                }
+                else {
+                    hideProgress();
+                    ShowAlert(data.Message, 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+        //-----------------------------------// Add Feature PopUp //-----------------------------------//
+        $('#btn_AddPopUp').click(function () {
+            $('#featureAddPopup').modal({ backdrop: 'static', keyboard: false });
+            $.ajax({
+                url: '@Url.Action("LoadAddPopUp", "SPFeature")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#featureAdd').empty();
+                        $('#featureAdd').html(data.Data);
+                        hideProgress();
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        });
+
+
+        //-----------------------------------// Fill Feature grid //-----------------------------------//
+   
+        $("#btn_EditPopup").click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                ShowProgress();
+                $.ajax({
+                    url: '@Url.Action("GetFeatureById", "SPFeature")',
+                    type: 'POST',
+                    data: { featureId: id },
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            hideProgress();
+                            $('#featureEditPopup').modal({ backdrop: 'static', keyboard: false });
+                            $('#featureEdit').empty();
+                            $('#featureEdit').html(data.Data);
+                        }
+                        else {
+                            hideProgress();
+                            ShowAlert('Something wrong!', 'error');
+                        }
+
+                    },
+
+                    error: function (data) {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                });
+            }
+        });
+
+        $("#btn_Delete").click(function () {
+            var idForDelete = CheckCheckboxCheckedOrUnchecked();
+            if (idForDelete != null) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        var hierarchyid = $("#hierarchyList li.active").attr('id');
+                        ShowProgress();
+                        $.ajax({
+                            url: '@Url.Action("DeleteFeatureById", "SPFeature")',
+                            type: 'POST',
+                            data: { featureId: idForDelete, hierarchyId: hierarchyid },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    ShowAlert(data.Message, 'success');
+                                    $('#feature_Grid').empty();
+                                    $('#feature_Grid').html(data.Data);
+                                    collapseTable();
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else {
+                                    hideProgress();
+                                    ShowAlert(data.Message, 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                ShowAlert(data.Message, 'error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+        $("#btn_closeAdd").click(function () {
+            $("#txtName").val('');
+            $("#txtPrgLink").val('');
+            $("#txtNameError").html('');
+            $("#txtLinkError").html('');
+            $("#statuscheckbox").prop('checked', false);
+            $('#featureAddPopup').modal('hide');
+        });
+        $("#btn_closeEdit").click(function () {
+            $("#txtName").val('');
+            $("#txtPrgLink").val('');
+            $("#txtNameError").html('');
+            $("#txtLinkError").html('');
+            $("#statuscheckboxEdit").prop('checked', false);
+            $('#featureEditPopup').modal('hide');
+        });
+
+        function CheckActiveStatusOnGrid(id) {
+            console.log(id);
+            var activeCode = -1;
+            var activeClass = $('#tblFeature').find('#activestatusi_' + id).attr("class");
+            if (activeClass == "icon-done") {
+                activeCode = 1;
+            } else if (activeClass == "icon-block") {
+                activeCode = 0;
+            }
+            return activeCode;
+        }
+
+        function CheckCheckboxCheckedOrUnchecked() {
+            var id;
+            $(".checkbox_click").each(function () {
+                if ($(this).prop('checked') == true) {
+                    id = $(this).attr('id');
+                    var arr = id.split('_');
+                    id = arr[1];
+                }
+            });
+            return id;
+        }
+
+        $('#btnActivate').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                bootbox.confirm("Are you sure you want to Activate this feature?", function (result) {
+                    if (result) {
+                        ShowProgress();
+                        var hierarchyid = $("#hierarchyList li.active").attr('id');
+                        $.ajax({
+                            url: '@Url.Action("ActivateDeactivate", "SPFeature")',
+                            type: 'POST',
+                            data: { featureId: id, flag: 1, hierarchyId: hierarchyid },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    ShowAlert(data.Message, 'success');
+                                    $('#feature_Grid').empty();
+                                    $('#feature_Grid').html(data.Data);
+                                    collapseTable();
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else if (data.Status == 0) {
+                                    console.log("ASDADSADSADAS");
+                                    hideProgress();
+                                    ShowAlert(data.Message, 'warning');
+                                    $('#feature_Grid').empty();
+                                    $('#feature_Grid').html(data.Data);
+                                    collapseTable();
+                                }
+                                else {
+                                    hideProgress();
+                                    ShowAlert('Something wrong!', 'error');
+                                    ShowAlert(data.Message, 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                ShowAlert('Something wrong!', 'error');
+                                ShowAlert(data.Message, 'error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+
+        $('#btnDeactivate').click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                  bootbox.confirm("Are you sure you want to Deactivate this feature?", function (result) {
+                    if (result) {
+                        ShowProgress();
+                        var hierarchyid = $("#hierarchyList li.active").attr('id');
+                        $.ajax({
+                            url: '@Url.Action("ActivateDeactivate", "SPFeature")',
+                            type: 'POST',
+                            data: { featureId: id, flag: 0, hierarchyId: hierarchyid },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    $('#feature_Grid').empty();
+                                    $('#feature_Grid').html(data.Data);
+                                    collapseTable();
+                                    ShowAlert(data.Message, 'success');
+                                }
+                                else if (data.Status == 0) {
+                                    hideProgress();
+                                    ShowAlert(data.Message, 'warning');
+                                    $('#feature_Grid').empty();
+                                    $('#feature_Grid').html(data.Data);
+                                    collapseTable();
+                                }
+                                else {
+                                    hideProgress();
+                                    ShowAlert(data.Message, 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                ShowAlert(data.Message, 'error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+   
+</script>

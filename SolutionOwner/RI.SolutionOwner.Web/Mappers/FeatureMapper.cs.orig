@@ -1,0 +1,53 @@
+﻿using RI.SolutionOwner.Data.Contracts;
+using RI.SolutionOwner.Mapper;
+using RI.SolutionOwner.Web.Models;
+using System;
+
+namespace RI.SolutionOwner.Web.Mappers
+{
+    public class FeatureMapper : ObjectMapper<ISOFeature, Web.Models.FeatureViewModel>
+    {
+        public FeatureMapper(IServiceProvider provider) : base(provider)
+        {
+
+        }
+
+
+        public override ISOFeature ToEntity(Web.Models.FeatureViewModel value)
+        {
+            var featureEntity = CreateEntity();
+            featureEntity.Id = value.Id;
+            featureEntity.Name = value.Name;
+            featureEntity.ProgramLink = value.ProgramLink;
+            featureEntity.IsActive = value.IsActive;
+<<<<<<< HEAD
+            featureEntity.CategoryId = value.CategoryId;
+=======
+            featureEntity.IconClass = value.IconClass;
+            featureEntity.DisplayName = value.DisplayName;
+            featureEntity.SortOrder = value.SortOrder;
+>>>>>>> 61e95554372c66688b64a0eab1c70636fbd08188
+            ////featureEntity.EditedDate = DateTime.UtcNow;
+            return featureEntity;
+        }
+
+        public override FeatureViewModel ToObject(ISOFeature featureEntity)
+        {
+            var model = new FeatureViewModel();
+            model.Id = featureEntity.Id;
+            model.Name = featureEntity.Name;
+            model.DisplayName = featureEntity.DisplayName;
+            model.IconClass = featureEntity.IconClass;
+            model.ProgramLink = featureEntity.ProgramLink;
+            model.IsActive = featureEntity.IsActive;
+            model.CategoryId = featureEntity.CategoryId;
+<<<<<<< HEAD
+=======
+            model.SortOrder = featureEntity.SortOrder;
+            model.ParentCatId = featureEntity.CategoryId;
+>>>>>>> 61e95554372c66688b64a0eab1c70636fbd08188
+            ////model.EditedDate = featureEntity.EditedDate;
+            return model;
+        }
+    }
+}

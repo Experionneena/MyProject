@@ -1,0 +1,45 @@
+﻿<div class="default_table">
+    <div class="table-responsive">
+        <table class="table tbl-colapse dataTableBinding" id="tblConfiguration">
+            <thead>
+                <tr class="tbl_head">
+                    <th class="text-center">
+                        <div class="checkbox_style">
+                            <input type="checkbox" id="test1" />
+                            <label for="test1"></label>
+                        </div>
+                    </th>
+                    <th>Configuration Name</th>
+                    <th>Created On</th>
+                    <th class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">
+                        <div class="checkbox_style">
+                            <input type="checkbox" id="test3" class="checkbox_click" onclick="CheckBoxChange('@*spfc_@feature.Id*@')" />
+                            <label for="test3"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div>Voadfone</div>
+                    </td>
+                    <td>20/3/2017</td>
+                    <td class="text-center">
+                       <i class="icon-block" aria-hidden="true"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var mSortingString = [];
+        mSortingString.push({ "bSortable": false, "aTargets": [1, 4] });
+        InitialiseDataTableForCollpase(mSortingString);
+    });
+</script>

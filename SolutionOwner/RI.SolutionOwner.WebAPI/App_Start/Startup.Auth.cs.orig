@@ -1,0 +1,114 @@
+﻿//---------------------------------------------------------------
+// <copyright file="Startup.Auth.cs" company="RechargeIndia">
+// All rights reserved. Copyright © 2017 RechargeIndia.
+// </copyright>
+//---------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.OAuth;
+using Owin;
+using RI.SolutionOwner.WebAPI.Models;
+using RI.SolutionOwner.WebAPI.Providers;
+
+namespace RI.SolutionOwner.WebAPI
+{
+    /// <summary>
+<<<<<<< HEAD
+    /// Start up class.
+=======
+    /// This class supports OWIN authentication
+>>>>>>> 7c05e8c51b1d76e065d5aa62fad913e4f066d02e
+    /// </summary>
+    public partial class Startup
+    {
+        /// <summary>
+        /// Gets the o authentication options.
+        /// </summary>
+        /// <value>
+        /// The o authentication options.
+        /// </value>
+        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+
+        /// <summary>
+        /// Gets the public client identifier.
+        /// </summary>
+        /// <value>
+        /// The public client identifier.
+        /// </value>
+        public static string PublicClientId { get; private set; }
+
+<<<<<<< HEAD
+        /// For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        /// <summary>
+        /// Configures the authentication.
+        /// </summary>
+        /// <param name="app">The application.</param>
+=======
+        /// <summary>
+        /// This method has configuration for managing the authentication of resources in the application.
+        /// </summary>
+        /// <param name="app">IAppBuilder interface</param>
+        //// For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+>>>>>>> 7c05e8c51b1d76e065d5aa62fad913e4f066d02e
+        public void ConfigureAuth(IAppBuilder app)
+        {
+            //// Configure the db context and user manager to use a single instance per request
+            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+
+            //// Enable the application to use a cookie to store information for the signed in user
+            //// and to use a cookie to temporarily store information about a user logging in with a third party login provider
+            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
+            //// Configure the application for OAuth based flow
+            PublicClientId = "self";
+            OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/Token"),
+                Provider = new ApplicationOAuthProvider(PublicClientId),
+                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+<<<<<<< HEAD
+                ////// In production mode set AllowInsecureHttp = false
+=======
+                //// In production mode set AllowInsecureHttp = false
+>>>>>>> 7c05e8c51b1d76e065d5aa62fad913e4f066d02e
+                AllowInsecureHttp = true
+            };
+
+            //// Enable the application to use bearer tokens to authenticate users
+            app.UseOAuthBearerTokens(OAuthOptions);
+
+<<<<<<< HEAD
+            //// Uncomment the following lines to enable logging in with third party login providers
+=======
+            // Uncomment the following lines to enable logging in with third party login providers
+>>>>>>> 7c05e8c51b1d76e065d5aa62fad913e4f066d02e
+            ////app.UseMicrosoftAccountAuthentication(
+            ////    clientId: "",
+            ////    clientSecret: "");
+
+            ////app.UseTwitterAuthentication(
+            ////    consumerKey: "",
+            ////    consumerSecret: "");
+
+            ////app.UseFacebookAuthentication(
+            ////    appId: "",
+            ////    appSecret: "");
+
+            ////app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            ////{
+            ////    ClientId = "",
+            ////    ClientSecret = ""
+            ////});
+        }
+    }
+}

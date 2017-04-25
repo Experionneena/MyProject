@@ -1,0 +1,240 @@
+﻿@{ 
+    Layout = null;
+}
+<link rel="stylesheet" href="~/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/assets/css/custome_font.css">
+<link rel="stylesheet" href="~/assets/css/animate.css">
+<link rel="stylesheet" href="~/assets/css/main.css">
+<link href="~/custom_designs/datatable.css" rel="stylesheet" />
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+
+<script src="~/assets/vendor/multiselect/bootstrap-multiselect.js"></script>
+<script src="~/assets/vendor/multiselect/prettify.js"></script>
+@*@RenderSection("scripts", required: false)*@
+<link href="~/custom_designs/devStyle.css" rel="stylesheet" />
+<script src="~/Scripts/Datatable/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/Datatable/dataTables.bootstrap.min.js"></script>
+<link href="~/assets/vendor/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/assets/js/bootbox.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+@*<script src="~/assets/vendor/jquery/dist/jquery.min.js"></script>*@
+<script src="~/assets/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+<script src="~/assets/js/pace.min.js" type="text/javascript"></script>
+<script src="~/assets/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+@*<script src="~/assets/js/scripts.js" type="text/javascript"></script>*@
+<script src="~/assets/js/app.js"></script>
+<script src="~/Scripts/treeview.js"></script>
+<script src="~/assets/js/jquery.aCollapTable.min.js"></script>
+<script src="~/Js/DatatableJs/Datatable.js"></script>
+<div class="table-responsive">
+    <table class="table tbl-colapse dataTableBinding" id="tblFeatures">
+        <thead>
+            <tr class="tbl_head">
+                <th class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test1" />
+                        <label for="test1"></label>
+                    </div>
+                </th>
+                <th>Feature Name</th>
+                <th class="text-center">Feature Icon</th>
+                <th>Program Link</th>
+                <th class="text-left">Sort Order</th>
+                <th class="text-center">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-id="1" data-parent="">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test2" disabled="disabled" />
+                        <label for="test2"></label>
+                    </div>
+                </td>
+                <td>
+                    Portal
+                </td>
+                <td class="text-center"></td>
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+            </tr>
+
+            <tr data-id="2" data-parent="1">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test3" />
+                        <label for="test3"></label>
+                    </div>
+                </td>
+                <td class="level-one">
+                    <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_feature">Feature Name 2</div>
+                </td>
+                <td class="text-center"><i class="fa icon-Owner_features"></i></td>
+                <td><a href="#">https://www.google.co.in/#q=lorem+ipsum+html&*</a></td>
+                <td class="text-center">1</td>
+                <td class="text-center">
+                    <a href=""><i class="icon-block" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+
+            <tr data-id="3" data-parent="1">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test4" disabled="disabled" />
+                        <label for="test4"></label>
+                    </div>
+                </td>
+                <td>
+                    User
+                </td>
+                <td class="text-center"></td>
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+            </tr>
+
+            <tr data-id="4" data-parent="3">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test5" />
+                        <label for="test5"></label>
+                    </div>
+                </td>
+                <td class="level-one">
+                    <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_feature">Feature Name 4</div>
+                </td>
+                <td class="text-center"><i class="fa icon-Default_partner_roles"></i></td>
+                <td><a href="#">https://www.google.co.in/#q=lorem+ipsum+html&*</a></td>
+                <td class="text-center">1</td>
+                <td class="text-center">
+                    <a href=""><i class="icon-done" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+
+            <tr data-id="5" data-parent="">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test6" disabled="disabled" />
+                        <label for="test6"></label>
+                    </div>
+                </td>
+                <td>
+                    Dashboard
+                </td>
+                <td class="text-center"></td>
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+            </tr>
+
+            <tr data-id="6" data-parent="5">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test11" />
+                        <label for="test11"></label>
+                    </div>
+                </td>
+                <td class="level-one">
+                    <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_feature">Feature Name 6</div>
+                </td>
+                <td class="text-center"><i class="fa icon-Invoices"></i></td>
+                <td><a href="#">https://www.google.co.in/#q=lorem+ipsum+html&*</a></td>
+                <td class="text-center">1</td>
+                <td class="text-center">
+                    <a href=""><i class="icon-block" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+
+            <tr data-id="7" data-parent="5">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test7" />
+                        <label for="test7"></label>
+                    </div>
+                </td>
+                <td class="level-one">
+                    <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_feature">Feature Name 7</div>
+                </td>
+                <td class="text-center"><i class="fa icon-Platform_setup"></i></td>
+                <td><a href="#">https://www.google.co.in/#q=lorem+ipsum+html&*</a></td>
+                <td class="text-center">2</td>
+                <td class="text-center">
+                    <a href=""><i class="icon-done" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+
+            <tr data-id="8" data-parent="">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test8" disabled="disabled" />
+                        <label for="test8"></label>
+                    </div>
+                </td>
+                <td>
+                    Reports
+                </td>
+                <td class="text-center"></td>
+                <td></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+            </tr>
+
+            <tr data-id="9" data-parent="8">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test9" />
+                        <label for="test9"></label>
+                    </div>
+                </td>
+                <td class="level-one">
+                    <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_feature">Feature Name 9</div>
+                </td>
+                <td class="text-center"><i class="fa icon-POS_parameters"></i></td>
+                <td><a href="#">https://www.google.co.in/#q=lorem+ipsum+html&*</a></td>
+                <td class="text-center">1</td>
+                <td class="text-center">
+                    <a href=""><i class="icon-done" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+
+
+            <tr data-id="10" data-parent="8">
+                <td class="text-center">
+                    <div class="checkbox_style">
+                        <input type="checkbox" id="test10" />
+                        <label for="test10"></label>
+                    </div>
+                </td>
+                <td class="level-one">
+                    <div class="modal_btn_click view_cursor" data-toggle="modal" data-target="#view_feature">Feature Name 10</div>
+                </td>
+                <td class="text-center"><i class="fa icon-Dashboard"></i></td>
+                <td><a href="#">https://www.google.co.in/#q=lorem+ipsum+html&*</a></td>
+                <td class="text-center">2</td>
+                <td class="text-center">
+                    <a href=""><i class="icon-block" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        var mSortingString = [];
+        mSortingString.push({ "bSortable": false, "aTargets": [1, 4] });
+        InitialiseDataTableForCollpase(mSortingString);
+        $('#tblFeatures').aCollapTable({
+            startCollapsed: true,
+            addColumn: true,
+            plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+            minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+        });
+    });
+
+
+</script>

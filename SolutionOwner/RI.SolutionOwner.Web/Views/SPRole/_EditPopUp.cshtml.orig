@@ -1,0 +1,208 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model RoleViewModel
+
+@using (Html.BeginForm("AddRole", "Role", Model, FormMethod.Post, new { id = "editRole", autocomplete = "off", @class = "form_components" }))
+{
+    @Html.HiddenFor(m => Model.Id, new { id = "hiddenId" })
+    @Html.HiddenFor(m => Model.CreatedDate, new { id = "hiddenCreatedDate" })
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="general">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label" for="field-1">Role name</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => Model.RoleName, new { id = "txtRoleNameEdit", @class = "form-control", @maxlength = "100", PlaceHolder = "RoleName" })
+                            <span class="validationmessage" id="txtRoleNameErrorEdit" style="color: red"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Default Home Page <span class="mandatory_clr">*</span></label>
+                      @Html.DropDownListFor(m =>Model.SOMenuId,new SelectList(Model.SOMenuList,""))
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="form-label" for="field-2">Role description</label>
+                        <div class="controls">
+                            @Html.TextAreaFor(m => Model.Description, new { id = "txtRoleDescEdit", @class = "form-control", @maxlength = "100", PlaceHolder = "Description" })
+                            <span class="validationmessage" id="txtDescErrorEdit" style="color: red"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <div class="">
+                            @Html.CheckBoxFor(m => Model.IsActive, new { @id = "roleStatuscheckboxEdit" }) Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="default_table">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Feature name</th>
+                                        <th class="text-center">Read</th>
+                                        <th class="text-center">Create</th>
+                                        <th class="text-center">Update/Edit</th>
+                                        <th class="text-center">Deactivate/Activate</th>
+                                        <th class="text-center">Approve</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="modal_table_body editFeaturePermissions">
+                                    @if (Model.RoleFeaturePermissionViewModel != null)
+                                    {
+                                        for (var i = 0; i < Model.RoleFeaturePermissionViewModel.Count(); i++)
+                                        {
+                                            var item = Model.RoleFeaturePermissionViewModel.ToList()[i];
+                                            <tr id="featureListPermission">
+                                                <td id="featureNameEdit_@i">
+                                                    @Html.HiddenFor(m => item.Id, new { @id = "hiddenpermissionid_" + i })
+                                                    @item.FeatureName
+                                                </td>
+                                                <td style="display:none" id="featureIdEdit_@i">@item.FeatureId</td>
+                                                <td class="text-center">
+                                                    <div class="form-group isRead">
+                                                        @Html.CheckBoxFor(m => item.ReadPermission, new { @id = "readcheckboxedit_" + i, @class = "Clear" })
+                                                    </div>
+                                                </td>
+                                                <td class="text-center isCreate">
+                                                    <div class="form-group">
+                                                        @Html.CheckBoxFor(m => item.CreatePermission, new { @id = "createcheckboxedit_" + i, @class = "Clear" })
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="form-group isUpdate">
+                                                        @Html.CheckBoxFor(m => item.UpdatePermission, new { @id = "updatecheckboxedit_" + i, @class = "Clear" })
+                                                    </div>
+                                                </td>
+                                                <td class="text-center isDeactivate">
+                                                    <div class="form-group">
+                                                        @Html.CheckBoxFor(m => item.DeletePermission, new { @id = "deactivatecheckboxedit_" + i, @class = "Clear" })
+                                                    </div>
+                                                </td>
+                                                <td class="text-center isApprove">
+                                                    <div class="form-group">
+                                                        @Html.CheckBoxFor(m => item.ApprovePermission, new { @id = "approvecheckboxedit_" + i, @class = "Clear" })
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <div class="">
+                            @Html.CheckBoxFor(m => Model.IsActive, new { @id = "roleStatuscheckboxEdit" }) Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer form_btn_block">
+        <button type="button" class="btn btn-default" id="btn_cancelEditRole">Cancel</button>
+        <button type="button" class="btn save" id="btn_EditRole">Save</button>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('#txtRoleNameEdit').keypress(function (e) {
+            $('#txtRoleNameErrorEdit').html('');
+        });
+        $('#txtRoleDescEdit').keypress(function (e) {
+            $('#txtDescErrorEdit').html('');
+        });
+        $("#btn_EditRole").click(function () {
+            var isError = false;
+            if ($("#txtRoleNameEdit").val().trim() == "" || $("#txtRoleNameEdit").val().trim() == null) {
+                $('#txtRoleNameErrorEdit').html('Role name is required.');
+                isError = true;
+            }
+            else {
+                $('#txtRoleNameErrorEdit').html('');
+            }
+            if ($("#txtRoleDescEdit").val().trim() == "" || $("#txtRoleDescEdit").val().trim() == null) {
+                $('#txtDescErrorEdit').html('Description is required.');
+                isError = true;
+            }
+            else {
+                $('#txtDescErrorEdit').html('');
+            }
+            if (isError) {
+                return false;
+            }
+            var featureListEdit = [];
+            var count = $('.editFeaturePermissions tr').length;
+            for (var i = 0; i < count; i++) {
+                var featurePermissionEdit = {};
+                featurePermissionEdit.Id = $("#hiddenpermissionid_" + i).val();
+                featurePermissionEdit.FeatureName = $("#featureNameEdit_" + i).text();
+                featurePermissionEdit.CreatePermission = $("#readcheckboxedit_" + i).prop("checked");
+                featurePermissionEdit.ReadPermission = $("#createcheckboxedit_" + i).prop("checked");
+                featurePermissionEdit.UpdatePermission = $("#updatecheckboxedit_" + i).prop("checked");
+                featurePermissionEdit.DeletePermission = $("#deactivatecheckboxedit_" + i).prop("checked");
+                featurePermissionEdit.ApprovePermission = $("#approvecheckboxedit_" + i).prop("checked");
+                featureListEdit.push(featurePermissionEdit);
+            };
+
+            var postData = {
+                Id: $("#hiddenId").val(),
+                CreatedDate: $("#hiddenCreatedDate").val(),
+                RoleName: $("#txtRoleNameEdit").val(),
+                Description: $("#txtRoleDescEdit").val(),
+                IsActive: $("#roleStatuscheckboxEdit").val(),
+                RoleFeaturePermissionViewModel: featureListEdit
+            }
+            $.ajax({
+                url: '@Url.Action("UpdateOwnerRole", "Role")',
+                type: 'POST',
+                data: postData,
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#roleEditPopup').modal('hide');
+                        $('#role_Grid').empty();
+                        $('#role_Grid').html(data.Data);
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        });
+
+        $("#btn_cancelEditRole").click(function () {
+            $("#txtRoleNameEdit").val('');
+            $("#txtRoleDescEdit").val('');
+            $("#txtRoleNameErrorEdit").html('');
+            $("#txtDescErrorEdit").html('');
+            $(".Clear").prop('checked', false);
+            $('#roleEditPopup').modal('hide');
+        });
+    });
+</script>

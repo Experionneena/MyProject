@@ -1,0 +1,47 @@
+﻿
+<form class="form_components">
+
+    <ul class="nav nav-tabs nav-custom" role="tablist">
+        <li role="presentation" class="active deactive" onclick="GetPage(1)" id="general"><a href="#!" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+        <li role="presentation" class="deactive" onclick="GetPage(2)" id="address"><a href="#!" aria-controls="address" role="tab" data-toggle="tab">Address</a></li>
+        @* <li role="presentation"><a href="#invoice" aria-controls="invoice" role="tab" data-toggle="tab">Invoicing</a></li>*@
+        <li role="presentation" class="deactive" onclick="GetPage(3)" id="sftp"><a href="#!" aria-controls="sftp" role="tab" data-toggle="tab">SFTP</a></li>
+        <li role="presentation" class="deactive" onclick="GetPage(4)" id="heirarchies"><a href="#!" aria-controls="hierarchies" role="tab" data-toggle="tab">Hierarchies</a></li>
+    </ul>
+    
+            <div class="tab-content tab-custom tab-bottom-border m-b-sm" id="tabDiv">
+                @Html.Partial("_GeneralSettingsAdd")
+            </div>
+</form>
+
+<script>
+    function GetPage(pageName) {
+        var pageName = pageName
+        $.ajax({
+            url: '@Url.Action("LoadTabsForAdd", "SOSolutionPartner")',
+            type: 'POST',
+            data: { name: pageName },
+            success: function (data) {
+                $('#tabDiv').empty();
+                $('#tabDiv').html(data.Data);
+                if(pageName == "1")
+                {
+                    $(".deactive").removeClass('active');
+                    $("#general").addClass('active');
+                }
+                if (pageName == "2") {
+                    $(".deactive").removeClass('active');
+                    $("#address").addClass('active');
+                }
+                if (pageName == "3") {
+                    $(".deactive").removeClass('active');
+                    $("#sftp").addClass('active');
+                }
+                if (pageName == "4") {
+                    $(".deactive").removeClass('active');
+                    $("#heirarchies").addClass('active');
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,560 @@
+﻿@model RI.SolutionOwner.Web.Models.BrandingViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+}
+<div id="myModal" class="modal modal_c fade bs-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-md m-t-xxxl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>Crop Image</span>
+                <button style="float:right;" class="close" type="button" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="table " id="tblImgCropper">
+                    <div class="tblRow">
+                        <div class="box" id="canvasContainer">
+                            <canvas id="panel" width="270" height="100"></canvas>
+                        </div>
+                     </div>
+
+                    <div class="tblRow tbslider">
+                        <input id='scaleSlider' type='range' min='0.1' max='3.0' step='0.01' value='1.0' />
+                   </div>
+                    <span class="validationmessage" id="validateImgcrop"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn save" id="cropImgButtn">Crop</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-default btnCancelPopup" id="btnCancelPopup">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="main-content" class="">
+    <!--  Breadcrumb block -->
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">
+                            Branding
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Breadcrumb block -->
+    <!-- Content Area -->
+    <section class="wrapper main-wrapper row mt0">
+        <div class="col-xs-12">
+            <form class="form_components">
+                @Html.HiddenFor(m => m.Id)
+                <section class="box">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-lg-12 m-t-sm">
+                                    <label for="inputEmail3" class="control-label">Logo </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 logo_upload">
+                                    <img id="imgLogo" class="img-responsive logo-new">
+                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group m-r-sm">
+                                        <span class="btn save m-t-sm fileinput-button">
+                                            <span>Change Logo</span>
+                                            <input type="file" id="uploadfile" name="files[]" multiple="">
+                                        </span>
+                                        <span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Image Dimension: 230x60 <br> Minimum-Size: 100 kb <br> Maximum-Size: 200 kb <br> Image Type: JPG, JPEG, PNG"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-lg-12 m-t-sm">
+                                    <label for="inputEmail3" class="control-label">Logo thumbnail </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 logo_upload">
+                                    <img src="" id="imgThumbnail" class="img-responsive thumb-logo-new">
+                                </div>
+                            </div>  
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group m-r-sm">
+                                        <span class="btn save m-t-sm fileinput-button">
+                                            <span>Change Logo</span>
+                                            <input type="file" id="uploadthumbFile" name="files[]" multiple="">
+                                        </span>
+                                       <span class="fa fa-info-circle info-icon m-l-sm info-tooltip" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Image Dimension: 60x60 <br> Minimum-Size: 100 kb <br> Maximum-Size: 200 kb <br> Image Type: JPG, JPEG, PNG"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-3">Owner Name <span class="mandatory_clr">*</span> </label>
+                                        <span class="desc"></span>
+                                        <div class="controls">
+                                            @Html.TextBoxFor(m => m.OwnerName, new { maxlength = 100, @class = "form-control", @onchange = "validate()" })
+                                            <span class="validationmessage" id="txtOwner"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-3">Company Name </label>
+                                        <div class="controls">
+                                            @Html.TextBoxFor(m => m.CompanyName, new { maxlength = 100, @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="field-3">Product Name <span class="mandatory_clr">*</span></label>
+                                        <div class="controls">
+                                            @Html.TextBoxFor(m => m.ProductName, new { maxlength = 100, @class = "form-control", @onchange = "validate()" })
+                                            <span class="validationmessage" id="txtProductName"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Base Currency <span class="mandatory_clr">*</span></label>
+                                        @Html.DropDownListFor(m => m.BaseCurrencyID, Model.BaseCurrencyList, "Select", new { @class = "form-control m-bot15", @onchange = "validate()" })
+                                        <span class="validationmessage" id="txtCurrency"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="SchedulerRunTime">Scheduler Run Time<span class="mandatory_clr">*</span></label>
+                                        <div class="input-group bootstrap-timepicker timepicker controls">
+                                            @Html.TextBoxFor(m => m.SchedulerRunTime, new { @class = "form-control input-small", @readonly = true })
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                        <span class="validationmessage" id="spSchedulerRuntime"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="box">
+                    <div class="row">
+                        <div class="col-lg-12 heading m-t-sm m-b-sm">
+                            <p>COMMUNICATION ADDRESS</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group ">
+                                <label class="form-label" for="field-3">Address </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Street Name </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.StreetName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Area </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.Area, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Zone </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.Zone, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">City </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Country </label>
+                                <div class="controls">
+                                    @*@Html.DropDownListFor(m => m.CountryID, Model.Countries, "Select", new { @class = "form-control m-bot15" })*@
+                                    @Html.TextBoxFor(m => m.CountryName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">State </label>
+                                <div class="controls">
+                                    @*@Html.DropDownListFor(m => m.StateID, Model.States, "Select", new { @class = "form-control m-bot15" })*@
+                                    @Html.TextBoxFor(m => m.StateName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="box">
+                    <div class="row">
+                        <div class="col-lg-12 heading m-t-sm m-b-sm">
+                            <p>BILLING CONTACT DETAILS</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Person Name </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.BillingPersonName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Designation </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.BillingDesignation, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Work Phone </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.BillingWorkPhone, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Mobile Number </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.BillingMobileNumber, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Email </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.BillingEmail, new { @class = "form-control" })
+                                    <span class="validationmessage" id="txtBillingEmail"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="box">
+                    <div class="row">
+                        <div class="col-lg-12 heading m-t-sm m-b-sm">
+                            <p>SALES CONTACT DETAILS</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Person</label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.SalesPersonName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Designation </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.SalesDesignation, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group ">
+                                <label class="form-label" for="field-3">Work Phone </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.SalesWorkPhone, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Mobile Number </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.SalesMobileNumber, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-label" for="field-3">Email </label>
+                                <div class="controls">
+                                    @Html.TextBoxFor(m => m.SalesEmail, new { @class = "form-control" })
+                                    <span class="validationmessage" id="txtSalesEmail"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="submit-btn m-t-md m-b-xl pull-right">
+                    <div class="form_btn_block pull-right">
+                        <input type="button" class="btn save" id="btnSubmit" value="Submit" />
+                        <input type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal" value="Cancel" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</section>
+<link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
+@*<link href="~/assets/css/bootstrap-timepicker.css" rel="stylesheet" />*@
+<link href="~/assets/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.ui.widget.js"></script>
+<script src="~/Scripts/jquery.fileupload.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/assets/js/bootstrap-timepicker.min.js"></script>
+<script src="~/Js/ImageCropper.js"></script>
+<script type="text/javascript">
+    var defaultImg = '@Url.Content("~/assets/images/logo.png")' , uploadFileSize = "73400320";
+    var defaultFoldedImg = '@Url.Content("~/assets/images/logo-folded.png")';
+    var postedImgData, postedThumbData; var sourceFileName;
+    @if (string.IsNullOrEmpty(Model.ImgData))
+    {
+        <text> $('#imgLogo').attr('src', defaultImg); </text>
+    }
+    else
+    {
+        <text> $('#imgLogo').attr('src', '@Model.ImgData'); </text>
+    }
+
+    @if (string.IsNullOrEmpty(Model.ImgThumbData))
+    {
+        <text> $('#imgThumbnail').attr('src', defaultFoldedImg); </text>
+    }
+    else
+    {
+        <text> $('#imgThumbnail').attr('src', '@Model.ImgThumbData'); </text>
+    }
+
+    $(document).ready(function () {
+       $('#SchedulerRunTime').timepicker();
+        $('input[type=text]').keypress(function (e) {
+            if (e.which == 13) {
+                $('#btnSubmit').click();
+            }
+        });
+
+        $('#uploadfile,#uploadthumbFile').fileupload({
+            type: "POST",
+            dataType: 'json',
+            url: '@Url.Action("UploadFileData", "Branding")',
+            autoUpload: true,
+            add: function (e, data) {
+                var goUpload = true;
+                var uploadFile = data.files[0];
+                if (!(/\.(jpeg|jpg|png|gif)$/i).test(uploadFile.name)) {
+                    $('.file_type').html('File Type not supported.');
+                    goUpload = false;
+                }
+                if (uploadFile.size > uploadFileSize) { // 2mb
+                    $('.file_type').html('Please upload a smaller file, max size is' + " " + uploadFileSize / (1024 * 1024) + " " + 'MB.');
+                    goUpload = false;
+                }
+
+                if (goUpload == true) {
+                    data.submit();
+                }
+            },
+            done: function (e, data) {
+                $("#myModal").modal('show');
+                var sourceUploadId = $(e.target).attr("id");
+                if (sourceUploadId == 'uploadfile') {
+                    imageCropper.init("logo", data.result);
+                    $('#panel').attr("width", "270");
+                    $('#canvasContainer').removeClass('tblRowThumb');
+                }
+                else {
+                    imageCropper.init("thumb", data.result);
+                    $('#panel').attr({"width":"100","height":"100"});
+                    $('#canvasContainer').addClass('tblRowThumb');
+               }
+                sourceFileName = data.result;
+            },
+            fail: function (e, data) {
+                alert("in error file upload " + data.errorThrown);
+            }
+        });
+
+        $('#btnCancel').click(function () {
+            $('input[type=text],select').val('');
+            $('img.logo').attr({ "src": defaultImg, "alt": "no image" });
+            $('span.validationmessage').html('');
+        });
+      
+
+        $("#myModal").on("hide.bs.modal", function (e) {
+           removeUploadedFile();
+        });
+        $('#btnCancelPopup').click(function () {
+            removeUploadedFile();
+        });
+        $('#btnSubmit').click(function () {
+            if (validate()) {
+                postedImgData = imageCropper.getCroppedImage();
+                postedThumbData = imageCropper.getCroppedThumb();
+                postedImgData = (postedImgData == "" ? '@Model.ImgData' : postedImgData);
+                postedThumbData = (postedThumbData == "" ? '@Model.ImgThumbData' : postedThumbData);
+
+                var postData = {
+                    Id: $('#Id').val(),
+                    OwnerName: $('#OwnerName').val(),
+                    CompanyName: $('#CompanyName').val(),
+                    ProductName: $('#ProductName').val(),
+                    BaseCurrencyID: $('#BaseCurrencyID').val(),
+                    SchedulerRunTime: $('#SchedulerRunTime').val(),
+                    Address: $('#Address').val(),
+                    StreetName: $('#StreetName').val(),
+                    Area: $('#Area').val(),
+                    Zone: $('#Zone').val(),
+                    City: $('#City').val(),
+                    //CountryID: $('#CountryID').val(),
+                    //StateID: $('#StateID').val(),
+                    CurrencyName: $("select#BaseCurrencyID option:selected").text(),
+                    CountryName: $('#CountryName').val(), //$("select#CountryID option:selected").text(),
+                    StateName: $('#StateName').val(), //$('select#StateID option:selected').text(),
+                    BillingPersonName: $('#BillingPersonName').val(),
+                    BillingDesignation: $('#BillingDesignation').val(),
+                    BillingWorkPhone: $('#BillingWorkPhone').val(),
+                    BillingMobileNumber: $('#BillingMobileNumber').val(),
+                    BillingEmail: $('#BillingEmail').val(),
+
+                    SalesPersonName: $('#SalesPersonName').val(),
+                    SalesDesignation: $('#SalesDesignation').val(),
+                    SalesWorkPhone: $('#SalesWorkPhone').val(),
+                    SalesMobileNumber: $('#SalesMobileNumber').val(),
+                    SalesEmail: $('#SalesEmail').val(),
+                    LogoFileName: sourceFileName,
+                    ImgData: postedImgData,
+                    ImgThumbData: postedThumbData
+                }
+                $.ajax({
+                    url: '@Url.Action("Edit", "Branding")',
+                    type: 'POST',
+                    data: { model: postData },
+                    //contentType: "application/x-www-form-urlencoded",
+                    dataType: 'json',
+                    success: function (result) {
+                        location.href = '@Url.Action("ViewBranding", "Branding")';
+                    }
+
+                });
+            }
+        });
+
+    });
+    function removeUploadedFile() {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("RemoveFile", "Branding")',
+            data: { fileName: sourceFileName },
+            dataType: 'json'
+        });
+    }
+
+    function validate() {
+        var flag = true;
+        if ($('#OwnerName').val() == "") {
+            $('#OwnerName').next('span.validationmessage').html("Required field");
+            flag = false; $('#OwnerName').focus();
+        }
+        else {
+            $('#OwnerName').next('span.validationmessage').html('');
+        }
+        if ($('#ProductName').val() == "") {
+            $('#ProductName').next('span.validationmessage').html("Required field");
+            flag = false; $('#OwnerName').focus();
+        }
+        else {
+            $('#ProductName').next('span.validationmessage').html('');
+        }
+        if ($('#BaseCurrencyID').val() == "") {
+            $('#BaseCurrencyID').next('span.validationmessage').html("Required field");
+            flag = false; $('#OwnerName').focus();
+        }
+        else {
+            $('#BaseCurrencyID').next('span.validationmessage').html('');
+        }
+        if ($('#SchedulerRunTime').val() == "") {
+            $('span#spSchedulerRuntime').html("Required field");
+            flag = false; $('#SchedulerRunTime').focus();
+        }
+        else {
+            $('span#spSchedulerRuntime').html('');
+        }
+        if ($('#BillingEmail').val() != "" && validateEmail($('#BillingEmail').val()) == false) {
+            $('#BillingEmail').next('span.validationmessage').html("Invalid entry");
+            flag = false;
+        }
+        else {
+            $('#BillingEmail').next('span.validationmessage').html('');
+        }
+        if ($('#SalesEmail').val() != "" && validateEmail($('#SalesEmail').val()) == false) {
+            $('#SalesEmail').next('span.validationmessage').html("Invalid entry");
+            flag = false;
+        }
+        else {
+            $('#SalesEmail').next('span.validationmessage').html('');
+        }
+        return flag;
+    }
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+    $('.wraplist li a').each(function (index, value) {
+        if ($(this).attr('href') == '/Branding/Edit') {
+            $(this).parent().addClass('open');
+            return;
+        }
+    })
+
+</script>

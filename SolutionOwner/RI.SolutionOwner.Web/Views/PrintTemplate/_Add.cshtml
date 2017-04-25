@@ -1,0 +1,160 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@model PrintTemplateViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("Add", "PrintTemplate", new AjaxOptions { HttpMethod = "POST", OnSuccess = "add.onsuccess" },  new { @class = "form_components" }))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="txtName">Name<span class="mandatory_clr"> *</span></label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Name, new { maxlength = 100, @class = "form-control" })
+                    <span class="validationmessage"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="PrintText">Print Text<span class="mandatory_clr"> *</span></label>
+                <div class="controls">
+                    @Html.TextAreaFor(m => m.PrintText, new { @class = "form-control" })
+                    <span class="validationmessage"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <div class="checkbox_style">
+                    @Html.CheckBoxFor(m=>m.MerchantCopy,new {  @type = "checkbox" })
+                    @*<input type="checkbox" id="chkMerchantCopy" name="chkMerchantCopy" />*@ 
+                    <label for="MerchantCopy">Merchant Copy</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group">
+                <div class="checkbox_style">
+                    @Html.CheckBoxFor(m => m.IsActive,new {@type="checkbox" })
+                    @*<input type="checkbox" id="chkIsActive" name="chkIsActive"  />*@
+                    <label for="IsActive">Is Active</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer form_btn_block">
+        @Html.HiddenFor(m => m.Id)
+        @*<input type="hidden" id="hdnTemplateId" value="@Model.Id" />*@
+        <button type="button" class="btn btn-default" id="btnCancelPopup" data-dismiss="modal">Cancel</button>
+        <input type="submit" class="btn save" id="btnAddSave" value="Save"  />
+      
+    </div>
+}
+<script type="text/javascript">
+    $('#btnAddSave').click(function () {
+        add.encodeText();
+        return add.validateData();
+    });
+
+    $('#btnCancelPopup').click(function () {
+        add.clearFields();
+    });
+    var add = {
+        onsuccess: function (result) {
+            if (result.status == true) {
+                ShowAlert(result.msg, 'success');
+            }
+            else {
+                ShowAlert(result.msg, 'error');
+            }
+            if (result.id>0) {
+                $('#edit_template').modal('hide');
+            }
+            else {
+                $('#add_template').modal('hide');
+            }
+            
+            // Refresh Grid
+            list.loadGrid();
+            list.setDataTable();
+            // close popup
+        },
+        encodeText:function(){
+            $('#PrintText').val(encodeURIComponent($('#PrintText').val()));
+        },
+                    
+        validateData: function () {
+            var flag=true;
+                                
+            if ($('#Name').val() == "") {
+                $('#Name').next('span.validationmessage').html("Required field");
+                $('#Name').focus();
+                flag = false;
+            }
+            else {
+                $('#Name').next('span.validationmessage').html("");
+            }
+                               
+            if ($('#PrintText').val() == "") {
+                $('#PrintText').next('span.validationmessage').html("Required field");
+                $('#PrintText').focus();
+                flag = false;
+            }
+            else {
+                $('#PrintText').next('span.validationmessage').html("");
+            }
+        
+            console.log("vaidate: "+flag);
+            return flag;
+        },
+
+        clearFields: function () {
+            $('#Name').val('');
+            $('#PrintText').val('');
+            $('#MerchantCopy').attr("checked", false);
+            $('#IsActive').attr("checked", false);
+        }
+    }
+
+    $(document).ready(function () {
+        $('#PrintText').val(decodeURIComponent($('#PrintText').val()));
+        $('input[type=hidden][name=MerchantCopy],input[type=hidden][name=IsActive]').remove();
+       
+        $('input[type=text],textarea').keypress(function (e) {
+            if (e.which == 13) {
+                add.encodeText();
+                return add.validateData();
+            }
+        });
+
+      
+        $('#Name').change(function () {
+            if ($('#Name').val() == "") {
+                $('#Name').next('span.validationmessage').html("Required field");
+                $('#Name').focus();
+            }
+            else {
+                $('#Name').next('span.validationmessage').html("");
+            }
+        });
+
+        $('#PrintText').change(function () {
+            if ($('#PrintText').val() == "") {
+                $('#PrintText').next('span.validationmessage').html("Required field");
+                $('#PrintText').focus();
+            }
+            else {
+                $('#PrintText').next('span.validationmessage').html("");
+            }
+        });
+    });
+
+  
+</script>

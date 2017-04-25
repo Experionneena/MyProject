@@ -1,0 +1,281 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model List<FeatureViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayOut.cshtml";
+}
+
+@*POPUP FOR ADD FEATURE*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels" id="featureAddPopup">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeAdd" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Feature</h4>
+            </div>
+
+            <div class="modal-body" id="featureAdd">
+                @Html.Action("LoadAddPopUp", "Feature")
+            </div>
+        </div>
+    </div>
+</div>
+@*POPUP FOR EDIT FEATURE*@
+<div class="modal modal_c fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="featureEditPopup">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="btn_closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit Feature</h4>
+            </div>
+            <div class="modal-body" id="featureEdit">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="main-content">
+    <div class="breadcrumb_block">
+        <div class="col-xs-12">
+            <div class="">
+                <div class="pull-left">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+
+                        <li class="active">
+                            Feature Management
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search_block">
+        <div class="col-lg-12">
+            @*<div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="search--block">
+                        <div class="input-group stylish-input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <span class="input-group-addon">
+                                <button type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right pull-right">
+                <div class="tooltip__block">
+<<<<<<< HEAD
+                    <button type="button" class="btn btn-default"  data-toggle="tooltip" data-placement="top" title="Add" id="add"><i class="icon-add" aria-hidden="true"></i></button>
+=======
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#featureAddPopup" data-toggle="tooltip" data-placement="top" title="Add"><i class="icon-add" aria-hidden="true"></i></button>
+>>>>>>> 41c3778d307f3319c84be4df9e23ab77ef47f63f
+
+                    <button type="button" id="btnActivate" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Activate"> <i class="icon-done" aria-hidden="true"></i></button>
+
+
+                    <button type="button" id="btnDeactivate" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Deactivate"><i class="icon-block" aria-hidden="true"></i></button>
+
+
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Edit" id="btn_EditPopup"><i class="icon-edit" aria-hidden="true"></i></button>
+
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete" id="btn_Delete"><i class="icon-folder" aria-hidden="true"></i></button>
+
+                    @*<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="File"><i class="icon-folder" aria-hidden="true"></i></button>
+
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Profile"> <i class="icon-profile" aria-hidden="true"></i></button>
+
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Site map"><i class="icon-Site_map" aria-hidden="true"></i></button>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="wrapper main-wrapper row mt0">
+
+        <div class="row">
+            <div class="col-lg-12" id="feature_Grid">
+
+            </div>
+        </div>
+    </section>
+</section>
+<script src="~/Js/Common.js"></script>
+<script type="text/javascript">
+    $('#add').click(function () {
+        $('#featureAddPopup').modal('show');
+    });
+    $(document).ready(function () {
+        GetFeatureGridDetails();
+        function GetFeatureGridDetails() {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetFeatureList", "Feature")',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        $('#feature_Grid').empty();
+                        $('#feature_Grid').html(data.Data);
+                        hideProgress();
+                    }
+                    else {
+                        alert(data.Status);
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+
+                },
+
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('wqer!', 'error');
+                }
+            });
+        }
+
+        function CheckCheckboxCheckedOrUnchecked() {
+            var id;
+            $(".checkbox_click").each(function () {
+                if ($(this).prop('checked') == true) {
+                    id = $(this).attr('id');
+                }
+            });
+            return id;
+        }
+
+        $("#btn_EditPopup").click(function () {
+            var id = CheckCheckboxCheckedOrUnchecked();
+            if (id != null) {
+                ShowProgress();
+                $.ajax({
+                    url: '@Url.Action("GetFeatureDetailsForEditById", "Feature")',
+                    type: 'POST',
+                    data: { featureId: id },
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            hideProgress();
+                            $('#featureEditPopup').modal('show');
+                            $('#featureEdit').empty();
+                            $('#featureEdit').html(data.Data);
+                        }
+                        else {
+                            hideProgress();
+                            ShowAlert('Something wrong!', 'error');
+                        }
+
+                    },
+
+                    error: function (data) {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                });
+            }
+        });
+        $("#btn_Delete").click(function () {
+            var idForDelete = CheckCheckboxCheckedOrUnchecked();
+            if (idForDelete != null) {
+                bootbox.confirm("Are you sure you want to delete?", function (result) {
+                    if (result) {
+                        ShowProgress();
+                        $.ajax({
+                            url: '@Url.Action("DeleteFeatureById", "Feature")',
+                            type: 'POST',
+                            data: { featureId: idForDelete },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    hideProgress();
+                                    $('#feature_Grid').empty();
+                                    $('#feature_Grid').html(data.Data);
+                                }
+                                else {
+                                    hideProgress();
+                                    ShowAlert('Something wrong!', 'error');
+                                }
+                            },
+                            error: function (data) {
+                                hideProgress();
+                                ShowAlert('Something wrong!', 'error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $("#btn_closeAdd").click(function () {
+            $("#txtName").val('');
+            $("#txtPrgLink").val('');
+            $("#txtNameError").html('');
+            $("#txtLinkError").html('');
+            $("#statuscheckbox").prop('checked', false);
+            $('#featureAddPopup').modal('hide');
+        });
+        $("#btn_closeEdit").click(function () {
+            $("#txtName").val('');
+            $("#txtPrgLink").val('');
+            $("#txtNameError").html('');
+            $("#txtLinkError").html('');
+            $("#statuscheckboxEdit").prop('checked', false);
+            $('#featureEditPopup').modal('hide');
+        });
+
+        $('#btnActivate').click(function () {
+            bootbox.confirm("Are you sure you want to Activate this feature?", function (result) {                
+                if (result) {                    
+                    var id = CheckCheckboxCheckedOrUnchecked();
+                    if (id != null) {
+                        $.ajax({
+                            url: '@Url.Action("Activate", "Feature")',
+                            type: 'POST',
+                            data: { featureId: id, flag: 1 },
+                            success: function (data) {
+                                if (data.Status == 1) {
+                                    $('#feature_Grid').empty();
+                                    $('#feature_Grid').html(data.Data);
+                                }
+                                else {
+                                }
+                            },
+                            error: function (data) {
+                            }
+                        });
+                    }
+                }
+            });
+        });
+                        
+
+                        $('#btnDeactivate').click(function () {
+                            bootbox.confirm("Are you sure you want to Deactivate this feature?", function (result) {
+                                if (result) {                                    
+                                    var id = CheckCheckboxCheckedOrUnchecked();
+                                    if (id != null) {
+                                        $.ajax({
+                                            url: '@Url.Action("Deactivate", "Feature")',
+                                            type: 'POST',
+                                            data: { featureId: id, flag: 0 },
+                                            success: function (data) {
+                                                if (data.Status == 1) {
+                                                    $('#feature_Grid').empty();
+                                                    $('#feature_Grid').html(data.Data);
+                                                }
+                                                else {
+                                                }
+                                            }, 
+                                            error: function (data) {
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        });
+    });
+</script>

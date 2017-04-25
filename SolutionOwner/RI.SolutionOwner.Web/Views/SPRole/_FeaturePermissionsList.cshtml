@@ -1,0 +1,261 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model SPRoleViewModel
+<thead>
+    <tr>
+        <th>Feature name</th>
+        <th class="text-center">Read</th>
+        <th class="text-center">Create</th>
+        <th class="text-center">Update/Edit</th>
+        <th class="text-center">Delete</th>
+        <th class="text-center">Deactivate/Activate</th>
+        <th class="text-center">Approve</th>
+    </tr>
+</thead>
+<tbody class="modal_table_body check_data editFeaturePermission" id="featurePermissions">
+    @for (var i = 0; i < Model.CategoryList.Count(); i++)
+    {
+        var category = Model.CategoryList.ToList()[i];
+        <tr data-id="category_@i" data-parent="" class="mainCategory">
+            <td>@category.DisplayName</td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+        </tr>
+        if (category.FeatureList != null)
+        {
+            for (var j = 0; j < category.FeatureList.Count(); j++)
+            {
+                var feature = category.FeatureList.ToList()[j];
+                <tr data-id="featureCategory_@j" data-parent="category_@i" id="featureList1">
+                    <td id="featureNameEdit_@feature.Id">@feature.DisplayName</td>
+                    <td style="display:none" id="featureIdEdit_@feature.Id">@feature.Id</td>
+                    <td class="text-center">
+                        <div class="form-group">
+                            <div class="checkbox_style">
+                                <input type="checkbox" class="clearIsChecked" id="readcheckboxEdit_@feature.Id" /><label for="readcheckboxEdit_@feature.Id"></label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-group">
+                            <div class="checkbox_style">
+                                <input type="checkbox" class="clearIsChecked" id="createcheckboxEdit_@feature.Id" /><label for="createcheckboxEdit_@feature.Id"></label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-group">
+                            <div class="checkbox_style">
+                                <input type="checkbox" class="clearIsChecked" id="updatecheckboxEdit_@feature.Id" /><label for="updatecheckboxEdit_@feature.Id"></label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-group">
+                            <div class="checkbox_style">
+                                <input type="checkbox" class="clearIsChecked" id="deletecheckboxEdit_@feature.Id" /><label for="deletecheckboxEdit_@feature.Id"></label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-group">
+                            <div class="checkbox_style">
+                                <input type="checkbox" class="clearIsChecked" id="deactivatecheckboxEdit_@feature.Id" /><label for="deactivatecheckboxEdit_@feature.Id"></label>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="form-group">
+                            <div class="checkbox_style">
+                                <input type="checkbox" class="clearIsChecked" id="approvecheckboxEdit_@feature.Id" /><label for="approvecheckboxEdit_@feature.Id"></label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        if (category.Children != null)
+        {
+            for (var k = 0; k < category.Children.Count(); k++)
+            {
+                var subCategoryList = category.Children.ToList()[k];
+                <tr data-id="subCategory_@k" data-parent="category_@i" class="subCategory">
+                    <td>@subCategoryList.DisplayName</td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                for (var L = 0; L < subCategoryList.FeatureList.Count(); L++)
+                {
+                    var features = subCategoryList.FeatureList.ToList()[L];
+                    <tr data-id="featureSub_@L" data-parent="subCategory_@k" id="featureList2">
+                        <td id="featureNameEdit_@features.Id">@features.DisplayName</td>
+                        <td style="display:none" id="featureIdSubEdit_@features.Id">@features.Id</td>
+                        <td class="text-center">
+                            <div class="form-group">
+                                <div class="checkbox_style">
+                                    <input type="checkbox" class="clearIsChecked" id="readcheckboxEdit_@features.Id" /><label for="readcheckboxEdit_@features.Id"></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="form-group">
+                                <div class="checkbox_style">
+                                    <input type="checkbox" class="clearIsChecked" id="createcheckboxEdit_@features.Id" /><label for="createcheckboxEdit_@features.Id"></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="form-group">
+                                <div class="checkbox_style">
+                                    <input type="checkbox" class="clearIsChecked" id="updatecheckboxEdit_@features.Id" /><label for="updatecheckboxEdit_@features.Id"></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="form-group">
+                                <div class="checkbox_style">
+                                    <input type="checkbox" class="clearIsChecked" id="deletecheckboxEdit_@features.Id" /><label for="deletecheckboxEdit_@features.Id"></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="form-group">
+                                <div class="checkbox_style">
+                                    <input type="checkbox" class="clearIsChecked" id="deactivatecheckboxEdit_@features.Id" /><label for="deactivatecheckboxEdit_@features.Id"></label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="form-group">
+                                <div class="checkbox_style">
+                                    <input type="checkbox" class="clearIsChecked" id="approvecheckboxEdit_@features.Id" /><label for="approvecheckboxEdit_@features.Id"></label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    }
+    </tbody>
+
+    <script>
+        $(document).ready(function () {
+            $('#tblEditRole').aCollapTable({
+                startCollapsed: true,
+                addColumn: true,
+                plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+                minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+            });
+
+            var dict = [];
+            var featureList = [];
+            function GetcheckboxvaluesForDropdownEdit() {
+                dict = [];
+                $("[id*='featureIdEdit_']").each(function (e) {
+                    if ($("#readcheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#createcheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#updatecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#deletecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#deactivatecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#approvecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                });
+                $("[id*='featureIdSubEdit_']").each(function (e) {
+                    if ($("#readcheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#createcheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#updatecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#deletecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#deactivatecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                    else if ($("#approvecheckboxEdit_" + $(this).attr('id').split('_')[1]).prop("checked")) {
+                        dict.push({
+                            key: $('#featureNameEdit_' + $(this).attr('id').split('_')[1]).text(),
+                            value: $(this).text()
+                        });
+                    }
+                });
+                return dict;
+            }
+
+            $('.clearIsChecked').change(function () {
+                var selectedOption = $("#ddlMenuListEdit").val();
+                $("#ddlMenuListEdit option").remove();
+                LoadDropDown(selectedOption);
+            });
+
+            function LoadDropDown(selectedOption) {
+                $('#ddlErrorEdit').html('');
+                GetcheckboxvaluesForDropdownEdit();
+                var selecttext = "<option value='" + '0' + "'>" + 'Select' + "</option>";
+                $('#ddlMenuListEdit').append(selecttext);
+                for (var x = 0; x < dict.length; x++) {
+                    markup = "<option value='" + dict[x].value + "'>" + dict[x].key + "</option>";
+                    $('#ddlMenuListEdit').append(markup);
+                    $("#ddlMenuListEdit select").val(selectedOption);
+                }
+                $('#ddlMenuListEdit option[value=' + selectedOption + ']').attr("selected", "selected");
+            }
+        });
+    </script>

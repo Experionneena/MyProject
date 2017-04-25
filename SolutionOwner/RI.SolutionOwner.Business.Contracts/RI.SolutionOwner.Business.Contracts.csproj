@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A43F022E-F8CD-4E02-982A-1D6C06FC6B22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RI.SolutionOwner.Business.Contracts</RootNamespace>
+    <AssemblyName>RI.SolutionOwner.Business.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IAccountService.cs" />
+    <Compile Include="IAgentService.cs" />
+    <Compile Include="IBrandingService.cs" />
+    <Compile Include="ISPPUserService.cs" />
+    <Compile Include="ISupplierService.cs" />
+    <Compile Include="IPOSRegistrationService.cs" />
+    <Compile Include="ISolutionPartnerService.cs" />
+    <Compile Include="ISPFeatureService.cs" />
+    <Compile Include="ISPRoleFeatureService.cs" />
+    <Compile Include="ISPCategoryService.cs" />
+    <Compile Include="ICategoryService.cs" />
+    <Compile Include="IPOSService.cs" />
+    <Compile Include="IPrintTemplateService.cs" />
+    <Compile Include="ISOSolutionPartnerContactService.cs" />
+    <Compile Include="ISOSolutionPartnerService.cs" />
+    <Compile Include="ISOUserService.cs" />
+    <Compile Include="IFeatureService.cs" />
+    <Compile Include="IRoleFeatureService.cs" />
+    <Compile Include="IRoleService.cs" />
+    <Compile Include="ISPAddressService.cs" />
+    <Compile Include="ISPHierarchyService.cs" />
+    <Compile Include="ISPProductGroupService.cs" />
+    <Compile Include="ISPCurrencyRateService.cs" />
+    <Compile Include="ISPCurrencyService.cs" />
+    <Compile Include="ISPRoleService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RI.SolutionOwner.Data.Contracts\RI.SolutionOwner.Data.Contracts.csproj">
+      <Project>{3AB0D7CE-2B0C-44BF-AEAE-69F5418DDC48}</Project>
+      <Name>RI.SolutionOwner.Data.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\Build\targets\StyleCopStaticAnalysis.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

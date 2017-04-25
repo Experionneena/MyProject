@@ -1,0 +1,144 @@
+tbody{
+	tr{
+		td{
+			a{
+				color: $table_con-color;
+			}
+		}
+	}
+}
+
+/*To change the logo part display as inline */
+.logo{
+	width:100%;
+	height: 50%;
+	border:1px solid #c4c4c4;
+}
+.logo-btn-block{
+	min-width: 20px;
+}
+
+.select-box-width{
+	min-width: 3%;
+}
+
+.heading{
+	p{
+		color:rgb(0, 0, 0);
+		font-size: 15px;
+		margin: 0;
+	}
+}
+
+.col-6-padding{
+	padding-left: 0;
+}
+
+.sec-box1{
+	margin-top: 30px;
+}
+
+.padding-new{
+	padding-left: 0px;
+}
+
+.view_cursor{
+	cursor: pointer;
+}
+
+.mandatory_clr{
+	color: #bf3030;
+	padding-left: 4px;
+}
+
+.multi_select_styles{
+
+	tbody{
+		tr{
+			td{
+				border-radius: 0;
+	            box-shadow: none;
+	            border: 1px solid #e1e1e1;
+				border: none !important;
+			}
+		}
+	}
+
+}
+.multi_style{
+	padding: 0;
+	.btn-group{
+		width:100%;
+		.multiselect{
+			border-radius: 0;
+			width:100%;
+			text-align: left;
+			
+				.caret{
+				float: right;
+				margin: 6px 0;
+
+			}
+		}
+	}
+}
+
+.multi_select_styles {
+	.dropdown-menu > .active > a,.dropdown-menu > .active > a:hover{
+	background-color: white;
+	color: black;
+}
+.btn-default:active, .btn-default:hover, .btn-default.active, .open > .btn-default.dropdown-toggle{
+	background-color: white;
+	box-shadow: none;
+	border-color: #e1e1e1;
+}
+.multiselect-container>li>a>label>input[type=checkbox]{
+	margin-top: 2px;
+}
+ul{
+	width:100%;
+}
+	tbody{
+
+		 tr{
+		  	td {
+		  	padding: 0;
+		  	}
+		  }
+	}
+}
+
+.badge_clr_active{
+	background-color: #5e945e;
+	display: block;
+	font-weight: normal;
+}
+
+.badge_clr_block{
+	background-color: #ca6060;
+	display: block;
+	font-weight: normal;
+}
+
+.category_style{
+	color: #000;
+	font-weight: bolder;
+}
+
+.padd_left{
+	padding-left: 41px !important;
+}
+
+.pad_col_12_zero{
+	padding: 0px !important;
+}
+
+textarea{
+	resize:vertical;
+}
+
+
+
+
+

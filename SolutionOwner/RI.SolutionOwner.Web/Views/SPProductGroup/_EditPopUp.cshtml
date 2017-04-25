@@ -1,0 +1,148 @@
+﻿@using RI.SolutionOwner.Web.Models;
+
+@model SPProductGroupViewModel
+
+@using (Html.BeginForm("EditProductGroup", "SPProductGroup", Model, FormMethod.Post, new { id = "editProductGroup", autocomplete = "off", @class = "form_components" }))
+{
+    if (null != Model)
+    {
+        @Html.HiddenFor(m => Model.Id, new { id = "id" })
+        @Html.HiddenFor(m => Model.CreatedDate, new { id = "createdDate" })
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="general">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-label" for="field-1">Product group name<span class="mandatory_clr">*</span></label>
+                            <div class="controls">
+                                <input type="text" class="form-control" id="txtNameEdit" value="@Model.Name" max="100">
+                                <span class="validationmessage" id="txtNameEditError" style="color:red"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-label" for="field-1">Service provider<span class="mandatory_clr">*</span></label>
+                            <div class="controls">
+                                @Html.DropDownListFor(x => x.ServiceProviderId, Model.ServiceProvidetList, new { id = "ddlServiceProviderEditId", @class="form-control m-bot15"})
+                                <span class="validationmessage" id="ddlServiceProviderEditIdEdit" style="color:red"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="form-label" for="field-2">Category description</label>
+                            <div class="controls">
+                                @*<textarea class="form-control" cols="5" id="categoryDescription" value="@Model.CategoryDescription"></textarea>*@
+                                @Html.TextAreaFor(m => Model.Description, new { id = "txtDescriptionEdit", @class = "form-control", @maxlength = "100" })
+                                <span class="validationmessage" id="txtDescriptionEditError" style="color:red"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <div class="checkbox_style" style="display:none">
+                                <input type="checkbox" id="chkIsActiveEdit" @((Model.ActiveStatus) ? "checked=checked" : "") /><label for="chkIsActiveEdit">Is Active</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer form_btn_block">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_productGroupEditCancel">Cancel</button>
+            <button type="button" class="btn save" id="btn_productGroupEditButton">Update</button>
+        </div>
+    }
+}
+
+<script>
+    $('#txtNameEdit').keypress(function (e) {
+        $('#txtNameEditError').html('');
+    });
+
+    //----------------------// Validate Save Data //----------------------//
+    $('#btn_productGroupEditButton').click(function () {
+        debugger;
+        var isValid = true;
+        if ($("#txtNameEdit").val().trim() == "" || $("#txtNameEdit").val().trim() == null) {
+            $('#txtNameEditError').html('Required field *');
+            isValid = false;
+        }
+        else if (!validateTextOnly($("#txtNameEdit").val())) {
+            $('#txtNameEditError').html('Text only *');
+            isValid = false;
+        }
+        else {
+            $('#txtNameEditError').html('');
+        }
+        
+        if (!isValid) {
+            return false;
+        }
+
+        ShowProgress();
+        var postData = {
+            Id: $("#id").val(),
+            CreatedDate: $("#createdDate").val(),
+            Name: $("#txtNameEdit").val(),
+            Description: $("#txtDescriptionEdit").val(),
+            ServiceProviderId: $("#ddlServiceProviderEditId option:selected").val(),
+            ActiveStatus: $("#chkIsActiveEdit").prop("checked")
+        }
+        $.ajax({
+            url: '@Url.Action("EditProductGroup", "SPProductGroup")',
+            type: 'POST',
+            data: postData,
+            success: function (data) {
+                if (data.Status == 1) {
+                    debugger;
+                    hideProgress();
+                    $('#productGroupEditPopup').modal('hide');
+                    hideProgress();
+                    ShowAlert(data.Message, 'success');
+                    $('#productGroup_Grid').empty();
+                    $('#productGroup_Grid').html(data.Data);
+                    $('#tblProductGroup').aCollapTable({
+                        startCollapsed: true,
+                        addColumn: true,
+                        plusButton: '<i class="glyphicon glyphicon-plus"></i> ',
+                        minusButton: '<i class="glyphicon glyphicon-minus"></i> '
+                    });
+                }
+                else {
+                    hideProgress();
+                    $('#productGroupEditPopup').modal('hide');
+                    ShowAlert(data.Message, 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                $('#productGroupEditPopup').modal('hide');
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+    })
+
+
+
+    function validateTextOnly(myText) {
+        var filter = /^[a-zA-Z ]+$/;
+        if (filter.test(myText)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $("#btn_cancelEdit").click(function () {
+        $("#txtName").val('');
+        $("#chkIsActive").prop('checked', false);
+        $('#productGroupEditPopup').modal('hide');
+    });
+</script>

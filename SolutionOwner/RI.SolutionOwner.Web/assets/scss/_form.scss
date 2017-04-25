@@ -1,0 +1,86 @@
+.form_components{
+    .form-group{
+        input{
+             font-family:$light-font;  
+        }
+        .form-control[disabled]{
+            background-color: rgba(238, 238, 238, 0.30);
+        }
+
+        label{
+            font-weight: normal;
+            text-transform: capitalize;
+        }
+        .form-control {
+            border-radius: 0;
+            box-shadow: none;
+            border: 1px solid #e1e1e1;
+        }
+        &.has-error{
+            .form-control{
+                border-color: #f44336;
+             }   
+        }
+         &.has-error{
+            .form-control{
+                border-color: #f44336;
+             }   
+        }
+        &.has-warning{
+            .form-control{
+                border-color: #FFC107;
+             }   
+        }
+        &.has-success{
+            .form-control{
+                border-color: #4CAF50;
+             }   
+        }
+        &.has-focus .form-control {
+            background: #f8f8f8;
+            border-color:$default-bg;
+        }
+        .input-group-addon{
+            border-radius: 0;
+            background: $default-bg;
+             border-color:$default-bg;
+             color: #fff;
+
+        }
+
+    } 
+
+    .checkbox_style{
+        [type="checkbox"] {
+            &:not(:checked) + label:before, &:checked + label:before {
+                top: 2px!important;
+            }
+            &:not(:checked) + label:after, &:checked + label:after {
+                top:7px!important;
+            }
+        }
+    }
+    
+  
+}
+.form_btn_block{
+    .btn{
+        min-width: 100PX;
+    }
+}
+.has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
+    color: #f44336;
+    font-size: 12px;
+    font-style: italic;
+}
+
+#fileselector {
+    margin: 10px; 
+}
+#upload-file-selector {
+    display:none;   
+}
+.margin-correction {
+    margin-right: 10px;   
+}
+

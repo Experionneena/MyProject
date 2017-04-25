@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using RI.Framework.Core.Data.Entities;
+
+namespace RI.SolutionOwner.Data.Contracts
+{
+    public interface ISOFeature : IEntity
+    {
+        string Name { get; set; }        
+        string DisplayName { get; set; }
+        string IconClass { get; set; }
+        string ProgramLink { get; set; }                    
+<<<<<<< HEAD
+        bool IsActive { get; set; }  
+        int CategoryId { get; set; }
+=======
+        bool IsActive { get; set; }
+        int CategoryId { get; set; }
+        int SortOrder { get; set; }
+>>>>>>> 61e95554372c66688b64a0eab1c70636fbd08188
+    }
+}
