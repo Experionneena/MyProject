@@ -1,0 +1,114 @@
+﻿@using RI.SolutionOwner.Web.Models;
+@model POSViewModel
+<span class="pad_col_12_zero">
+    <select class="form-control m-bot15" id="supplierListId">
+        <option value="All" id="all">All</option>
+        @if (null != Model)
+        {
+            foreach (var supplier in Model.SupplierViewModelList)
+            {
+                <option value="@supplier.Id" id="@supplier.Id">@supplier.SupplierName</option>
+            }
+        }
+    </select>
+</span>
+
+<script>
+    console.log("haii");
+    var supplierListId = $("#supplierListId option:selected").val();
+    console.log(typeof supplierListId);
+    $("#supplierListId").change(function () {
+        var supplierListId = $("#supplierListId option:selected").val();
+        console.log(typeof supplierListId, supplierListId);
+        if (supplierListId != "All") {
+            GetPOSBySupplier(supplierListId);
+        }
+        else {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetAllPOS", "POSRegistration")',
+                data: { 'supplierListId': supplierListId },
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        hideProgress();
+                        $('#pos_Grid').empty();
+                        $('#pos_Grid').html(data.Data);
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+            DisableTool();
+            $(this).tooltip('hide');
+        }
+       
+        function GetPOSBySupplier(supplierListId) {
+            ShowProgress();
+            $.ajax({
+                url: '@Url.Action("GetPOSBySupplier", "POSRegistration")',
+                data: { 'supplierListId': supplierListId },
+                type: 'POST',
+                success: function (data) {
+                    if (data.Status == 1) {
+                        hideProgress();
+                        $('#pos_Grid').empty();
+                        $('#pos_Grid').html(data.Data);
+                    }
+                    else {
+                        hideProgress();
+                        ShowAlert('Something wrong!', 'error');
+                    }
+                },
+                error: function (data) {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            });
+        }
+    });
+</script>
+@*<script>
+    $("#supplierListId").change(function () {
+        var end = this.value;
+        var firstDropVal = $('#supplierListId').val();
+        console.log("haighggjgjkgjkkjgkk", firstDropVal);
+    });
+    $('#test23').change(function () {
+        var supplierListId = $("#supplierListId option:selected").val();
+        console.log("haighggjgjkgjkkjgkk",supplierId);
+    });
+    var supplierListId = $("#supplierListId option:selected").val();
+
+    GetPOSBySupplier(supplierListId);
+    function GetPOSBySupplier(supplierListId) {
+        ShowProgress();
+        $.ajax({
+            url: '@Url.Action("GetPOSBySupplier", "POSRegistration")',
+            data: { 'supplierListId': supplierListId },
+            type: 'POST',
+            success: function (data) {
+                if (data.Status == 1) {
+                    hideProgress();
+                    $('#feature_Grid').empty();
+                    $('#feature_Grid').html(data.Data);
+                    collapseTable();
+                }
+                else {
+                    hideProgress();
+                    ShowAlert('Something wrong!', 'error');
+                }
+            },
+            error: function (data) {
+                hideProgress();
+                ShowAlert('Something wrong!', 'error');
+            }
+        });
+    }
+</script>*@

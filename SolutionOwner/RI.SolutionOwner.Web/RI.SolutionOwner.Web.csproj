@@ -323,8 +323,16 @@
     <Content Include="assets\fonts\montserrat-regular-webfont.svg" />
     <Content Include="assets\fonts\montserrat-semibold-demo.html" />
     <Content Include="assets\fonts\montserrat-semibold-webfont.svg" />
+    <Content Include="assets\images\bg.jpg" />
+    <Content Include="assets\images\bg4.png" />
+    <Content Include="assets\images\bg5.png" />
     <Content Include="assets\images\block.png" />
+    <Content Include="assets\images\logo b.png" />
+    <Content Include="assets\images\logo old.png" />
+    <Content Include="assets\images\logo t.png" />
     <Content Include="assets\images\logo-folded.png" />
+    <Content Include="assets\images\logo-folded1 %282%29.png" />
+    <Content Include="assets\images\logo-folded1.png" />
     <Content Include="assets\images\logo-RI.png" />
     <Content Include="assets\images\logo.png" />
     <Content Include="assets\images\profile.jpg" />
@@ -671,6 +679,7 @@
     <Content Include="assets\scss\_modal.scss" />
     <Content Include="assets\scss\_renjith.scss" />
     <Content Include="assets\scss\_shintu.scss" />
+    <Content Include="assets\css\main.zip" />
     <None Include="Properties\PublishProfiles\RechargeIndiaClient.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Datatable\dataTables.bootstrap.min.js" />
@@ -774,6 +783,7 @@
     <Content Include="Views\POSRegistration\_EditPos.cshtml" />
     <Content Include="Views\POSRegistration\Index.cshtml" />
     <Content Include="Views\POSRegistration\_PosList.cshtml" />
+    <Content Include="Views\POSRegistration\_SupplierList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

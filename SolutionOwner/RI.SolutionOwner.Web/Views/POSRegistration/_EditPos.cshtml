@@ -403,6 +403,8 @@
                 $('.checkbox_click').prop('checked', false);
             }
         });
+        DisableTool();
+        $(this).tooltip('hide');
     });
     $("#btn_PosEditCancel").click(function () {
         $('#posEditPopup').modal('hide');

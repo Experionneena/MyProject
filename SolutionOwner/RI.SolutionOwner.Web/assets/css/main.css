@@ -1,4 +1,5 @@
-﻿/*!
+@charset "UTF-8";
+/*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -3724,7 +3725,8 @@ tbody.collapse.in {
           padding-bottom: 15px; } }
 
 .navbar-form {
-  margin: 0 -15px 0 -15px;
+  margin-left: -15px;
+  margin-right: -15px;
   padding: 10px 15px;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
@@ -5799,7 +5801,7 @@ Logo
 
 .page-topbar .logo-area {
   width: 230px;
-  background-color: #7A9A01;
+  /*background-color: $default-bg;*/
   display: block;
   min-height: 60px;
   float: left; }
@@ -5991,6 +5993,12 @@ Logo
     width: 60px;
     background-position: left top;
     background-image: url(../images/logo-folded.png); }
+  .page-topbar .quick-area .info-menu li {
+    /* &.sidebar-toggle-wrap {
+                    position: fixed;
+                    top: 0px;
+                    right: 0px;
+                }*/ }
     .page-topbar .quick-area .info-menu li.notify-toggle-wrapper a,
     .page-topbar .quick-area .info-menu li.message-toggle-wrapper a,
     .page-topbar .quick-area .info-menu li a.toggle_chat,
@@ -7082,131 +7090,6 @@ tbody tr td a {
 .margin-correction {
   margin-right: 10px; }
 
-#login_holder {
-  width: 100%;
-  height: 100vh;
-  background: #f0f0f5; }
-  #login_holder .panel_custom {
-    background: rgba(255, 255, 255, 0.5); }
-  #login_holder .vmiddle-wrap {
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -o-box-sizing: border-box;
-    box-sizing: border-box;
-    letter-spacing: -.4em;
-    position: absolute; }
-    #login_holder .vmiddle-wrap:before {
-      content: "";
-      display: inline-block;
-      height: 100%;
-      vertical-align: middle; }
-    #login_holder .vmiddle-wrap .vmiddle {
-      display: inline-block;
-      width: 100%;
-      vertical-align: middle;
-      letter-spacing: normal;
-      text-align: center; }
-  #login_holder .login-box {
-    margin: 0 auto;
-    width: 360px;
-    display: block; }
-    @media (max-width: 767px) {
-      #login_holder .login-box {
-        margin: 0 auto;
-        float: none; } }
-    @media (max-width: 400px) {
-      #login_holder .login-box {
-        width: 92%;
-        margin: 0 4%; } }
-    #login_holder .login-box label {
-      color: black; }
-    #login_holder .login-box .login_logo {
-      margin: 0 0 10px 10px; }
-      @media (max-width: 400px) {
-        #login_holder .login-box .login_logo {
-          margin: 0 0 25px 0;
-          width: 90%; }
-          #login_holder .login-box .login_logo .load {
-            margin-top: 0; } }
-    #login_holder .login-box .panel {
-      float: left;
-      width: 100%;
-      margin: 0;
-      box-shadow: none;
-      border-radius: 7px;
-      border-color: #94b8c3;
-      background-color: white; }
-      #login_holder .login-box .panel .panel-body {
-        padding: 15px 25px; }
-        #login_holder .login-box .panel .panel-body .form-group span, #login_holder .login-box .panel .panel-body .form-group i {
-          color: #796868; }
-        #login_holder .login-box .panel .panel-body h1 {
-          margin: 15px 0 30px 0;
-          padding: 10px 50px;
-          width: 100%;
-          text-align: center;
-          text-transform: uppercase;
-          font-size: 17px;
-          color: rgba(0, 0, 0, 0.54); }
-        #login_holder .login-box .panel .panel-body p {
-          margin: 0 0 30px 0;
-          padding: 0;
-          width: 100%;
-          text-align: center;
-          font-size: 12px;
-          color: rgba(0, 0, 0, 0.54); }
-        #login_holder .login-box .panel .panel-body #checkbox2 {
-          margin-left: 0px;
-          float: left; }
-        #login_holder .login-box .panel .panel-body .sub {
-          width: 80px; }
-        #login_holder .login-box .panel .panel-body .sub:hower {
-          background-color: blue; }
-        #login_holder .login-box .panel .panel-body .checkbox_style {
-          float: left;
-          padding-top: 5px;
-          font-size: 12px; }
-          #login_holder .login-box .panel .panel-body .checkbox_style [type="checkbox"]:not(:checked), #login_holder .login-box .panel .panel-body .checkbox_style [type="checkbox"]:checked {
-            position: absolute;
-            left: -9999px; }
-          #login_holder .login-box .panel .panel-body .checkbox_style [type="checkbox"]:not(:checked) + label:before, #login_holder .login-box .panel .panel-body .checkbox_style [type="checkbox"]:checked + label:before {
-            top: 2px; }
-          #login_holder .login-box .panel .panel-body .checkbox_style [type="checkbox"]:not(:checked) + label:after, #login_holder .login-box .panel .panel-body .checkbox_style [type="checkbox"]:checked + label:after {
-            top: 7px; }
-          #login_holder .login-box .panel .panel-body .checkbox_style label {
-            color: rgba(0, 0, 0, 0.61); }
-      #login_holder .login-box .panel .form-control {
-        height: 40px;
-        padding-left: 35px;
-        padding-right: 15px;
-        font-size: 13px;
-        color: #6f6f6f;
-        font-weight: normal;
-        border-radius: 0;
-        box-shadow: none; }
-        #login_holder .login-box .panel .form-control:focus {
-          border-color: #94b6d2; }
-      #login_holder .login-box .panel .form-control-feedback {
-        left: 0;
-        color: rgba(85, 85, 85, 0.4);
-        height: 40px;
-        line-height: 37px;
-        font-size: 15px; }
-        #login_holder .login-box .panel .form-control-feedback.fa-lock {
-          font-size: 18px !important; }
-      #login_holder .login-box .panel .panel-footer {
-        border-radius: 0 0 7px 7px;
-        background: #fafafa;
-        border: none;
-        margin-top: 20px;
-        padding: 15px 15px; }
-        #login_holder .login-box .panel .panel-footer a {
-          color: #13a6c8;
-          text-decoration: underline; }
-
 .nrm {
   font-weight: normal; }
 
@@ -7360,7 +7243,8 @@ tbody tr td a {
 .heading p {
   color: black;
   font-size: 15px;
-  margin: 0; }
+  margin: 0;
+  text-transform: uppercase; }
 
 .col-6-padding {
   padding-left: 0; }
@@ -7461,7 +7345,7 @@ textarea {
 .form_prev {
   background-color: #FFF !important;
   border-color: #FFF !important;
-  color: gray !important; }
+  color: red !important; }
 
 .info-icon {
   font-size: 17px;
@@ -7471,7 +7355,9 @@ textarea {
   display: block; }
 
 .logo-custom img:last-of-type {
-  display: none; }
+  display: none;
+  width: 230px;
+  height: 60px; }
 
 .sidebar_shift .logo-custom img:first-of-type, .chat_shift .logo-custom img:first-of-type {
   display: none; }
@@ -7479,10 +7365,10 @@ textarea {
 .sidebar_shift .logo-custom img:last-of-type, .chat_shift .logo-custom img:last-of-type {
   display: block; }
 
-.padding_entries label:first-of-type {
+.page .padding_entries label:first-of-type {
   font-weight: lighter; }
 
-.padding_entries label:last-of-type {
+.page .padding_entries label:last-of-type {
   font-weight: lighter;
   padding-right: 20px; }
 
@@ -7492,7 +7378,136 @@ textarea {
 .padding_tab_custom {
   padding-bottom: 0px !important; }
 
+.modal-table .checkbox_style [type="checkbox"]:not(:checked) + label:before, .modal-table .checkbox_style [type="checkbox"]:checked + label:before {
+  top: -7px !important; }
+
+.modal-table .checkbox_style [type="checkbox"]:not(:checked) + label:after, .modal-table .checkbox_style [type="checkbox"]:checked + label:after {
+  top: 0px !important; }
+
+.subhead {
+  font-size: 15px;
+  padding-left: 5px; }
+
+.text-bold {
+  font-weight: bold; }
+
+.section-outer {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px; }
+
+.pos-table .form-group .controls {
+  min-width: 80px; }
+  .pos-table .form-group .controls textarea {
+    min-width: 100px; }
+
+.pos-table .form-group select {
+  min-width: 100px; }
+
+.full-width {
+  width: inherit;
+  margin-top: 60px; }
+
+.portal {
+  background-color: #f1f1f1;
+  padding: 1px 0px;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.64); }
+  .portal p {
+    margin: 0; }
+
+.sidebar_shift .portal {
+  font-size: 12px;
+  line-height: 13px; }
+
+.sidebar_shift #portalFull {
+  display: none; }
+
+.sidebar_shift #portalShort {
+  display: block; }
+
+.chat_shift .portal {
+  display: none; }
+
+.chat_shift #portalShort {
+  display: none; }
+
+.first-menu-item {
+  margin-top: 27px; }
+
 /*   */
+.disabled-color {
+  margin-top: 20px 0px !important;
+  color: gray !important;
+  border-bottom: 1px solid gainsboro; }
+
+.custom-login {
+  height: 100%;
+  background-color: white;
+  position: fixed;
+  right: 0;
+  top: 0; }
+
+.custom-login-bg {
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0; }
+  .custom-login-bg img {
+    width: 1100px;
+    height: 100%; }
+
+.login-section {
+  padding: 50px; }
+  .login-section input[type=text], .login-section input[type=password] {
+    border-color: darkgray !important; }
+  .login-section .form-group {
+    margin-bottom: 7px; }
+    .login-section .form-group .forgot {
+      text-decoration: none;
+      color: #2872dd;
+      font-size: 12px; }
+
+.login-head {
+  font-family: "montserratlight";
+  font-size: 20px;
+  padding-bottom: 10px; }
+
+.login-checkbox {
+  padding: 15px 0px; }
+
+.panel-custom .panel-heading {
+  background-color: #ddd; }
+
+.panel-custom .panel-title a {
+  text-decoration: none; }
+
+.status_clr_active {
+  background-color: #7A9A01;
+  display: block;
+  font-weight: normal; }
+
+.status_clr_block {
+  background-color: #ca6060;
+  display: block;
+  font-weight: normal; }
+
+.page-topbar.sidebar_shift .logo-area, .page-topbar.chat_shift .logo-area {
+  background-color: black !important; }
+
+.path-label {
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis; }
+  .path-label a i {
+    color: #7a9a01;
+    font-size: 20px; }
+
+.cust-badge {
+  display: inline-block;
+  padding: 3px 20px; }
+
 .skin1 .page-topbar,
 .skin1 .page-sidebar {
   background-color: none; }
